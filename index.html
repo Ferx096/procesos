@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InAdvance | Documentador de Procesos BPMN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores InAdvance Pro */
+            --magenta: #C41E68;
+            --magenta-dark: #9B1854;
+            --magenta-light: #E91E7B;
+            
+            /* BPMN Colors */
+            --bpmn-start: #22C55E;
+            --bpmn-end: #EF4444;
+            --bpmn-task-user: #3B82F6;
+            --bpmn-task-service: #8B5CF6;
+            --bpmn-gateway: #F59E0B;
+            --bpmn-intermediate: #06B6D4;
+            
+            /* Surface */
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-elevated: #334155;
+            --bg-canvas: #0D1117;
+            
+            /* Text */
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            
+            /* Borders */
+            --border: rgba(148, 163, 184, 0.1);
+            --border-active: rgba(196, 30, 104, 0.5);
+            
+            /* Grid */
+            --grid-color: rgba(148, 163, 184, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-layout {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            grid-column: 1 / -1;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            color: var(--magenta);
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .process-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            background: var(--bg-elevated);
+            border-radius: 6px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #22C55E;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #22C55E;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* ===== CHAT PANEL ===== */
+        .chat-panel {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-counter {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 4px 8px;
+            background: var(--magenta);
+            border-radius: 4px;
+        }
+
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .messages-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: var(--bg-elevated);
+            border-radius: 3px;
+        }
+
+        .message {
+            max-width: 90%;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message-content {
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.assistant .message-content {
+            background: var(--bg-elevated);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Step extraction badge */
+        .step-extracted {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #22C55E;
+        }
+
+        .step-extracted svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 14px 18px;
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--magenta);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--magenta);
+        }
+
+        .text-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            resize: none;
+            max-height: 100px;
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-send {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-send:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-send svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* ===== DIAGRAM PANEL ===== */
+        .diagram-panel {
+            background: var(--bg-canvas);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Grid Background */
+        .diagram-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .diagram-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background: linear-gradient(180deg, var(--bg-canvas) 0%, transparent 100%);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .diagram-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .diagram-title svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .diagram-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: var(--bg-elevated);
+            border-color: var(--magenta);
+        }
+
+        .control-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--text-secondary);
+        }
+
+        /* BPMN Canvas */
+        .bpmn-canvas {
+            position: absolute;
+            inset: 60px 20px 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 40px;
+            overflow: auto;
+        }
+
+        /* BPMN Elements */
+        .bpmn-element {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: nodeAppear 0.5s ease;
+        }
+
+        @keyframes nodeAppear {
+            from { 
+                opacity: 0; 
+                transform: scale(0.8) translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            }
+        }
+
+        /* Start/End Events */
+        .bpmn-event {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .bpmn-event.start {
+            background: var(--bpmn-start);
+            border: 3px solid #16A34A;
+        }
+
+        .bpmn-event.end {
+            background: var(--bpmn-end);
+            border: 3px solid #DC2626;
+        }
+
+        /* Task Nodes */
+        .bpmn-task {
+            min-width: 200px;
+            max-width: 280px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-task-user);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .bpmn-task.service {
+            border-color: var(--bpmn-task-service);
+        }
+
+        .bpmn-task.building {
+            border-color: var(--bpmn-gateway);
+            border-style: dashed;
+            animation: taskBuilding 1s infinite;
+        }
+
+        @keyframes taskBuilding {
+            0%, 100% { box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2); }
+            50% { box-shadow: 0 4px 30px rgba(245, 158, 11, 0.5); }
+        }
+
+        .task-header {
+            padding: 10px 14px;
+            background: var(--bpmn-task-user);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bpmn-task.service .task-header {
+            background: var(--bpmn-task-service);
+        }
+
+        .bpmn-task.building .task-header {
+            background: var(--bpmn-gateway);
+        }
+
+        .task-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .task-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .task-body {
+            padding: 12px 14px;
+        }
+
+        .task-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .task-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .task-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .task-meta-item svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+        }
+
+        /* Gateway (Decision) */
+        .bpmn-gateway {
+            width: 50px;
+            height: 50px;
+            background: var(--bpmn-gateway);
+            border: 2px solid #D97706;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .bpmn-gateway span {
+            transform: rotate(-45deg);
+            font-size: 18px;
+        }
+
+        /* Connectors */
+        .bpmn-connector {
+            width: 2px;
+            height: 40px;
+            background: var(--text-muted);
+            position: relative;
+        }
+
+        .bpmn-connector::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid var(--text-muted);
+        }
+
+        .bpmn-connector.animated {
+            background: linear-gradient(180deg, var(--magenta), var(--magenta-light));
+            animation: flowPulse 1s infinite;
+        }
+
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Element Labels */
+        .bpmn-label {
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* Legend */
+        .diagram-legend {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 24px;
+            background: linear-gradient(0deg, var(--bg-canvas) 0%, transparent 100%);
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .legend-shape {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-shape.start { background: var(--bpmn-start); }
+        .legend-shape.task { background: var(--bpmn-task-user); border-radius: 3px; }
+        .legend-shape.gateway { 
+            background: var(--bpmn-gateway); 
+            transform: rotate(45deg); 
+            border-radius: 2px;
+            width: 12px;
+            height: 12px;
+        }
+        .legend-shape.end { background: var(--bpmn-end); }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: absolute;
+            top: 60px;
+            left: 24px;
+            right: 24px;
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--bpmn-start), var(--magenta));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 2px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 60px 40px;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            fill: var(--text-muted);
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 1fr 40vh;
+            }
+
+            .diagram-panel {
+                border-top: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <span class="logo-text">In<span>Advance</span></span>
+            </div>
+            <div class="header-meta">
+                <span class="process-name" id="processName">// nuevo proceso</span>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Documentando
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Panel -->
+        <aside class="chat-panel">
+            <div class="chat-header">
+                <h2>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    Entrevista
+                </h2>
+                <span class="step-counter" id="stepCounter">0 pasos</span>
+            </div>
+            
+            <div class="messages-area" id="messagesArea">
+                <!-- Messages will be injected here -->
+            </div>
+
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea 
+                        class="text-input" 
+                        id="textInput" 
+                        placeholder="Describe tu proceso..." 
+                        rows="1"
+                    ></textarea>
+                    <button class="btn-send" id="sendBtn">
+                        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Diagram Panel -->
+        <main class="diagram-panel">
+            <div class="diagram-header">
+                <span class="diagram-title">
+                    <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
+                    Diagrama BPMN 2.0
+                </span>
+                <div class="diagram-controls">
+                    <button class="control-btn" title="Zoom In">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                    <button class="control-btn" title="Zoom Out">
+                        <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                    </button>
+                    <button class="control-btn" title="Descargar">
+                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="bpmn-canvas" id="bpmnCanvas">
+                <!-- BPMN elements will be rendered here -->
+                <div class="empty-state" id="emptyState">
+                    <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
+                    <h3>Comienza a documentar</h3>
+                    <p>El diagrama BPMN se construirá automáticamente<br>mientras describes tu proceso</p>
+                </div>
+            </div>
+
+            <div class="diagram-legend">
+                <div class="legend-item">
+                    <div class="legend-shape start"></div>
+                    Inicio
+                </div>
+                <div class="legend-item">
+                    <div class="legend-shape task"></div>
+                    Actividad
+                </div>
+                <div class="legend-item">
+                    <div class="legend-shape gateway"></div>
+                    Decisión
+                </div>
+                <div class="legend-item">
+                    <div class="legend-shape end"></div>
+                    Fin
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // =====================================================
+        // CONFIGURACIÓN
+        // =====================================================
+        const WEBHOOK_URL = 'https://inadvance.app.n8n.cloud/webhook-test/registrador_procesos';
+        
+        // =====================================================
+        // ESTADO DE LA APLICACIÓN
+        // =====================================================
+        let state = {
+            sessionId: `session_${Date.now()}`,
+            processName: '',
+            steps: [],
+            currentBuildingStep: null,
+            messages: []
+        };
+
+        // =====================================================
+        // ELEMENTOS DOM
+        // =====================================================
+        const messagesArea = document.getElementById('messagesArea');
+        const textInput = document.getElementById('textInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const bpmnCanvas = document.getElementById('bpmnCanvas');
+        const emptyState = document.getElementById('emptyState');
+        const processNameEl = document.getElementById('processName');
+        const stepCounter = document.getElementById('stepCounter');
+        const progressFill = document.getElementById('progressFill');
+
+        // =====================================================
+        // INICIALIZACIÓN
+        // =====================================================
+        function init() {
+            // Mensaje de bienvenida
+            setTimeout(() => {
+                addMessage('¡Hola! 👋 Soy tu asistente para documentar procesos. ¿Qué proceso te gustaría documentar hoy?', 'assistant');
+            }, 500);
+
+            // Event listeners
+            textInput.addEventListener('input', handleInput);
+            textInput.addEventListener('keydown', handleKeydown);
+            sendBtn.addEventListener('click', sendMessage);
+        }
+
+        function handleInput() {
+            textInput.style.height = 'auto';
+            textInput.style.height = Math.min(textInput.scrollHeight, 100) + 'px';
+            sendBtn.disabled = !textInput.value.trim();
+        }
+
+        function handleKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (textInput.value.trim()) sendMessage();
+            }
+        }
+
+        // =====================================================
+        // MENSAJES
+        // =====================================================
+        function addMessage(content, type, stepExtracted = null) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            
+            let html = `<div class="message-content">${escapeHtml(content)}</div>`;
+            
+            if (stepExtracted) {
+                html += `
+                    <div class="step-extracted">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Paso ${stepExtracted.numero} extraído: ${stepExtracted.nombre}
+                    </div>
+                `;
+            }
+            
+            msgDiv.innerHTML = html;
+            messagesArea.appendChild(msgDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'message assistant';
+            typing.id = 'typingIndicator';
+            typing.innerHTML = `
+                <div class="typing-indicator">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            messagesArea.appendChild(typing);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        // =====================================================
+        // ENVÍO DE MENSAJES
+        // =====================================================
+        async function sendMessage() {
+            const message = textInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            textInput.value = '';
+            textInput.style.height = 'auto';
+            sendBtn.disabled = true;
+
+            showTyping();
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        sessionId: state.sessionId,
+                        userName: 'Usuario',
+                        requestRealtime: true // Flag para pedir datos de pasos
+                    })
+                });
+
+                const data = await response.json();
+                hideTyping();
+                
+                // Procesar respuesta
+                processResponse(data);
+                
+            } catch (error) {
+                hideTyping();
+                addMessage('Lo siento, hubo un error de conexión. Intenta de nuevo.', 'assistant');
+            }
+        }
+
+        // =====================================================
+        // PROCESAR RESPUESTA DEL BACKEND
+        // =====================================================
+        function processResponse(data) {
+            // Extraer mensaje para el usuario
+            const userMessage = data.output || data.mensaje_usuario || data;
+            
+            // Verificar si hay nuevos pasos extraídos
+            let extractedStep = null;
+            if (data.nuevoPasoExtraido) {
+                extractedStep = data.nuevoPasoExtraido;
+                addStepToDiagram(extractedStep);
+            }
+            
+            // Actualizar nombre del proceso si existe
+            if (data.nombreProceso && data.nombreProceso !== state.processName) {
+                state.processName = data.nombreProceso;
+                processNameEl.textContent = `// ${state.processName}`;
+            }
+            
+            // Mostrar mensaje
+            addMessage(userMessage, 'assistant', extractedStep);
+            
+            // Actualizar contador de pasos
+            updateStepCounter();
+            updateProgress();
+        }
+
+        // =====================================================
+        // RENDERIZADO BPMN EN TIEMPO REAL
+        // =====================================================
+        function addStepToDiagram(step) {
+            // Ocultar estado vacío
+            emptyState.style.display = 'none';
+            
+            // Agregar paso al estado
+            state.steps.push(step);
+            
+            // Re-renderizar todo el diagrama
+            renderBPMNDiagram();
+        }
+
+        function renderBPMNDiagram() {
+            // Limpiar canvas (excepto empty state)
+            const elements = bpmnCanvas.querySelectorAll('.bpmn-element, .bpmn-connector');
+            elements.forEach(el => el.remove());
+            
+            // Renderizar nodo de inicio
+            renderStartEvent();
+            
+            // Renderizar cada paso
+            state.steps.forEach((step, index) => {
+                renderConnector(index === state.steps.length - 1);
+                
+                if (step.es_decision) {
+                    renderGateway(step, index + 1);
+                } else {
+                    renderTask(step, index + 1);
+                }
+            });
+            
+            // Si hay pasos, mostrar conector al fin (placeholder)
+            if (state.steps.length > 0) {
+                renderConnector(false);
+                renderEndEvent();
+            }
+        }
+
+        function renderStartEvent() {
+            const element = document.createElement('div');
+            element.className = 'bpmn-element';
+            element.innerHTML = `
+                <div class="bpmn-event start">🚀</div>
+                <span class="bpmn-label">Inicio</span>
+            `;
+            bpmnCanvas.appendChild(element);
+        }
+
+        function renderEndEvent() {
+            const element = document.createElement('div');
+            element.className = 'bpmn-element';
+            element.innerHTML = `
+                <div class="bpmn-event end">✓</div>
+                <span class="bpmn-label">Fin</span>
+            `;
+            bpmnCanvas.appendChild(element);
+        }
+
+        function renderConnector(isAnimated) {
+            const connector = document.createElement('div');
+            connector.className = `bpmn-connector ${isAnimated ? 'animated' : ''}`;
+            bpmnCanvas.appendChild(connector);
+        }
+
+        function renderTask(step, number) {
+            const element = document.createElement('div');
+            element.className = 'bpmn-element';
+            
+            const taskType = step.sistema ? 'service' : 'user';
+            const isBuilding = number === state.steps.length && state.currentBuildingStep;
+            
+            element.innerHTML = `
+                <div class="bpmn-task ${taskType} ${isBuilding ? 'building' : ''}">
+                    <div class="task-header">
+                        <svg class="task-icon" viewBox="0 0 24 24">
+                            ${taskType === 'user' 
+                                ? '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
+                                : '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
+                            }
+                        </svg>
+                        <span class="task-number">PASO ${number}</span>
+                    </div>
+                    <div class="task-body">
+                        <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
+                        <div class="task-meta">
+                            ${step.responsable ? `
+                                <div class="task-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                    ${escapeHtml(step.responsable)}
+                                </div>
+                            ` : ''}
+                            ${step.sistema ? `
+                                <div class="task-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                                    ${escapeHtml(step.sistema)}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            bpmnCanvas.appendChild(element);
+        }
+
+        function renderGateway(step, number) {
+            const element = document.createElement('div');
+            element.className = 'bpmn-element';
+            element.innerHTML = `
+                <div class="bpmn-gateway">
+                    <span>✕</span>
+                </div>
+                <span class="bpmn-label">${step.etiqueta_si || 'Sí'} / ${step.etiqueta_no || 'No'}</span>
+            `;
+            bpmnCanvas.appendChild(element);
+        }
+
+        // =====================================================
+        // UTILIDADES
+        // =====================================================
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML.replace(/\n/g, '<br>');
+        }
+
+        function updateStepCounter() {
+            stepCounter.textContent = `${state.steps.length} paso${state.steps.length !== 1 ? 's' : ''}`;
+        }
+
+        function updateProgress() {
+            // Estimamos que un proceso típico tiene ~5-8 pasos
+            const estimated = Math.min((state.steps.length / 6) * 100, 100);
+            progressFill.style.width = `${estimated}%`;
+        }
+
+        // =====================================================
+        // SIMULACIÓN DE PASO EN CONSTRUCCIÓN (Visual feedback)
+        // =====================================================
+        function showBuildingStep() {
+            state.currentBuildingStep = true;
+            // El paso se marcará como "building" en el próximo render
+        }
+
+        function hideBuildingStep() {
+            state.currentBuildingStep = false;
+        }
+
+        // Inicializar
+        init();
+    </script>
+</body>
+</html>
