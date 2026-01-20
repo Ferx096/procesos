@@ -30,11 +30,7 @@
             --grid-color: rgba(148, 163, 184, 0.05);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -51,6 +47,7 @@
             height: 100vh;
         }
 
+        /* ===== HEADER ===== */
         .header {
             grid-column: 1 / -1;
             background: var(--bg-secondary);
@@ -77,11 +74,7 @@
             justify-content: center;
         }
 
-        .logo-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
+        .logo-icon svg { width: 20px; height: 20px; fill: white; }
 
         .logo-text {
             font-size: 18px;
@@ -89,9 +82,7 @@
             letter-spacing: -0.02em;
         }
 
-        .logo-text span {
-            color: var(--magenta);
-        }
+        .logo-text span { color: var(--magenta); }
 
         .header-meta {
             display: flex;
@@ -134,6 +125,7 @@
             50% { opacity: 0.5; transform: scale(1.2); }
         }
 
+        /* ===== CHAT PANEL ===== */
         .chat-panel {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border);
@@ -175,18 +167,9 @@
             gap: 16px;
         }
 
-        .messages-area::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-area::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages-area::-webkit-scrollbar-thumb {
-            background: var(--bg-elevated);
-            border-radius: 3px;
-        }
+        .messages-area::-webkit-scrollbar { width: 6px; }
+        .messages-area::-webkit-scrollbar-track { background: transparent; }
+        .messages-area::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 3px; }
 
         .message {
             max-width: 90%;
@@ -198,13 +181,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.assistant {
-            align-self: flex-start;
-        }
-
-        .message.user {
-            align-self: flex-end;
-        }
+        .message.assistant { align-self: flex-start; }
+        .message.user { align-self: flex-end; }
 
         .message-content {
             padding: 14px 18px;
@@ -223,6 +201,17 @@
             border-bottom-right-radius: 4px;
         }
 
+        /* Markdown styles */
+        .message-content strong { font-weight: 700; }
+        .message-content em { font-style: italic; }
+        .message-content code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
         .step-extracted {
             display: flex;
             align-items: center;
@@ -236,11 +225,7 @@
             color: #22C55E;
         }
 
-        .step-extracted svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
+        .step-extracted svg { width: 14px; height: 14px; fill: currentColor; }
 
         .typing-indicator {
             display: flex;
@@ -268,6 +253,21 @@
             30% { transform: translateY(-6px); }
         }
 
+        /* Audio badge */
+        .audio-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 5px;
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+
+        .audio-badge svg { width: 10px; height: 10px; fill: currentColor; }
+
+        /* ===== INPUT AREA ===== */
         .input-area {
             padding: 16px 20px;
             border-top: 1px solid var(--border);
@@ -276,7 +276,7 @@
         .input-wrapper {
             display: flex;
             align-items: flex-end;
-            gap: 12px;
+            gap: 10px;
             background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -284,9 +284,7 @@
             transition: border-color 0.2s;
         }
 
-        .input-wrapper:focus-within {
-            border-color: var(--magenta);
-        }
+        .input-wrapper:focus-within { border-color: var(--magenta); }
 
         .text-input {
             flex: 1;
@@ -300,26 +298,62 @@
             max-height: 100px;
         }
 
-        .text-input::placeholder {
-            color: var(--text-muted);
+        .text-input::placeholder { color: var(--text-muted); }
+
+        .input-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn-send {
+        .btn-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
-            border: none;
             border-radius: 10px;
+            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: all 0.2s;
         }
 
-        .btn-send:hover {
-            transform: scale(1.05);
+        .btn-icon svg { width: 18px; height: 18px; }
+
+        .btn-record {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
         }
+
+        .btn-record svg { fill: var(--text-secondary); }
+
+        .btn-record:hover {
+            background: rgba(196, 30, 104, 0.1);
+            border-color: var(--magenta);
+        }
+
+        .btn-record:hover svg { fill: var(--magenta); }
+
+        .btn-record.recording {
+            background: #E53E3E;
+            border-color: #E53E3E;
+            animation: recordPulse 1s infinite;
+        }
+
+        .btn-record.recording svg { fill: white; }
+
+        @keyframes recordPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(229, 62, 62, 0); }
+        }
+
+        .btn-send {
+            background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
+        }
+
+        .btn-send svg { fill: white; }
+
+        .btn-send:hover { transform: scale(1.05); }
 
         .btn-send:disabled {
             opacity: 0.5;
@@ -327,12 +361,7 @@
             transform: none;
         }
 
-        .btn-send svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
-        }
-
+        /* ===== DIAGRAM PANEL ===== */
         .diagram-panel {
             background: var(--bg-canvas);
             position: relative;
@@ -371,16 +400,9 @@
             gap: 8px;
         }
 
-        .diagram-title svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
+        .diagram-title svg { width: 16px; height: 16px; fill: currentColor; }
 
-        .diagram-controls {
-            display: flex;
-            gap: 8px;
-        }
+        .diagram-controls { display: flex; gap: 8px; }
 
         .control-btn {
             width: 32px;
@@ -400,11 +422,7 @@
             border-color: var(--magenta);
         }
 
-        .control-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: var(--text-secondary);
-        }
+        .control-btn svg { width: 14px; height: 14px; fill: var(--text-secondary); }
 
         .bpmn-canvas {
             position: absolute;
@@ -426,14 +444,8 @@
         }
 
         @keyframes nodeAppear {
-            from { 
-                opacity: 0; 
-                transform: scale(0.8) translateY(-20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
-            }
+            from { opacity: 0; transform: scale(0.8) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .bpmn-event {
@@ -467,20 +479,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        .bpmn-task.service {
-            border-color: var(--bpmn-task-service);
-        }
-
-        .bpmn-task.building {
-            border-color: var(--bpmn-gateway);
-            border-style: dashed;
-            animation: taskBuilding 1s infinite;
-        }
-
-        @keyframes taskBuilding {
-            0%, 100% { box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2); }
-            50% { box-shadow: 0 4px 30px rgba(245, 158, 11, 0.5); }
-        }
+        .bpmn-task.service { border-color: var(--bpmn-task-service); }
 
         .task-header {
             padding: 10px 14px;
@@ -490,19 +489,9 @@
             gap: 8px;
         }
 
-        .bpmn-task.service .task-header {
-            background: var(--bpmn-task-service);
-        }
+        .bpmn-task.service .task-header { background: var(--bpmn-task-service); }
 
-        .bpmn-task.building .task-header {
-            background: var(--bpmn-gateway);
-        }
-
-        .task-icon {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
+        .task-icon { width: 20px; height: 20px; fill: white; }
 
         .task-number {
             font-family: 'JetBrains Mono', monospace;
@@ -511,9 +500,7 @@
             color: white;
         }
 
-        .task-body {
-            padding: 12px 14px;
-        }
+        .task-body { padding: 12px 14px; }
 
         .task-name {
             font-size: 13px;
@@ -536,11 +523,7 @@
             color: var(--text-secondary);
         }
 
-        .task-meta-item svg {
-            width: 12px;
-            height: 12px;
-            fill: currentColor;
-        }
+        .task-meta-item svg { width: 12px; height: 12px; fill: currentColor; }
 
         .bpmn-gateway {
             width: 50px;
@@ -682,44 +665,33 @@
             position: fixed;
             bottom: 10px;
             right: 10px;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             color: #0f0;
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             padding: 10px;
             border-radius: 8px;
-            max-width: 300px;
-            max-height: 150px;
+            max-width: 350px;
+            max-height: 200px;
             overflow: auto;
             z-index: 9999;
             display: none;
         }
 
-        .debug-console.show {
-            display: block;
-        }
+        .debug-console.show { display: block; }
 
-        /* Layout horizontal siempre, excepto en móviles muy pequeños */
+        /* Responsive */
         @media (max-width: 768px) {
             .app-layout {
                 grid-template-columns: 1fr;
                 grid-template-rows: 60px 1fr 40vh;
             }
-
-            .diagram-panel {
-                border-top: 1px solid var(--border);
-            }
-
-            .chat-panel {
-                border-right: none;
-            }
+            .diagram-panel { border-top: 1px solid var(--border); }
+            .chat-panel { border-right: none; }
         }
 
-        /* Para tablets - chat más angosto */
         @media (min-width: 769px) and (max-width: 1024px) {
-            .app-layout {
-                grid-template-columns: 350px 1fr;
-            }
+            .app-layout { grid-template-columns: 350px 1fr; }
         }
     </style>
 </head>
@@ -760,9 +732,14 @@
                         placeholder="Describe tu proceso..." 
                         rows="1"
                     ></textarea>
-                    <button class="btn-send" id="sendBtn">
-                        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                    </button>
+                    <div class="input-actions">
+                        <button class="btn-icon btn-record" id="recordBtn" title="Grabar audio">
+                            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+                        </button>
+                        <button class="btn-icon btn-send" id="sendBtn" disabled title="Enviar mensaje">
+                            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -799,32 +776,19 @@
             </div>
 
             <div class="diagram-legend">
-                <div class="legend-item">
-                    <div class="legend-shape start"></div>
-                    Inicio
-                </div>
-                <div class="legend-item">
-                    <div class="legend-shape task"></div>
-                    Actividad
-                </div>
-                <div class="legend-item">
-                    <div class="legend-shape gateway"></div>
-                    Decisión
-                </div>
-                <div class="legend-item">
-                    <div class="legend-shape end"></div>
-                    Fin
-                </div>
+                <div class="legend-item"><div class="legend-shape start"></div>Inicio</div>
+                <div class="legend-item"><div class="legend-shape task"></div>Actividad</div>
+                <div class="legend-item"><div class="legend-shape gateway"></div>Decisión</div>
+                <div class="legend-item"><div class="legend-shape end"></div>Fin</div>
             </div>
         </main>
     </div>
 
-    <!-- Debug Console -->
     <div class="debug-console" id="debugConsole"></div>
 
     <script>
         // =====================================================
-        // CONFIGURACIÓN - CAMBIA TU URL AQUÍ
+        // CONFIGURACIÓN
         // =====================================================
         const WEBHOOK_URL = 'https://inadvance.app.n8n.cloud/webhook/registrador_procesos';
         
@@ -835,9 +799,13 @@
             sessionId: `session_${Date.now()}`,
             processName: '',
             steps: [],
-            currentBuildingStep: null,
             debugMode: false
         };
+
+        // Audio recording
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
 
         // =====================================================
         // ELEMENTOS DOM
@@ -845,6 +813,7 @@
         const messagesArea = document.getElementById('messagesArea');
         const textInput = document.getElementById('textInput');
         const sendBtn = document.getElementById('sendBtn');
+        const recordBtn = document.getElementById('recordBtn');
         const bpmnCanvas = document.getElementById('bpmnCanvas');
         const emptyState = document.getElementById('emptyState');
         const processNameEl = document.getElementById('processName');
@@ -859,15 +828,34 @@
         function debug(msg, data = null) {
             const time = new Date().toLocaleTimeString();
             let logMsg = `[${time}] ${msg}`;
-            if (data) {
-                logMsg += '\n' + (typeof data === 'string' ? data : JSON.stringify(data, null, 2));
-            }
-            console.log(logMsg, data);
+            console.log(logMsg, data || '');
             
-            if (state.debugMode) {
+            if (state.debugMode && debugConsole) {
                 debugConsole.innerHTML += `<div>${escapeHtml(logMsg)}</div>`;
+                if (data) {
+                    debugConsole.innerHTML += `<pre>${escapeHtml(typeof data === 'string' ? data : JSON.stringify(data, null, 2))}</pre>`;
+                }
                 debugConsole.scrollTop = debugConsole.scrollHeight;
             }
+        }
+
+        // =====================================================
+        // MARKDOWN PARSER (Simple)
+        // =====================================================
+        function parseMarkdown(text) {
+            if (typeof text !== 'string') return String(text);
+            
+            return text
+                // Bold: **text** or __text__
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.+?)__/g, '<strong>$1</strong>')
+                // Italic: *text* or _text_
+                .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                .replace(/_([^_]+)_/g, '<em>$1</em>')
+                // Code: `text`
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Line breaks
+                .replace(/\n/g, '<br>');
         }
 
         // =====================================================
@@ -875,7 +863,6 @@
         // =====================================================
         function init() {
             debug('🚀 Inicializando aplicación');
-            debug('📡 Webhook URL: ' + WEBHOOK_URL);
             
             setTimeout(() => {
                 addMessage('¡Hola! 👋 Soy tu asistente para documentar procesos. ¿Qué proceso te gustaría documentar hoy?', 'assistant');
@@ -884,12 +871,11 @@
             textInput.addEventListener('input', handleInput);
             textInput.addEventListener('keydown', handleKeydown);
             sendBtn.addEventListener('click', sendMessage);
+            recordBtn.addEventListener('click', toggleRecording);
             
-            // Debug toggle
             debugBtn.addEventListener('click', () => {
                 state.debugMode = !state.debugMode;
                 debugConsole.classList.toggle('show', state.debugMode);
-                debug('Debug mode: ' + (state.debugMode ? 'ON' : 'OFF'));
             });
         }
 
@@ -907,13 +893,106 @@
         }
 
         // =====================================================
+        // AUDIO RECORDING
+        // =====================================================
+        async function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) audioChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    stream.getTracks().forEach(track => track.stop());
+                    await sendAudioMessage(audioBlob);
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                recordBtn.classList.add('recording');
+                debug('🎤 Grabación iniciada');
+            } catch (error) {
+                debug('❌ Error accediendo al micrófono:', error.message);
+                alert('No se pudo acceder al micrófono. Verifica los permisos.');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordBtn.classList.remove('recording');
+                debug('🎤 Grabación detenida');
+            }
+        }
+
+        async function sendAudioMessage(audioBlob) {
+            addMessage('🎤 Mensaje de voz enviado', 'user', null, true);
+            showTyping();
+
+            try {
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = async () => {
+                    const base64Audio = reader.result.split(',')[1];
+                    
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            audioBase64: base64Audio,
+                            audioFormat: 'webm',
+                            sessionId: state.sessionId,
+                            userName: 'Usuario'
+                        })
+                    });
+
+                    const responseText = await response.text();
+                    hideTyping();
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (e) {
+                        data = { output: responseText };
+                    }
+                    
+                    processResponse(data);
+                };
+            } catch (error) {
+                hideTyping();
+                addMessage('Error procesando el audio. Intenta de nuevo.', 'assistant');
+            }
+        }
+
+        // =====================================================
         // MENSAJES
         // =====================================================
-        function addMessage(content, type, stepExtracted = null) {
+        function addMessage(content, type, stepExtracted = null, isAudio = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${type}`;
             
-            let html = `<div class="message-content">${escapeHtml(content)}</div>`;
+            let html = '';
+            
+            if (isAudio && type === 'user') {
+                html += `<div class="audio-badge"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>Audio</div>`;
+            }
+            
+            // Parse markdown for assistant messages
+            const parsedContent = type === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
+            html += `<div class="message-content">${parsedContent}</div>`;
             
             if (stepExtracted) {
                 html += `
@@ -950,13 +1029,13 @@
         }
 
         // =====================================================
-        // ENVÍO DE MENSAJES - CORREGIDO PARA TEXTO PLANO
+        // ENVÍO DE MENSAJES
         // =====================================================
         async function sendMessage() {
             const message = textInput.value.trim();
             if (!message) return;
 
-            debug('📤 Enviando mensaje: ' + message);
+            debug('📤 Enviando:', message);
             
             addMessage(message, 'user');
             textInput.value = '';
@@ -966,43 +1045,26 @@
             showTyping();
 
             try {
-                const payload = {
-                    message: message,
-                    sessionId: state.sessionId,
-                    userName: 'Usuario'
-                };
-                
-                debug('📦 Payload:', payload);
-
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        sessionId: state.sessionId,
+                        userName: 'Usuario'
+                    })
                 });
 
-                debug('📥 Response status: ' + response.status);
-                debug('📥 Response headers:', Object.fromEntries(response.headers.entries()));
-
-                // =====================================================
-                // IMPORTANTE: Intentar JSON primero, si falla usar texto
-                // =====================================================
                 const responseText = await response.text();
-                debug('📥 Response raw:', responseText);
+                debug('📥 Respuesta raw:', responseText.substring(0, 200));
                 
                 let data;
                 try {
-                    // Intentar parsear como JSON
                     data = JSON.parse(responseText);
-                    debug('✅ Respuesta es JSON válido');
+                    debug('✅ JSON parseado');
                 } catch (e) {
-                    // Si no es JSON, usar el texto directamente
-                    debug('ℹ️ Respuesta es texto plano, convirtiendo...');
-                    data = {
-                        output: responseText,
-                        message: responseText
-                    };
+                    debug('ℹ️ Texto plano recibido');
+                    data = { output: responseText };
                 }
 
                 hideTyping();
@@ -1011,7 +1073,7 @@
             } catch (error) {
                 debug('❌ Error:', error.message);
                 hideTyping();
-                addMessage('Lo siento, hubo un error de conexión. Intenta de nuevo.', 'assistant');
+                addMessage('Error de conexión. Intenta de nuevo.', 'assistant');
             }
         }
 
@@ -1021,40 +1083,39 @@
         function processResponse(data) {
             debug('🔄 Procesando respuesta:', data);
             
-            // Extraer mensaje - soporta múltiples formatos
             let userMessage = data.output || data.message || data.respuesta || data;
-            
-            // Si es un objeto, convertir a string
             if (typeof userMessage === 'object') {
                 userMessage = JSON.stringify(userMessage);
             }
             
-            debug('💬 Mensaje extraído: ' + userMessage);
-            
-            // Verificar si hay nuevos pasos extraídos
+            // Check for new step
             let extractedStep = null;
             if (data.nuevoPasoExtraido) {
                 extractedStep = data.nuevoPasoExtraido;
-                debug('📊 Nuevo paso detectado:', extractedStep);
+                debug('📊 Nuevo paso:', extractedStep);
                 addStepToDiagram(extractedStep);
             }
             
-            // Actualizar nombre del proceso si existe
+            // Sync all steps if provided (for recovery)
+            if (data.todosLosPasos && Array.isArray(data.todosLosPasos) && data.todosLosPasos.length > state.steps.length) {
+                debug('🔄 Sincronizando pasos desde backend');
+                state.steps = data.todosLosPasos;
+                renderBPMNDiagram();
+            }
+            
+            // Update process name
             if (data.nombreProceso && data.nombreProceso !== state.processName) {
                 state.processName = data.nombreProceso;
                 processNameEl.textContent = `// ${state.processName}`;
-                debug('📝 Nombre del proceso actualizado: ' + state.processName);
             }
             
-            // Mostrar mensaje
             addMessage(userMessage, 'assistant', extractedStep);
-            
             updateStepCounter();
             updateProgress();
         }
 
         // =====================================================
-        // RENDERIZADO BPMN
+        // BPMN RENDERING
         // =====================================================
         function addStepToDiagram(step) {
             emptyState.style.display = 'none';
@@ -1065,6 +1126,13 @@
         function renderBPMNDiagram() {
             const elements = bpmnCanvas.querySelectorAll('.bpmn-element, .bpmn-connector');
             elements.forEach(el => el.remove());
+            
+            if (state.steps.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
             
             renderStartEvent();
             
@@ -1078,51 +1146,42 @@
                 }
             });
             
-            if (state.steps.length > 0) {
-                renderConnector(false);
-                renderEndEvent();
-            }
+            renderConnector(false);
+            renderEndEvent();
         }
 
         function renderStartEvent() {
-            const element = document.createElement('div');
-            element.className = 'bpmn-element';
-            element.innerHTML = `
-                <div class="bpmn-event start">🚀</div>
-                <span class="bpmn-label">Inicio</span>
-            `;
-            bpmnCanvas.appendChild(element);
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            el.innerHTML = `<div class="bpmn-event start">🚀</div><span class="bpmn-label">Inicio</span>`;
+            bpmnCanvas.appendChild(el);
         }
 
         function renderEndEvent() {
-            const element = document.createElement('div');
-            element.className = 'bpmn-element';
-            element.innerHTML = `
-                <div class="bpmn-event end">✓</div>
-                <span class="bpmn-label">Fin</span>
-            `;
-            bpmnCanvas.appendChild(element);
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            el.innerHTML = `<div class="bpmn-event end">✓</div><span class="bpmn-label">Fin</span>`;
+            bpmnCanvas.appendChild(el);
         }
 
         function renderConnector(isAnimated) {
-            const connector = document.createElement('div');
-            connector.className = `bpmn-connector ${isAnimated ? 'animated' : ''}`;
-            bpmnCanvas.appendChild(connector);
+            const el = document.createElement('div');
+            el.className = `bpmn-connector ${isAnimated ? 'animated' : ''}`;
+            bpmnCanvas.appendChild(el);
         }
 
         function renderTask(step, number) {
-            const element = document.createElement('div');
-            element.className = 'bpmn-element';
-            
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
             const taskType = step.sistema ? 'service' : 'user';
             
-            element.innerHTML = `
+            el.innerHTML = `
                 <div class="bpmn-task ${taskType}">
                     <div class="task-header">
                         <svg class="task-icon" viewBox="0 0 24 24">
                             ${taskType === 'user' 
                                 ? '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
-                                : '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
+                                : '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 00-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
                             }
                         </svg>
                         <span class="task-number">PASO ${number}</span>
@@ -1130,45 +1189,33 @@
                     <div class="task-body">
                         <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
                         <div class="task-meta">
-                            ${step.responsable ? `
-                                <div class="task-meta-item">
-                                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                                    ${escapeHtml(step.responsable)}
-                                </div>
-                            ` : ''}
-                            ${step.sistema ? `
-                                <div class="task-meta-item">
-                                    <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
-                                    ${escapeHtml(step.sistema)}
-                                </div>
-                            ` : ''}
+                            ${step.responsable ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` : ''}
+                            ${step.sistema ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.sistema)}</div>` : ''}
                         </div>
                     </div>
                 </div>
             `;
-            bpmnCanvas.appendChild(element);
+            bpmnCanvas.appendChild(el);
         }
 
         function renderGateway(step, number) {
-            const element = document.createElement('div');
-            element.className = 'bpmn-element';
-            element.innerHTML = `
-                <div class="bpmn-gateway">
-                    <span>✕</span>
-                </div>
-                <span class="bpmn-label">${step.etiqueta_si || 'Sí'} / ${step.etiqueta_no || 'No'}</span>
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            el.innerHTML = `
+                <div class="bpmn-gateway"><span>✕</span></div>
+                <span class="bpmn-label">${escapeHtml(step.etiqueta_si || 'Sí')} / ${escapeHtml(step.etiqueta_no || 'No')}</span>
             `;
-            bpmnCanvas.appendChild(element);
+            bpmnCanvas.appendChild(el);
         }
 
         // =====================================================
-        // UTILIDADES
+        // UTILITIES
         // =====================================================
         function escapeHtml(text) {
             if (typeof text !== 'string') return String(text);
             const div = document.createElement('div');
             div.textContent = text;
-            return div.innerHTML.replace(/\n/g, '<br>');
+            return div.innerHTML;
         }
 
         function updateStepCounter() {
@@ -1180,7 +1227,7 @@
             progressFill.style.width = `${estimated}%`;
         }
 
-        // Inicializar
+        // Initialize
         init();
     </script>
 </body>
