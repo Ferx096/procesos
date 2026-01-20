@@ -945,9 +945,24 @@
                     })
                 });
 
-                const data = await response.json();
-                hideTyping();
+                const responseText = await response.text();  // Obtener texto primero
+                debug('📥 Response raw:', responseText);
                 
+                let data;
+                try {
+                    // Intentar parsear como JSON
+                    data = JSON.parse(responseText); 
+                    debug('✅ Respuesta es JSON válido');
+                } catch (e) {
+                    // Si no es JSON, usar el texto directamente
+                    debug('ℹ️ Respuesta es texto plano, convirtiendo...');
+                    data = {
+                        output: responseText,
+                        message: responseText
+                    };
+                }
+                
+                hideTyping();
                 // Procesar respuesta
                 processResponse(data);
                 
