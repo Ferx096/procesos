@@ -201,7 +201,6 @@
             border-bottom-right-radius: 4px;
         }
 
-        /* Markdown styles */
         .message-content strong { font-weight: 700; }
         .message-content em { font-style: italic; }
         .message-content code {
@@ -226,6 +225,21 @@
         }
 
         .step-extracted svg { width: 14px; height: 14px; fill: currentColor; }
+
+        .step-updated {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #3B82F6;
+        }
+
+        .step-updated svg { width: 14px; height: 14px; fill: currentColor; }
 
         .typing-indicator {
             display: flex;
@@ -253,7 +267,6 @@
             30% { transform: translateY(-6px); }
         }
 
-        /* Audio badge */
         .audio-badge {
             display: inline-flex;
             align-items: center;
@@ -366,6 +379,8 @@
             background: var(--bg-canvas);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .diagram-panel::before {
@@ -376,16 +391,15 @@
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 20px 20px;
+            pointer-events: none;
         }
 
         .diagram-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 16px 24px;
-            background: linear-gradient(180deg, var(--bg-canvas) 0%, transparent 100%);
+            position: relative;
             z-index: 10;
+            padding: 16px 24px;
+            background: var(--bg-canvas);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -424,202 +438,15 @@
 
         .control-btn svg { width: 14px; height: 14px; fill: var(--text-secondary); }
 
-        .bpmn-canvas {
-            position: absolute;
-            inset: 60px 20px 80px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 40px;
-            overflow: auto;
-        }
-
-        .bpmn-element {
+        /* Progress Bar */
+        .progress-section {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: nodeAppear 0.5s ease;
-        }
-
-        @keyframes nodeAppear {
-            from { opacity: 0; transform: scale(0.8) translateY(-20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .bpmn-event {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .bpmn-event.start {
-            background: var(--bpmn-start);
-            border: 3px solid #16A34A;
-        }
-
-        .bpmn-event.end {
-            background: var(--bpmn-end);
-            border: 3px solid #DC2626;
-        }
-
-        .bpmn-task {
-            min-width: 200px;
-            max-width: 280px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--bpmn-task-user);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .bpmn-task.service { border-color: var(--bpmn-task-service); }
-
-        .task-header {
-            padding: 10px 14px;
-            background: var(--bpmn-task-user);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .bpmn-task.service .task-header { background: var(--bpmn-task-service); }
-
-        .task-icon { width: 20px; height: 20px; fill: white; }
-
-        .task-number {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .task-body { padding: 12px 14px; }
-
-        .task-name {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .task-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .task-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .task-meta-item svg { width: 12px; height: 12px; fill: currentColor; }
-
-        .bpmn-gateway {
-            width: 50px;
-            height: 50px;
-            background: var(--bpmn-gateway);
-            border: 2px solid #D97706;
-            transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .bpmn-gateway span {
-            transform: rotate(-45deg);
-            font-size: 18px;
-        }
-
-        .bpmn-connector {
-            width: 2px;
-            height: 40px;
-            background: var(--text-muted);
-            position: relative;
-        }
-
-        .bpmn-connector::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 8px solid var(--text-muted);
-        }
-
-        .bpmn-connector.animated {
-            background: linear-gradient(180deg, var(--magenta), var(--magenta-light));
-            animation: flowPulse 1s infinite;
-        }
-
-        @keyframes flowPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .bpmn-label {
-            margin-top: 8px;
-            font-size: 11px;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        .diagram-legend {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px 24px;
-            background: linear-gradient(0deg, var(--bg-canvas) 0%, transparent 100%);
-            display: flex;
-            justify-content: center;
-            gap: 24px;
             z-index: 10;
+            padding: 8px 24px;
+            background: var(--bg-canvas);
         }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .legend-shape {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-
-        .legend-shape.start { background: var(--bpmn-start); }
-        .legend-shape.task { background: var(--bpmn-task-user); border-radius: 3px; }
-        .legend-shape.gateway { 
-            background: var(--bpmn-gateway); 
-            transform: rotate(45deg); 
-            border-radius: 2px;
-            width: 12px;
-            height: 12px;
-        }
-        .legend-shape.end { background: var(--bpmn-end); }
 
         .progress-bar {
-            position: absolute;
-            top: 60px;
-            left: 24px;
-            right: 24px;
             height: 4px;
             background: var(--bg-elevated);
             border-radius: 2px;
@@ -634,33 +461,314 @@
             border-radius: 2px;
         }
 
+        /* Canvas Container - HORIZONTAL SCROLL */
+        .canvas-container {
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .canvas-container::-webkit-scrollbar { height: 8px; width: 8px; }
+        .canvas-container::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        .canvas-container::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 4px; }
+
+        .bpmn-canvas {
+            min-width: 100%;
+            min-height: 100%;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* BPMN Flow - HORIZONTAL */
+        .bpmn-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 20px;
+        }
+
+        .bpmn-element {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: nodeAppear 0.4s ease;
+        }
+
+        @keyframes nodeAppear {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Highlight para elementos actualizados */
+        .bpmn-element.updated {
+            animation: highlightUpdate 1s ease;
+        }
+
+        @keyframes highlightUpdate {
+            0%, 100% { filter: none; }
+            50% { filter: drop-shadow(0 0 12px var(--magenta)); }
+        }
+
+        /* Start/End Events */
+        .bpmn-event {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .bpmn-event svg { width: 18px; height: 18px; fill: white; }
+
+        .bpmn-event.start {
+            background: var(--bpmn-start);
+            border: 2px solid #16A34A;
+        }
+
+        .bpmn-event.end {
+            background: var(--bpmn-end);
+            border: 3px solid #DC2626;
+        }
+
+        /* Task Nodes */
+        .bpmn-task {
+            min-width: 160px;
+            max-width: 220px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-task-user);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .bpmn-task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .bpmn-task.service { border-color: var(--bpmn-task-service); }
+
+        .task-header {
+            padding: 8px 12px;
+            background: var(--bpmn-task-user);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bpmn-task.service .task-header { background: var(--bpmn-task-service); }
+
+        .task-icon { width: 16px; height: 16px; fill: white; }
+
+        .task-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .task-body { padding: 10px 12px; }
+
+        .task-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .task-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .task-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
+
+        /* Gateway (Decision) */
+        .bpmn-gateway-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bpmn-gateway {
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-gateway);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .bpmn-gateway-icon {
+            transform: rotate(-45deg);
+            width: 18px;
+            height: 18px;
+            fill: var(--bpmn-gateway);
+        }
+
+        .gateway-labels {
+            margin-top: 8px;
+            display: flex;
+            gap: 16px;
+            font-size: 10px;
+        }
+
+        .gateway-label {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .gateway-label.yes {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--bpmn-start);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .gateway-label.no {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--bpmn-end);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .gateway-name {
+            margin-top: 6px;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 100px;
+        }
+
+        /* Connectors - HORIZONTAL */
+        .bpmn-connector {
+            width: 50px;
+            height: 2px;
+            background: var(--text-muted);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .bpmn-connector::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid var(--text-muted);
+        }
+
+        .bpmn-connector.animated {
+            background: linear-gradient(90deg, var(--magenta), var(--magenta-light));
+        }
+
+        .bpmn-connector.animated::after {
+            border-left-color: var(--magenta-light);
+        }
+
+        /* Labels */
+        .bpmn-label {
+            margin-top: 8px;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Legend */
+        .diagram-legend {
+            position: relative;
+            z-index: 10;
+            padding: 12px 24px;
+            background: var(--bg-canvas);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .legend-shape {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .legend-shape.start { background: var(--bpmn-start); }
+        .legend-shape.task { 
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-task-user);
+            border-radius: 3px;
+        }
+        .legend-shape.gateway { 
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-gateway);
+            transform: rotate(45deg);
+            border-radius: 2px;
+            width: 10px;
+            height: 10px;
+        }
+        .legend-shape.end { background: var(--bpmn-end); }
+
+        /* Empty State */
         .empty-state {
             text-align: center;
             color: var(--text-muted);
             padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .empty-state svg {
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             fill: var(--text-muted);
             margin-bottom: 16px;
             opacity: 0.5;
         }
 
         .empty-state h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--text-secondary);
         }
 
         .empty-state p {
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.5;
         }
 
-        /* Debug console */
+        /* Debug Console */
         .debug-console {
             position: fixed;
             bottom: 10px;
@@ -671,8 +779,8 @@
             font-size: 10px;
             padding: 10px;
             border-radius: 8px;
-            max-width: 350px;
-            max-height: 200px;
+            max-width: 380px;
+            max-height: 220px;
             overflow: auto;
             z-index: 9999;
             display: none;
@@ -751,10 +859,10 @@
                     Diagrama BPMN 2.0
                 </span>
                 <div class="diagram-controls">
-                    <button class="control-btn" title="Zoom In">
+                    <button class="control-btn" id="zoomInBtn" title="Acercar">
                         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
-                    <button class="control-btn" title="Zoom Out">
+                    <button class="control-btn" id="zoomOutBtn" title="Alejar">
                         <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
                     </button>
                     <button class="control-btn" id="debugBtn" title="Debug">
@@ -763,22 +871,26 @@
                 </div>
             </div>
 
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
             </div>
 
-            <div class="bpmn-canvas" id="bpmnCanvas">
-                <div class="empty-state" id="emptyState">
-                    <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
-                    <h3>Comienza a documentar</h3>
-                    <p>El diagrama BPMN se construirá automáticamente<br>mientras describes tu proceso</p>
+            <div class="canvas-container" id="canvasContainer">
+                <div class="bpmn-canvas" id="bpmnCanvas">
+                    <div class="empty-state" id="emptyState">
+                        <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
+                        <h3>Comienza a documentar</h3>
+                        <p>El diagrama BPMN se construira automaticamente<br>mientras describes tu proceso</p>
+                    </div>
                 </div>
             </div>
 
             <div class="diagram-legend">
                 <div class="legend-item"><div class="legend-shape start"></div>Inicio</div>
                 <div class="legend-item"><div class="legend-shape task"></div>Actividad</div>
-                <div class="legend-item"><div class="legend-shape gateway"></div>Decisión</div>
+                <div class="legend-item"><div class="legend-shape gateway"></div>Decision</div>
                 <div class="legend-item"><div class="legend-shape end"></div>Fin</div>
             </div>
         </main>
@@ -788,7 +900,7 @@
 
     <script>
         // =====================================================
-        // CONFIGURACIÓN
+        // CONFIGURACION
         // =====================================================
         const WEBHOOK_URL = 'https://inadvance.app.n8n.cloud/webhook/registrador_procesos';
         
@@ -799,7 +911,8 @@
             sessionId: `session_${Date.now()}`,
             processName: '',
             steps: [],
-            debugMode: false
+            debugMode: false,
+            zoom: 1
         };
 
         // Audio recording
@@ -815,12 +928,15 @@
         const sendBtn = document.getElementById('sendBtn');
         const recordBtn = document.getElementById('recordBtn');
         const bpmnCanvas = document.getElementById('bpmnCanvas');
+        const canvasContainer = document.getElementById('canvasContainer');
         const emptyState = document.getElementById('emptyState');
         const processNameEl = document.getElementById('processName');
         const stepCounter = document.getElementById('stepCounter');
         const progressFill = document.getElementById('progressFill');
         const debugConsole = document.getElementById('debugConsole');
         const debugBtn = document.getElementById('debugBtn');
+        const zoomInBtn = document.getElementById('zoomInBtn');
+        const zoomOutBtn = document.getElementById('zoomOutBtn');
 
         // =====================================================
         // DEBUG
@@ -840,32 +956,28 @@
         }
 
         // =====================================================
-        // MARKDOWN PARSER (Simple)
+        // MARKDOWN PARSER
         // =====================================================
         function parseMarkdown(text) {
             if (typeof text !== 'string') return String(text);
             
             return text
-                // Bold: **text** or __text__
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/__(.+?)__/g, '<strong>$1</strong>')
-                // Italic: *text* or _text_
                 .replace(/\*([^*]+)\*/g, '<em>$1</em>')
                 .replace(/_([^_]+)_/g, '<em>$1</em>')
-                // Code: `text`
                 .replace(/`([^`]+)`/g, '<code>$1</code>')
-                // Line breaks
                 .replace(/\n/g, '<br>');
         }
 
         // =====================================================
-        // INICIALIZACIÓN
+        // INICIALIZACION
         // =====================================================
         function init() {
-            debug('🚀 Inicializando aplicación');
+            debug('Inicializando InAdvance BPMN');
             
             setTimeout(() => {
-                addMessage('¡Hola! 👋 Soy tu asistente para documentar procesos. ¿Qué proceso te gustaría documentar hoy?', 'assistant');
+                addMessage('Hola! Soy tu asistente para documentar procesos. Que proceso te gustaria documentar hoy?', 'assistant');
             }, 500);
 
             textInput.addEventListener('input', handleInput);
@@ -877,6 +989,24 @@
                 state.debugMode = !state.debugMode;
                 debugConsole.classList.toggle('show', state.debugMode);
             });
+
+            zoomInBtn.addEventListener('click', () => {
+                state.zoom = Math.min(state.zoom + 0.1, 2);
+                applyZoom();
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                state.zoom = Math.max(state.zoom - 0.1, 0.5);
+                applyZoom();
+            });
+        }
+
+        function applyZoom() {
+            const flow = bpmnCanvas.querySelector('.bpmn-flow');
+            if (flow) {
+                flow.style.transform = `scale(${state.zoom})`;
+                flow.style.transformOrigin = 'left center';
+            }
         }
 
         function handleInput() {
@@ -922,10 +1052,10 @@
                 mediaRecorder.start();
                 isRecording = true;
                 recordBtn.classList.add('recording');
-                debug('🎤 Grabación iniciada');
+                debug('Grabacion iniciada');
             } catch (error) {
-                debug('❌ Error accediendo al micrófono:', error.message);
-                alert('No se pudo acceder al micrófono. Verifica los permisos.');
+                debug('Error microfono:', error.message);
+                alert('No se pudo acceder al microfono.');
             }
         }
 
@@ -934,12 +1064,12 @@
                 mediaRecorder.stop();
                 isRecording = false;
                 recordBtn.classList.remove('recording');
-                debug('🎤 Grabación detenida');
+                debug('Grabacion detenida');
             }
         }
 
         async function sendAudioMessage(audioBlob) {
-            addMessage('🎤 Mensaje de voz enviado', 'user', null, true);
+            addMessage('Mensaje de voz enviado', 'user', null, null, true);
             showTyping();
 
             try {
@@ -980,7 +1110,7 @@
         // =====================================================
         // MENSAJES
         // =====================================================
-        function addMessage(content, type, stepExtracted = null, isAudio = false) {
+        function addMessage(content, type, stepExtracted = null, stepUpdated = null, isAudio = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${type}`;
             
@@ -990,15 +1120,25 @@
                 html += `<div class="audio-badge"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>Audio</div>`;
             }
             
-            // Parse markdown for assistant messages
             const parsedContent = type === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
             html += `<div class="message-content">${parsedContent}</div>`;
             
-            if (stepExtracted) {
+            // Indicador de paso extraido
+            if (stepExtracted && stepExtracted.nombre) {
                 html += `
                     <div class="step-extracted">
                         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        Paso ${stepExtracted.numero} extraído: ${stepExtracted.nombre}
+                        Paso ${stepExtracted.numero} agregado: ${escapeHtml(stepExtracted.nombre)}
+                    </div>
+                `;
+            }
+            
+            // Indicador de paso actualizado (EDICION VIA LLM)
+            if (stepUpdated && stepUpdated.nombre) {
+                html += `
+                    <div class="step-updated">
+                        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        Paso ${stepUpdated.numero} actualizado: ${escapeHtml(stepUpdated.nombre)}
                     </div>
                 `;
             }
@@ -1029,13 +1169,13 @@
         }
 
         // =====================================================
-        // ENVÍO DE MENSAJES
+        // ENVIO DE MENSAJES
         // =====================================================
         async function sendMessage() {
             const message = textInput.value.trim();
             if (!message) return;
 
-            debug('📤 Enviando:', message);
+            debug('Enviando:', message);
             
             addMessage(message, 'user');
             textInput.value = '';
@@ -1056,14 +1196,14 @@
                 });
 
                 const responseText = await response.text();
-                debug('📥 Respuesta raw:', responseText.substring(0, 200));
+                debug('Respuesta raw:', responseText.substring(0, 300));
                 
                 let data;
                 try {
                     data = JSON.parse(responseText);
-                    debug('✅ JSON parseado');
+                    debug('JSON parseado');
                 } catch (e) {
-                    debug('ℹ️ Texto plano recibido');
+                    debug('Texto plano');
                     data = { output: responseText };
                 }
 
@@ -1071,120 +1211,239 @@
                 processResponse(data);
                 
             } catch (error) {
-                debug('❌ Error:', error.message);
+                debug('Error:', error.message);
                 hideTyping();
-                addMessage('Error de conexión. Intenta de nuevo.', 'assistant');
+                addMessage('Error de conexion. Intenta de nuevo.', 'assistant');
             }
         }
 
         // =====================================================
-        // PROCESAR RESPUESTA
+        // PROCESAR RESPUESTA - CON SOPORTE PARA EDICION VIA LLM
         // =====================================================
         function processResponse(data) {
-            debug('🔄 Procesando respuesta:', data);
+            debug('Procesando respuesta:', data);
             
-            let userMessage = data.output || data.message || data.respuesta || data;
+            let userMessage = data.output || data.message || data.respuesta || '';
             if (typeof userMessage === 'object') {
                 userMessage = JSON.stringify(userMessage);
             }
             
-            // Check for new step
             let extractedStep = null;
+            let updatedStep = null;
+            
+            // =====================================================
+            // DETECTAR NUEVO PASO
+            // =====================================================
             if (data.nuevoPasoExtraido) {
-                extractedStep = data.nuevoPasoExtraido;
-                debug('📊 Nuevo paso:', extractedStep);
-                addStepToDiagram(extractedStep);
+                let paso = data.nuevoPasoExtraido;
+                if (typeof paso === 'string') {
+                    try { paso = JSON.parse(paso); } catch (e) { paso = null; }
+                }
+                
+                if (paso && typeof paso === 'object') {
+                    if (!paso.nombre && paso.actividad) paso.nombre = paso.actividad;
+                    if (!paso.nombre) paso.nombre = `Paso ${(state.steps.length + 1)}`;
+                    
+                    // Verificar si es nuevo o actualizacion
+                    const existingIndex = state.steps.findIndex(s => s.numero === paso.numero);
+                    
+                    if (existingIndex >= 0) {
+                        // ES UNA ACTUALIZACION (EDICION VIA LLM)
+                        const oldStep = state.steps[existingIndex];
+                        state.steps[existingIndex] = { ...oldStep, ...paso };
+                        updatedStep = state.steps[existingIndex];
+                        debug('Paso actualizado via LLM:', updatedStep);
+                        highlightUpdatedStep(paso.numero);
+                    } else {
+                        // ES UN NUEVO PASO
+                        extractedStep = paso;
+                        addStepToDiagram(extractedStep);
+                        debug('Nuevo paso:', extractedStep);
+                    }
+                }
             }
             
-            // Sync all steps if provided (for recovery)
-            if (data.todosLosPasos && Array.isArray(data.todosLosPasos) && data.todosLosPasos.length > state.steps.length) {
-                debug('🔄 Sincronizando pasos desde backend');
-                state.steps = data.todosLosPasos;
-                renderBPMNDiagram();
+            // =====================================================
+            // SINCRONIZAR TODOS LOS PASOS (detecta ediciones)
+            // =====================================================
+            if (data.todosLosPasos) {
+                let allSteps = data.todosLosPasos;
+                if (typeof allSteps === 'string') {
+                    try { allSteps = JSON.parse(allSteps); } catch (e) { allSteps = []; }
+                }
+                
+                if (Array.isArray(allSteps) && allSteps.length > 0) {
+                    // Detectar cambios en pasos existentes
+                    let hasChanges = false;
+                    const updatedStepNumbers = [];
+                    
+                    allSteps.forEach(newStep => {
+                        if (!newStep.nombre && newStep.actividad) newStep.nombre = newStep.actividad;
+                        
+                        const existingStep = state.steps.find(s => s.numero === newStep.numero);
+                        if (existingStep) {
+                            // Verificar si hay diferencias
+                            if (existingStep.nombre !== newStep.nombre ||
+                                existingStep.responsable !== newStep.responsable ||
+                                existingStep.sistema !== newStep.sistema ||
+                                existingStep.es_decision !== newStep.es_decision) {
+                                hasChanges = true;
+                                updatedStepNumbers.push(newStep.numero);
+                            }
+                        }
+                    });
+                    
+                    // Si hay cambios o diferente cantidad, sincronizar
+                    if (hasChanges || allSteps.length !== state.steps.length) {
+                        debug('Sincronizando pasos - detectados cambios');
+                        state.steps = allSteps;
+                        renderBPMNDiagram();
+                        
+                        // Destacar pasos actualizados
+                        updatedStepNumbers.forEach(num => {
+                            setTimeout(() => highlightUpdatedStep(num), 100);
+                        });
+                        
+                        // Si hubo actualizacion, mostrar indicador
+                        if (updatedStepNumbers.length > 0 && !extractedStep) {
+                            const lastUpdated = state.steps.find(s => s.numero === updatedStepNumbers[0]);
+                            if (lastUpdated) updatedStep = lastUpdated;
+                        }
+                    }
+                }
             }
             
-            // Update process name
-            if (data.nombreProceso && data.nombreProceso !== state.processName) {
-                state.processName = data.nombreProceso;
-                processNameEl.textContent = `// ${state.processName}`;
+            // Actualizar nombre del proceso
+            if (data.nombreProceso) {
+                let processName = data.nombreProceso;
+                if (typeof processName === 'string' && processName.trim() && processName !== state.processName) {
+                    state.processName = processName;
+                    processNameEl.textContent = `// ${state.processName}`;
+                }
             }
             
-            addMessage(userMessage, 'assistant', extractedStep);
+            addMessage(userMessage, 'assistant', extractedStep, updatedStep);
             updateStepCounter();
             updateProgress();
         }
 
         // =====================================================
-        // BPMN RENDERING
+        // DESTACAR PASO ACTUALIZADO (EFECTO VISUAL)
+        // =====================================================
+        function highlightUpdatedStep(stepNumber) {
+            const taskElements = bpmnCanvas.querySelectorAll('.bpmn-task, .bpmn-gateway');
+            taskElements.forEach(el => {
+                const index = el.dataset.index;
+                if (index !== undefined && state.steps[index]?.numero === stepNumber) {
+                    el.closest('.bpmn-element')?.classList.add('updated');
+                    setTimeout(() => {
+                        el.closest('.bpmn-element')?.classList.remove('updated');
+                    }, 1000);
+                }
+            });
+        }
+
+        // =====================================================
+        // BPMN RENDERING - HORIZONTAL
         // =====================================================
         function addStepToDiagram(step) {
             emptyState.style.display = 'none';
-            state.steps.push(step);
+            
+            const existingIndex = state.steps.findIndex(s => s.numero === step.numero);
+            if (existingIndex >= 0) {
+                state.steps[existingIndex] = { ...state.steps[existingIndex], ...step };
+            } else {
+                state.steps.push(step);
+            }
+            
+            state.steps.sort((a, b) => (a.numero || 0) - (b.numero || 0));
             renderBPMNDiagram();
         }
 
         function renderBPMNDiagram() {
-            const elements = bpmnCanvas.querySelectorAll('.bpmn-element, .bpmn-connector');
+            const elements = bpmnCanvas.querySelectorAll('.bpmn-flow');
             elements.forEach(el => el.remove());
             
             if (state.steps.length === 0) {
-                emptyState.style.display = 'block';
+                emptyState.style.display = 'flex';
                 return;
             }
             
             emptyState.style.display = 'none';
             
-            renderStartEvent();
+            const flowContainer = document.createElement('div');
+            flowContainer.className = 'bpmn-flow';
+            flowContainer.style.transform = `scale(${state.zoom})`;
+            flowContainer.style.transformOrigin = 'left center';
             
+            // Inicio
+            flowContainer.appendChild(createStartEvent());
+            flowContainer.appendChild(createConnector(false));
+            
+            // Pasos
             state.steps.forEach((step, index) => {
-                renderConnector(index === state.steps.length - 1);
-                
                 if (step.es_decision) {
-                    renderGateway(step, index + 1);
+                    flowContainer.appendChild(createGateway(step, index));
                 } else {
-                    renderTask(step, index + 1);
+                    flowContainer.appendChild(createTask(step, index));
                 }
+                
+                const isLast = index === state.steps.length - 1;
+                flowContainer.appendChild(createConnector(isLast));
             });
             
-            renderConnector(false);
-            renderEndEvent();
+            // Fin
+            flowContainer.appendChild(createEndEvent());
+            
+            bpmnCanvas.appendChild(flowContainer);
         }
 
-        function renderStartEvent() {
+        function createStartEvent() {
             const el = document.createElement('div');
             el.className = 'bpmn-element';
-            el.innerHTML = `<div class="bpmn-event start">🚀</div><span class="bpmn-label">Inicio</span>`;
-            bpmnCanvas.appendChild(el);
+            el.innerHTML = `
+                <div class="bpmn-event start">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span class="bpmn-label">Inicio</span>
+            `;
+            return el;
         }
 
-        function renderEndEvent() {
+        function createEndEvent() {
             const el = document.createElement('div');
             el.className = 'bpmn-element';
-            el.innerHTML = `<div class="bpmn-event end">✓</div><span class="bpmn-label">Fin</span>`;
-            bpmnCanvas.appendChild(el);
+            el.innerHTML = `
+                <div class="bpmn-event end">
+                    <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                </div>
+                <span class="bpmn-label">Fin</span>
+            `;
+            return el;
         }
 
-        function renderConnector(isAnimated) {
+        function createConnector(isAnimated) {
             const el = document.createElement('div');
             el.className = `bpmn-connector ${isAnimated ? 'animated' : ''}`;
-            bpmnCanvas.appendChild(el);
+            return el;
         }
 
-        function renderTask(step, number) {
+        function createTask(step, index) {
             const el = document.createElement('div');
             el.className = 'bpmn-element';
-            const taskType = step.sistema ? 'service' : 'user';
+            
+            const taskType = step.sistema ? 'service' : '';
             
             el.innerHTML = `
-                <div class="bpmn-task ${taskType}">
+                <div class="bpmn-task ${taskType}" data-index="${index}">
                     <div class="task-header">
                         <svg class="task-icon" viewBox="0 0 24 24">
-                            ${taskType === 'user' 
-                                ? '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
-                                : '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 00-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
+                            ${step.sistema 
+                                ? '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
+                                : '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
                             }
                         </svg>
-                        <span class="task-number">PASO ${number}</span>
+                        <span class="task-number">PASO ${step.numero || (index + 1)}</span>
                     </div>
                     <div class="task-body">
                         <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
@@ -1195,35 +1454,50 @@
                     </div>
                 </div>
             `;
-            bpmnCanvas.appendChild(el);
+            
+            return el;
         }
 
-        function renderGateway(step, number) {
+        function createGateway(step, index) {
             const el = document.createElement('div');
             el.className = 'bpmn-element';
+            
+            const etiquetaSi = step.etiqueta_si || 'Si';
+            const etiquetaNo = step.etiqueta_no || 'No';
+            
             el.innerHTML = `
-                <div class="bpmn-gateway"><span>✕</span></div>
-                <span class="bpmn-label">${escapeHtml(step.etiqueta_si || 'Sí')} / ${escapeHtml(step.etiqueta_no || 'No')}</span>
+                <div class="bpmn-gateway-wrapper">
+                    <div class="bpmn-gateway" data-index="${index}">
+                        <svg class="bpmn-gateway-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                    </div>
+                    <div class="gateway-labels">
+                        <span class="gateway-label yes">${escapeHtml(etiquetaSi)}</span>
+                        <span class="gateway-label no">${escapeHtml(etiquetaNo)}</span>
+                    </div>
+                    ${step.nombre ? `<span class="gateway-name">${escapeHtml(step.nombre)}</span>` : ''}
+                </div>
             `;
-            bpmnCanvas.appendChild(el);
+            
+            return el;
         }
 
         // =====================================================
         // UTILITIES
         // =====================================================
         function escapeHtml(text) {
-            if (typeof text !== 'string') return String(text);
+            if (typeof text !== 'string') return String(text || '');
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
         function updateStepCounter() {
-            stepCounter.textContent = `${state.steps.length} paso${state.steps.length !== 1 ? 's' : ''}`;
+            const count = state.steps.length;
+            stepCounter.textContent = `${count} paso${count !== 1 ? 's' : ''}`;
         }
 
         function updateProgress() {
-            const estimated = Math.min((state.steps.length / 6) * 100, 100);
+            const estimated = Math.min((state.steps.length / 8) * 100, 100);
             progressFill.style.width = `${estimated}%`;
         }
 
