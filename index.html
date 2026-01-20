@@ -9,35 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Colores InAdvance Pro */
             --magenta: #C41E68;
             --magenta-dark: #9B1854;
             --magenta-light: #E91E7B;
-            
-            /* BPMN Colors */
             --bpmn-start: #22C55E;
             --bpmn-end: #EF4444;
             --bpmn-task-user: #3B82F6;
             --bpmn-task-service: #8B5CF6;
             --bpmn-gateway: #F59E0B;
             --bpmn-intermediate: #06B6D4;
-            
-            /* Surface */
             --bg-primary: #0F172A;
             --bg-secondary: #1E293B;
             --bg-elevated: #334155;
             --bg-canvas: #0D1117;
-            
-            /* Text */
             --text-primary: #F8FAFC;
             --text-secondary: #94A3B8;
             --text-muted: #64748B;
-            
-            /* Borders */
             --border: rgba(148, 163, 184, 0.1);
             --border-active: rgba(196, 30, 104, 0.5);
-            
-            /* Grid */
             --grid-color: rgba(148, 163, 184, 0.05);
         }
 
@@ -62,7 +51,6 @@
             height: 100vh;
         }
 
-        /* ===== HEADER ===== */
         .header {
             grid-column: 1 / -1;
             background: var(--bg-secondary);
@@ -146,7 +134,6 @@
             50% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        /* ===== CHAT PANEL ===== */
         .chat-panel {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border);
@@ -236,7 +223,6 @@
             border-bottom-right-radius: 4px;
         }
 
-        /* Step extraction badge */
         .step-extracted {
             display: flex;
             align-items: center;
@@ -282,7 +268,6 @@
             30% { transform: translateY(-6px); }
         }
 
-        /* Input Area */
         .input-area {
             padding: 16px 20px;
             border-top: 1px solid var(--border);
@@ -348,14 +333,12 @@
             fill: white;
         }
 
-        /* ===== DIAGRAM PANEL ===== */
         .diagram-panel {
             background: var(--bg-canvas);
             position: relative;
             overflow: hidden;
         }
 
-        /* Grid Background */
         .diagram-panel::before {
             content: '';
             position: absolute;
@@ -423,7 +406,6 @@
             fill: var(--text-secondary);
         }
 
-        /* BPMN Canvas */
         .bpmn-canvas {
             position: absolute;
             inset: 60px 20px 80px 20px;
@@ -435,7 +417,6 @@
             overflow: auto;
         }
 
-        /* BPMN Elements */
         .bpmn-element {
             position: relative;
             display: flex;
@@ -455,7 +436,6 @@
             }
         }
 
-        /* Start/End Events */
         .bpmn-event {
             width: 50px;
             height: 50px;
@@ -477,7 +457,6 @@
             border: 3px solid #DC2626;
         }
 
-        /* Task Nodes */
         .bpmn-task {
             min-width: 200px;
             max-width: 280px;
@@ -563,7 +542,6 @@
             fill: currentColor;
         }
 
-        /* Gateway (Decision) */
         .bpmn-gateway {
             width: 50px;
             height: 50px;
@@ -581,7 +559,6 @@
             font-size: 18px;
         }
 
-        /* Connectors */
         .bpmn-connector {
             width: 2px;
             height: 40px;
@@ -610,7 +587,6 @@
             50% { opacity: 1; }
         }
 
-        /* Element Labels */
         .bpmn-label {
             margin-top: 8px;
             font-size: 11px;
@@ -618,7 +594,6 @@
             text-align: center;
         }
 
-        /* Legend */
         .diagram-legend {
             position: absolute;
             bottom: 0;
@@ -657,7 +632,6 @@
         }
         .legend-shape.end { background: var(--bpmn-end); }
 
-        /* Progress Bar */
         .progress-bar {
             position: absolute;
             top: 60px;
@@ -677,7 +651,6 @@
             border-radius: 2px;
         }
 
-        /* Empty State */
         .empty-state {
             text-align: center;
             color: var(--text-muted);
@@ -704,8 +677,30 @@
             line-height: 1.5;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
+        /* Debug console */
+        .debug-console {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.9);
+            color: #0f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 300px;
+            max-height: 150px;
+            overflow: auto;
+            z-index: 9999;
+            display: none;
+        }
+
+        .debug-console.show {
+            display: block;
+        }
+
+        /* Layout horizontal siempre, excepto en móviles muy pequeños */
+        @media (max-width: 768px) {
             .app-layout {
                 grid-template-columns: 1fr;
                 grid-template-rows: 60px 1fr 40vh;
@@ -714,12 +709,22 @@
             .diagram-panel {
                 border-top: 1px solid var(--border);
             }
+
+            .chat-panel {
+                border-right: none;
+            }
+        }
+
+        /* Para tablets - chat más angosto */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .app-layout {
+                grid-template-columns: 350px 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="app-layout">
-        <!-- Header -->
         <header class="header">
             <div class="logo">
                 <div class="logo-icon">
@@ -736,7 +741,6 @@
             </div>
         </header>
 
-        <!-- Chat Panel -->
         <aside class="chat-panel">
             <div class="chat-header">
                 <h2>
@@ -746,9 +750,7 @@
                 <span class="step-counter" id="stepCounter">0 pasos</span>
             </div>
             
-            <div class="messages-area" id="messagesArea">
-                <!-- Messages will be injected here -->
-            </div>
+            <div class="messages-area" id="messagesArea"></div>
 
             <div class="input-area">
                 <div class="input-wrapper">
@@ -765,7 +767,6 @@
             </div>
         </aside>
 
-        <!-- Diagram Panel -->
         <main class="diagram-panel">
             <div class="diagram-header">
                 <span class="diagram-title">
@@ -779,8 +780,8 @@
                     <button class="control-btn" title="Zoom Out">
                         <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
                     </button>
-                    <button class="control-btn" title="Descargar">
-                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <button class="control-btn" id="debugBtn" title="Debug">
+                        <svg viewBox="0 0 24 24"><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/></svg>
                     </button>
                 </div>
             </div>
@@ -790,7 +791,6 @@
             </div>
 
             <div class="bpmn-canvas" id="bpmnCanvas">
-                <!-- BPMN elements will be rendered here -->
                 <div class="empty-state" id="emptyState">
                     <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
                     <h3>Comienza a documentar</h3>
@@ -819,21 +819,24 @@
         </main>
     </div>
 
+    <!-- Debug Console -->
+    <div class="debug-console" id="debugConsole"></div>
+
     <script>
         // =====================================================
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN - CAMBIA TU URL AQUÍ
         // =====================================================
         const WEBHOOK_URL = 'https://inadvance.app.n8n.cloud/webhook/registrador_procesos';
-                             
+        
         // =====================================================
-        // ESTADO DE LA APLICACIÓN
+        // ESTADO
         // =====================================================
         let state = {
             sessionId: `session_${Date.now()}`,
             processName: '',
             steps: [],
             currentBuildingStep: null,
-            messages: []
+            debugMode: false
         };
 
         // =====================================================
@@ -847,20 +850,47 @@
         const processNameEl = document.getElementById('processName');
         const stepCounter = document.getElementById('stepCounter');
         const progressFill = document.getElementById('progressFill');
+        const debugConsole = document.getElementById('debugConsole');
+        const debugBtn = document.getElementById('debugBtn');
+
+        // =====================================================
+        // DEBUG
+        // =====================================================
+        function debug(msg, data = null) {
+            const time = new Date().toLocaleTimeString();
+            let logMsg = `[${time}] ${msg}`;
+            if (data) {
+                logMsg += '\n' + (typeof data === 'string' ? data : JSON.stringify(data, null, 2));
+            }
+            console.log(logMsg, data);
+            
+            if (state.debugMode) {
+                debugConsole.innerHTML += `<div>${escapeHtml(logMsg)}</div>`;
+                debugConsole.scrollTop = debugConsole.scrollHeight;
+            }
+        }
 
         // =====================================================
         // INICIALIZACIÓN
         // =====================================================
         function init() {
-            // Mensaje de bienvenida
+            debug('🚀 Inicializando aplicación');
+            debug('📡 Webhook URL: ' + WEBHOOK_URL);
+            
             setTimeout(() => {
                 addMessage('¡Hola! 👋 Soy tu asistente para documentar procesos. ¿Qué proceso te gustaría documentar hoy?', 'assistant');
             }, 500);
 
-            // Event listeners
             textInput.addEventListener('input', handleInput);
             textInput.addEventListener('keydown', handleKeydown);
             sendBtn.addEventListener('click', sendMessage);
+            
+            // Debug toggle
+            debugBtn.addEventListener('click', () => {
+                state.debugMode = !state.debugMode;
+                debugConsole.classList.toggle('show', state.debugMode);
+                debug('Debug mode: ' + (state.debugMode ? 'ON' : 'OFF'));
+            });
         }
 
         function handleInput() {
@@ -920,12 +950,14 @@
         }
 
         // =====================================================
-        // ENVÍO DE MENSAJES
+        // ENVÍO DE MENSAJES - CORREGIDO PARA TEXTO PLANO
         // =====================================================
         async function sendMessage() {
             const message = textInput.value.trim();
             if (!message) return;
 
+            debug('📤 Enviando mensaje: ' + message);
+            
             addMessage(message, 'user');
             textInput.value = '';
             textInput.style.height = 'auto';
@@ -934,24 +966,35 @@
             showTyping();
 
             try {
+                const payload = {
+                    message: message,
+                    sessionId: state.sessionId,
+                    userName: 'Usuario'
+                };
+                
+                debug('📦 Payload:', payload);
+
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: message,
-                        sessionId: state.sessionId,
-                        userName: 'Usuario',
-                        requestRealtime: true // Flag para pedir datos de pasos
-                    })
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
                 });
 
-                const responseText = await response.text();  // Obtener texto primero
+                debug('📥 Response status: ' + response.status);
+                debug('📥 Response headers:', Object.fromEntries(response.headers.entries()));
+
+                // =====================================================
+                // IMPORTANTE: Intentar JSON primero, si falla usar texto
+                // =====================================================
+                const responseText = await response.text();
                 debug('📥 Response raw:', responseText);
                 
                 let data;
                 try {
                     // Intentar parsear como JSON
-                    data = JSON.parse(responseText); 
+                    data = JSON.parse(responseText);
                     debug('✅ Respuesta es JSON válido');
                 } catch (e) {
                     // Si no es JSON, usar el texto directamente
@@ -961,28 +1004,38 @@
                         message: responseText
                     };
                 }
-                
+
                 hideTyping();
-                // Procesar respuesta
                 processResponse(data);
                 
             } catch (error) {
+                debug('❌ Error:', error.message);
                 hideTyping();
                 addMessage('Lo siento, hubo un error de conexión. Intenta de nuevo.', 'assistant');
             }
         }
 
         // =====================================================
-        // PROCESAR RESPUESTA DEL BACKEND
+        // PROCESAR RESPUESTA
         // =====================================================
         function processResponse(data) {
-            // Extraer mensaje para el usuario
-            const userMessage = data.output || data.mensaje_usuario || data;
+            debug('🔄 Procesando respuesta:', data);
+            
+            // Extraer mensaje - soporta múltiples formatos
+            let userMessage = data.output || data.message || data.respuesta || data;
+            
+            // Si es un objeto, convertir a string
+            if (typeof userMessage === 'object') {
+                userMessage = JSON.stringify(userMessage);
+            }
+            
+            debug('💬 Mensaje extraído: ' + userMessage);
             
             // Verificar si hay nuevos pasos extraídos
             let extractedStep = null;
             if (data.nuevoPasoExtraido) {
                 extractedStep = data.nuevoPasoExtraido;
+                debug('📊 Nuevo paso detectado:', extractedStep);
                 addStepToDiagram(extractedStep);
             }
             
@@ -990,39 +1043,31 @@
             if (data.nombreProceso && data.nombreProceso !== state.processName) {
                 state.processName = data.nombreProceso;
                 processNameEl.textContent = `// ${state.processName}`;
+                debug('📝 Nombre del proceso actualizado: ' + state.processName);
             }
             
             // Mostrar mensaje
             addMessage(userMessage, 'assistant', extractedStep);
             
-            // Actualizar contador de pasos
             updateStepCounter();
             updateProgress();
         }
 
         // =====================================================
-        // RENDERIZADO BPMN EN TIEMPO REAL
+        // RENDERIZADO BPMN
         // =====================================================
         function addStepToDiagram(step) {
-            // Ocultar estado vacío
             emptyState.style.display = 'none';
-            
-            // Agregar paso al estado
             state.steps.push(step);
-            
-            // Re-renderizar todo el diagrama
             renderBPMNDiagram();
         }
 
         function renderBPMNDiagram() {
-            // Limpiar canvas (excepto empty state)
             const elements = bpmnCanvas.querySelectorAll('.bpmn-element, .bpmn-connector');
             elements.forEach(el => el.remove());
             
-            // Renderizar nodo de inicio
             renderStartEvent();
             
-            // Renderizar cada paso
             state.steps.forEach((step, index) => {
                 renderConnector(index === state.steps.length - 1);
                 
@@ -1033,7 +1078,6 @@
                 }
             });
             
-            // Si hay pasos, mostrar conector al fin (placeholder)
             if (state.steps.length > 0) {
                 renderConnector(false);
                 renderEndEvent();
@@ -1071,10 +1115,9 @@
             element.className = 'bpmn-element';
             
             const taskType = step.sistema ? 'service' : 'user';
-            const isBuilding = number === state.steps.length && state.currentBuildingStep;
             
             element.innerHTML = `
-                <div class="bpmn-task ${taskType} ${isBuilding ? 'building' : ''}">
+                <div class="bpmn-task ${taskType}">
                     <div class="task-header">
                         <svg class="task-icon" viewBox="0 0 24 24">
                             ${taskType === 'user' 
@@ -1122,7 +1165,7 @@
         // UTILIDADES
         // =====================================================
         function escapeHtml(text) {
-            if (typeof text !== 'string') return '';
+            if (typeof text !== 'string') return String(text);
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML.replace(/\n/g, '<br>');
@@ -1133,21 +1176,8 @@
         }
 
         function updateProgress() {
-            // Estimamos que un proceso típico tiene ~5-8 pasos
             const estimated = Math.min((state.steps.length / 6) * 100, 100);
             progressFill.style.width = `${estimated}%`;
-        }
-
-        // =====================================================
-        // SIMULACIÓN DE PASO EN CONSTRUCCIÓN (Visual feedback)
-        // =====================================================
-        function showBuildingStep() {
-            state.currentBuildingStep = true;
-            // El paso se marcará como "building" en el próximo render
-        }
-
-        function hideBuildingStep() {
-            state.currentBuildingStep = false;
         }
 
         // Inicializar
