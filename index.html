@@ -486,10 +486,10 @@
         /* BPMN Flow - HORIZONTAL */
         .bpmn-flow {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 0;
             padding: 20px;
-            padding-top: 60px;
+            padding-top: 80px;
         }
 
         .bpmn-element {
@@ -603,130 +603,19 @@
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
 
         /* =====================================================
-           BIFURCACION - ESTILOS NUEVOS
+           BIFURCACION - DISEÑO PARALELO HORIZONTAL
            ===================================================== */
-        .bpmn-bifurcation {
+        .bpmn-bifurcation-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
             position: relative;
         }
 
-        .bifurcation-gateway {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .bifurcation-branches {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-            margin-left: 0;
-        }
-
-        .branch {
-            display: flex;
-            align-items: center;
-            gap: 0;
-        }
-
-        .branch-connector {
-            width: 50px;
-            height: 2px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .branch-connector::after {
-            content: '';
-            position: absolute;
-            right: -1px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-left: 8px solid;
-        }
-
-        .branch-connector.yes {
-            background: var(--bpmn-start);
-        }
-        .branch-connector.yes::after {
-            border-left-color: var(--bpmn-start);
-        }
-
-        .branch-connector.no {
-            background: var(--bpmn-end);
-        }
-        .branch-connector.no::after {
-            border-left-color: var(--bpmn-end);
-        }
-
-        .branch-label {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 9px;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 3px;
-            white-space: nowrap;
-        }
-
-        .branch-label.yes {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--bpmn-start);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-        }
-
-        .branch-label.no {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--bpmn-end);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-
-        .branch-content {
-            display: flex;
-            align-items: center;
-            gap: 0;
-        }
-
-        .branch-task {
-            min-width: 140px;
-            max-width: 180px;
-        }
-
-        /* Lineas de conexion vertical para bifurcacion */
-        .bifurcation-lines {
-            position: absolute;
-            left: 22px;
-            top: 44px;
-            width: 2px;
-            background: var(--text-muted);
-            z-index: 1;
-        }
-
-        /* Merge point */
-        .merge-connector {
-            display: flex;
-            align-items: center;
-        }
-
-        .merge-line-top, .merge-line-bottom {
-            width: 50px;
-            height: 2px;
-            background: var(--text-muted);
-        }
-
-        /* Gateway (Decision) - MEJORADO */
         .bpmn-gateway-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 2;
         }
 
         .bpmn-gateway {
@@ -756,6 +645,172 @@
             max-width: 120px;
         }
 
+        /* Contenedor de las dos ramas paralelas */
+        .bifurcation-paths {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-left: -1px;
+        }
+
+        /* Cada rama horizontal */
+        .bifurcation-path {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .bifurcation-path.yes {
+            margin-bottom: 15px;
+        }
+
+        .bifurcation-path.no {
+            margin-top: 15px;
+        }
+
+        /* Línea de conexión desde gateway */
+        .path-entry {
+            width: 40px;
+            height: 2px;
+            position: relative;
+        }
+
+        .path-entry.yes {
+            background: var(--bpmn-start);
+            transform: translateY(0);
+        }
+
+        .path-entry.no {
+            background: var(--bpmn-end);
+            transform: translateY(0);
+        }
+
+        /* Líneas verticales del gateway a las ramas */
+        .bifurcation-paths::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 2px;
+            height: calc(100% - 30px);
+            background: var(--text-muted);
+            transform: translateY(-50%);
+        }
+
+        /* Etiqueta de la rama */
+        .path-label {
+            position: absolute;
+            top: -16px;
+            left: 5px;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        .path-label.yes {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--bpmn-start);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .path-label.no {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--bpmn-end);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        /* Contenido de la rama */
+        .path-content {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* Tarea pequeña dentro de rama */
+        .branch-task-small {
+            min-width: 130px;
+            max-width: 160px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-task-service);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .branch-task-small .task-header {
+            padding: 5px 8px;
+            background: var(--bpmn-task-service);
+        }
+
+        .branch-task-small .task-body {
+            padding: 6px 8px;
+        }
+
+        .branch-task-small .task-name {
+            font-size: 10px;
+            margin-bottom: 0;
+        }
+
+        /* Línea de salida de la rama hacia merge */
+        .path-exit {
+            width: 40px;
+            height: 2px;
+            position: relative;
+        }
+
+        .path-exit::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 6px solid;
+        }
+
+        .path-exit.yes {
+            background: var(--bpmn-start);
+        }
+        .path-exit.yes::after {
+            border-left-color: var(--bpmn-start);
+        }
+
+        .path-exit.no {
+            background: var(--bpmn-end);
+        }
+        .path-exit.no::after {
+            border-left-color: var(--bpmn-end);
+        }
+
+        /* Punto de merge (donde se unen las ramas) */
+        .merge-point {
+            width: 20px;
+            height: 20px;
+            background: var(--bg-elevated);
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: -1px;
+            z-index: 3;
+        }
+
+        /* Líneas de merge */
+        .merge-lines {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: calc(100% - 30px);
+            background: var(--text-muted);
+        }
+
         /* Connectors - HORIZONTAL */
         .bpmn-connector {
             width: 50px;
@@ -783,6 +838,10 @@
 
         .bpmn-connector.animated::after {
             border-left-color: var(--magenta-light);
+        }
+
+        .bpmn-connector.short {
+            width: 30px;
         }
 
         /* Labels */
@@ -1220,7 +1279,6 @@
             const parsedContent = type === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
             html += `<div class="message-content">${parsedContent}</div>`;
             
-            // Indicador de paso extraido
             if (stepExtracted && stepExtracted.nombre) {
                 html += `
                     <div class="step-extracted">
@@ -1230,7 +1288,6 @@
                 `;
             }
             
-            // Indicador de paso actualizado (EDICION VIA LLM)
             if (stepUpdated && stepUpdated.nombre) {
                 html += `
                     <div class="step-updated">
@@ -1315,7 +1372,7 @@
         }
 
         // =====================================================
-        // PROCESAR RESPUESTA - CON SOPORTE PARA EDICION VIA LLM
+        // PROCESAR RESPUESTA
         // =====================================================
         function processResponse(data) {
             debug('Procesando respuesta:', data);
@@ -1328,9 +1385,6 @@
             let extractedStep = null;
             let updatedStep = null;
             
-            // =====================================================
-            // DETECTAR NUEVO PASO
-            // =====================================================
             if (data.nuevoPasoExtraido) {
                 let paso = data.nuevoPasoExtraido;
                 if (typeof paso === 'string') {
@@ -1341,18 +1395,15 @@
                     if (!paso.nombre && paso.actividad) paso.nombre = paso.actividad;
                     if (!paso.nombre) paso.nombre = `Paso ${(state.steps.length + 1)}`;
                     
-                    // Verificar si es nuevo o actualizacion
                     const existingIndex = state.steps.findIndex(s => s.numero === paso.numero);
                     
                     if (existingIndex >= 0) {
-                        // ES UNA ACTUALIZACION (EDICION VIA LLM)
                         const oldStep = state.steps[existingIndex];
                         state.steps[existingIndex] = { ...oldStep, ...paso };
                         updatedStep = state.steps[existingIndex];
                         debug('Paso actualizado via LLM:', updatedStep);
                         highlightUpdatedStep(paso.numero);
                     } else {
-                        // ES UN NUEVO PASO
                         extractedStep = paso;
                         addStepToDiagram(extractedStep);
                         debug('Nuevo paso:', extractedStep);
@@ -1360,9 +1411,6 @@
                 }
             }
             
-            // =====================================================
-            // SINCRONIZAR TODOS LOS PASOS (detecta ediciones)
-            // =====================================================
             if (data.todosLosPasos) {
                 let allSteps = data.todosLosPasos;
                 if (typeof allSteps === 'string') {
@@ -1370,7 +1418,6 @@
                 }
                 
                 if (Array.isArray(allSteps) && allSteps.length > 0) {
-                    // Detectar cambios en pasos existentes
                     let hasChanges = false;
                     const updatedStepNumbers = [];
                     
@@ -1379,29 +1426,27 @@
                         
                         const existingStep = state.steps.find(s => s.numero === newStep.numero);
                         if (existingStep) {
-                            // Verificar si hay diferencias
                             if (existingStep.nombre !== newStep.nombre ||
                                 existingStep.responsable !== newStep.responsable ||
                                 existingStep.sistema !== newStep.sistema ||
-                                existingStep.es_decision !== newStep.es_decision) {
+                                existingStep.es_decision !== newStep.es_decision ||
+                                existingStep.destino_si !== newStep.destino_si ||
+                                existingStep.destino_no !== newStep.destino_no) {
                                 hasChanges = true;
                                 updatedStepNumbers.push(newStep.numero);
                             }
                         }
                     });
                     
-                    // Si hay cambios o diferente cantidad, sincronizar
                     if (hasChanges || allSteps.length !== state.steps.length) {
                         debug('Sincronizando pasos - detectados cambios');
                         state.steps = allSteps;
                         renderBPMNDiagram();
                         
-                        // Destacar pasos actualizados
                         updatedStepNumbers.forEach(num => {
                             setTimeout(() => highlightUpdatedStep(num), 100);
                         });
                         
-                        // Si hubo actualizacion, mostrar indicador
                         if (updatedStepNumbers.length > 0 && !extractedStep) {
                             const lastUpdated = state.steps.find(s => s.numero === updatedStepNumbers[0]);
                             if (lastUpdated) updatedStep = lastUpdated;
@@ -1410,7 +1455,6 @@
                 }
             }
             
-            // Actualizar nombre del proceso
             if (data.nombreProceso) {
                 let processName = data.nombreProceso;
                 if (typeof processName === 'string' && processName.trim() && processName !== state.processName) {
@@ -1424,9 +1468,6 @@
             updateProgress();
         }
 
-        // =====================================================
-        // DESTACAR PASO ACTUALIZADO (EFECTO VISUAL)
-        // =====================================================
         function highlightUpdatedStep(stepNumber) {
             const taskElements = bpmnCanvas.querySelectorAll('.bpmn-task, .bpmn-gateway');
             taskElements.forEach(el => {
@@ -1441,7 +1482,7 @@
         }
 
         // =====================================================
-        // BPMN RENDERING - CON BIFURCACIONES REALES
+        // BPMN RENDERING
         // =====================================================
         function addStepToDiagram(step) {
             emptyState.style.display = 'none';
@@ -1458,108 +1499,28 @@
         }
 
         // =====================================================
-        // ANALIZAR ESTRUCTURA DEL FLUJO
+        // ENCONTRAR PASO POR DESTINO
         // =====================================================
-        function analyzeFlowStructure() {
-            const structure = {
-                mainFlow: [],      // Pasos del flujo principal
-                branches: {}       // Bifurcaciones: { gatewayIndex: { yes: [...], no: [...] } }
-            };
+        function findStepByDestino(destino, currentIndex) {
+            if (!destino) return null;
+            if (destino === 'siguiente') return state.steps[currentIndex + 1] || null;
+            if (destino === 'fin') return { tipo: 'fin' };
             
-            let i = 0;
-            while (i < state.steps.length) {
-                const step = state.steps[i];
-                
-                if (step.es_decision) {
-                    // Es un gateway - buscar sus ramas
-                    const gatewayIndex = i;
-                    structure.mainFlow.push({ type: 'gateway', step, index: i });
-                    
-                    // Analizar destinos
-                    const destinoSi = parseDestino(step.destino_si, i);
-                    const destinoNo = parseDestino(step.destino_no, i);
-                    
-                    structure.branches[gatewayIndex] = {
-                        yes: {
-                            destino: destinoSi,
-                            label: step.etiqueta_si || 'Sí',
-                            // Buscar pasos que pertenecen a esta rama
-                            steps: findBranchSteps(i, destinoSi, destinoNo)
-                        },
-                        no: {
-                            destino: destinoNo,
-                            label: step.etiqueta_no || 'No',
-                            // Buscar pasos que pertenecen a la rama NO
-                            steps: findNoBranchSteps(i, destinoSi, destinoNo)
-                        }
-                    };
-                    
-                    // Saltar los pasos que ya fueron asignados a ramas
-                    const maxBranchStep = Math.max(
-                        ...structure.branches[gatewayIndex].yes.steps.map(s => s.index),
-                        ...structure.branches[gatewayIndex].no.steps.map(s => s.index),
-                        i
-                    );
-                    i = maxBranchStep + 1;
-                } else {
-                    structure.mainFlow.push({ type: 'task', step, index: i });
-                    i++;
-                }
-            }
-            
-            return structure;
-        }
-
-        function parseDestino(destino, currentIndex) {
-            if (!destino) return currentIndex + 1;
-            if (destino === 'siguiente') return currentIndex + 1;
-            if (destino === 'fin') return 'fin';
-            
-            // Buscar por número de paso
+            // Buscar por número
             const num = parseInt(destino);
             if (!isNaN(num)) {
-                const stepIndex = state.steps.findIndex(s => s.numero === num);
-                return stepIndex >= 0 ? stepIndex : currentIndex + 1;
+                return state.steps.find(s => s.numero === num) || null;
             }
             
-            // Buscar por nombre
-            const stepIndex = state.steps.findIndex(s => 
+            // Buscar por nombre (parcial)
+            const found = state.steps.find(s => 
                 s.nombre && s.nombre.toLowerCase().includes(destino.toLowerCase())
             );
-            return stepIndex >= 0 ? stepIndex : currentIndex + 1;
-        }
-
-        function findBranchSteps(gatewayIndex, destinoSi, destinoNo) {
-            // La rama SI generalmente va al paso siguiente directamente
-            const steps = [];
-            if (typeof destinoSi === 'number' && destinoSi > gatewayIndex) {
-                // Si el destino SI está después del gateway, esos pasos son del flujo principal
-                // No los incluimos aquí
-            }
-            return steps;
-        }
-
-        function findNoBranchSteps(gatewayIndex, destinoSi, destinoNo) {
-            const steps = [];
-            
-            // Buscar pasos que están entre el gateway y el punto de merge
-            // El destino NO generalmente apunta a un paso alternativo
-            if (typeof destinoNo === 'number' && destinoNo > gatewayIndex) {
-                // Si destino_no apunta a un paso específico que no es el siguiente inmediato
-                // y no es el mismo que destino_si, ese paso pertenece a la rama NO
-                if (destinoNo !== destinoSi && destinoNo !== gatewayIndex + 1) {
-                    const step = state.steps[destinoNo];
-                    if (step) {
-                        steps.push({ step, index: destinoNo });
-                    }
-                }
-            }
-            
-            return steps;
+            return found || null;
         }
 
         // =====================================================
-        // RENDER BPMN CON BIFURCACIONES
+        // RENDER BPMN - CON BIFURCACIONES PARALELAS
         // =====================================================
         function renderBPMNDiagram() {
             const elements = bpmnCanvas.querySelectorAll('.bpmn-flow');
@@ -1581,40 +1542,46 @@
             flowContainer.appendChild(createStartEvent());
             flowContainer.appendChild(createConnector(false));
             
-            // Procesar pasos con detección de bifurcaciones
+            // Identificar pasos que pertenecen a ramas (no mostrar en flujo principal)
+            const branchStepNumbers = new Set();
+            state.steps.forEach((step, idx) => {
+                if (step.es_decision && step.destino_no) {
+                    const branchStep = findStepByDestino(step.destino_no, idx);
+                    if (branchStep && branchStep.numero) {
+                        branchStepNumbers.add(branchStep.numero);
+                    }
+                }
+            });
+            
+            // Procesar pasos
             let i = 0;
             while (i < state.steps.length) {
                 const step = state.steps[i];
-                const nextStep = state.steps[i + 1];
+                
+                // Si este paso es exclusivo de una rama, saltarlo del flujo principal
+                if (branchStepNumbers.has(step.numero)) {
+                    i++;
+                    continue;
+                }
                 
                 if (step.es_decision) {
-                    // Crear bifurcación visual
-                    const bifurcation = createBifurcation(step, i);
+                    // Crear bifurcación con dos rutas paralelas
+                    const bifurcation = createParallelBifurcation(step, i);
                     flowContainer.appendChild(bifurcation);
-                    
-                    // Verificar si hay un paso en la rama NO que debemos saltar
-                    const destinoNo = parseDestino(step.destino_no, i);
-                    const destinoSi = parseDestino(step.destino_si, i);
-                    
-                    // Si el destino_no apunta a un paso específico diferente al siguiente
-                    if (typeof destinoNo === 'number' && destinoNo > i + 1 && destinoNo < state.steps.length) {
-                        // El paso destinoNo ya fue mostrado en la bifurcación, saltarlo si es exclusivo de esa rama
-                    }
-                    
-                    i++;
+                    flowContainer.appendChild(createConnector(false));
                 } else {
                     flowContainer.appendChild(createTask(step, i));
                     
-                    // Agregar conector
-                    const isLast = i === state.steps.length - 1;
+                    const isLast = i === state.steps.length - 1 || 
+                                   (i < state.steps.length - 1 && branchStepNumbers.has(state.steps[i+1]?.numero));
                     if (!isLast) {
                         flowContainer.appendChild(createConnector(false));
                     }
-                    i++;
                 }
+                i++;
             }
             
-            // Conector final y fin
+            // Fin
             flowContainer.appendChild(createConnector(true));
             flowContainer.appendChild(createEndEvent());
             
@@ -1622,43 +1589,55 @@
         }
 
         // =====================================================
-        // CREAR BIFURCACIÓN VISUAL
+        // CREAR BIFURCACIÓN PARALELA (DOS RUTAS HORIZONTALES)
         // =====================================================
-        function createBifurcation(step, index) {
+        function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
-            container.className = 'bpmn-element bpmn-bifurcation';
+            container.className = 'bpmn-element bpmn-bifurcation-container';
             
             const etiquetaSi = step.etiqueta_si || 'Sí';
             const etiquetaNo = step.etiqueta_no || 'No';
             
-            // Determinar destinos
-            const destinoSi = parseDestino(step.destino_si, index);
-            const destinoNo = parseDestino(step.destino_no, index);
+            // Buscar qué hay en cada rama
+            const destinoSiStep = findStepByDestino(step.destino_si, index);
+            const destinoNoStep = findStepByDestino(step.destino_no, index);
             
-            // Buscar paso de la rama NO si existe
-            let branchNoStep = null;
-            if (typeof destinoNo === 'number' && destinoNo < state.steps.length) {
-                // Buscar si hay un paso específico para la rama NO
-                // que no sea el siguiente inmediato del flujo principal
-                const nextMainStep = index + 1;
-                if (destinoNo !== nextMainStep && destinoNo !== destinoSi) {
-                    branchNoStep = state.steps.find(s => s.numero === destinoNo || state.steps.indexOf(s) === destinoNo);
-                }
+            // Determinar contenido de rama SI
+            let ramaSiContent = '';
+            if (destinoSiStep && destinoSiStep.tipo === 'fin') {
+                ramaSiContent = createMiniEndEvent();
+            } else if (destinoSiStep && destinoSiStep.nombre) {
+                ramaSiContent = createMiniBranchTask(destinoSiStep, 'yes');
+            } else {
+                ramaSiContent = `<div style="padding: 5px 10px; font-size: 10px; color: var(--bpmn-start);">→ Continúa</div>`;
             }
             
-            // También buscar por nombre en destino_no
-            if (!branchNoStep && step.destino_no && typeof step.destino_no === 'string') {
-                branchNoStep = state.steps.find(s => 
-                    s.nombre && s.nombre.toLowerCase().includes(step.destino_no.toLowerCase())
-                );
+            // Determinar contenido de rama NO
+            let ramaNoContent = '';
+            if (destinoNoStep && destinoNoStep.tipo === 'fin') {
+                ramaNoContent = createMiniEndEvent();
+            } else if (destinoNoStep && destinoNoStep.nombre) {
+                ramaNoContent = createMiniBranchTask(destinoNoStep, 'no');
+            } else if (step.destino_no) {
+                // Mostrar el texto del destino
+                ramaNoContent = `
+                    <div style="
+                        padding: 8px 12px;
+                        background: rgba(239, 68, 68, 0.1);
+                        border: 1px dashed rgba(239, 68, 68, 0.4);
+                        border-radius: 6px;
+                        font-size: 10px;
+                        color: var(--bpmn-end);
+                        max-width: 140px;
+                    ">${escapeHtml(step.destino_no)}</div>
+                `;
+            } else {
+                ramaNoContent = `<div style="padding: 5px 10px; font-size: 10px; color: var(--bpmn-end);">→ Regresa</div>`;
             }
             
-            // Determinar qué mostrar en cada rama
-            const showNoBranch = branchNoStep || (destinoNo === 'fin') || 
-                                 (step.destino_no && step.destino_no.toLowerCase().includes('cancelar'));
-            
-            let html = `
-                <div class="bifurcation-gateway">
+            container.innerHTML = `
+                <!-- Gateway -->
+                <div class="bpmn-gateway-wrapper">
                     <div class="bpmn-gateway" data-index="${index}">
                         <svg class="bpmn-gateway-icon" viewBox="0 0 24 24">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -1667,77 +1646,72 @@
                     ${step.nombre ? `<span class="gateway-name">${escapeHtml(step.nombre)}</span>` : ''}
                 </div>
                 
-                <div class="bifurcation-branches">
-                    <!-- Rama SÍ (superior) -->
-                    <div class="branch branch-yes">
-                        <div class="branch-connector yes">
-                            <span class="branch-label yes">${escapeHtml(etiquetaSi)}</span>
+                <!-- Dos rutas paralelas -->
+                <div class="bifurcation-paths">
+                    <!-- Ruta SI (arriba) -->
+                    <div class="bifurcation-path yes">
+                        <div class="path-entry yes">
+                            <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
                         </div>
-                        <div class="branch-content">
-                            ${createBranchContent('yes', destinoSi, step)}
+                        <div class="path-content">
+                            ${ramaSiContent}
                         </div>
+                        <div class="path-exit yes"></div>
                     </div>
                     
-                    <!-- Rama NO (inferior) -->
-                    <div class="branch branch-no">
-                        <div class="branch-connector no">
-                            <span class="branch-label no">${escapeHtml(etiquetaNo)}</span>
+                    <!-- Ruta NO (abajo) -->
+                    <div class="bifurcation-path no">
+                        <div class="path-entry no">
+                            <span class="path-label no">${escapeHtml(etiquetaNo)}</span>
                         </div>
-                        <div class="branch-content">
-                            ${createBranchContent('no', destinoNo, step, branchNoStep)}
+                        <div class="path-content">
+                            ${ramaNoContent}
                         </div>
+                        <div class="path-exit no"></div>
                     </div>
+                </div>
+                
+                <!-- Punto de merge -->
+                <div class="merge-point">
+                    <svg viewBox="0 0 24 24" style="width: 10px; height: 10px; fill: var(--text-muted);">
+                        <circle cx="12" cy="12" r="4"/>
+                    </svg>
                 </div>
             `;
             
-            container.innerHTML = html;
             return container;
         }
 
-        function createBranchContent(type, destino, gatewayStep, specificStep = null) {
-            if (type === 'yes') {
-                // Rama SÍ - generalmente continúa al siguiente paso
-                return `<div class="branch-destination">→ Continúa</div>`;
-            } else {
-                // Rama NO
-                if (specificStep) {
-                    // Mostrar el paso específico de la rama NO
-                    return `
-                        <div class="bpmn-task branch-task service" style="min-width: 120px;">
-                            <div class="task-header" style="padding: 6px 10px;">
-                                <svg class="task-icon" viewBox="0 0 24 24" style="width: 12px; height: 12px;">
-                                    <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/>
-                                </svg>
-                            </div>
-                            <div class="task-body" style="padding: 8px 10px;">
-                                <div class="task-name" style="font-size: 10px;">${escapeHtml(specificStep.nombre || 'Paso alternativo')}</div>
-                            </div>
-                        </div>
-                    `;
-                } else if (destino === 'fin' || (gatewayStep.destino_no && gatewayStep.destino_no.toLowerCase().includes('cancelar'))) {
-                    // Termina el proceso
-                    return `
-                        <div class="bpmn-event end" style="width: 30px; height: 30px;">
-                            <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M6 6h12v12H6z"/></svg>
-                        </div>
-                    `;
-                } else if (gatewayStep.destino_no) {
-                    // Mostrar descripción del destino
-                    return `
-                        <div class="branch-task-placeholder" style="
-                            padding: 8px 12px;
-                            background: rgba(239, 68, 68, 0.1);
-                            border: 1px dashed rgba(239, 68, 68, 0.3);
-                            border-radius: 6px;
-                            font-size: 10px;
-                            color: var(--bpmn-end);
-                            max-width: 120px;
-                        ">${escapeHtml(gatewayStep.destino_no)}</div>
-                    `;
-                } else {
-                    return `<div class="branch-destination">→ Regresa</div>`;
-                }
-            }
+        // =====================================================
+        // CREAR MINI TAREA PARA RAMA
+        // =====================================================
+        function createMiniBranchTask(step, type) {
+            const borderColor = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
+            const headerBg = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
+            
+            return `
+                <div class="branch-task-small" style="border-color: ${borderColor};">
+                    <div class="task-header" style="background: ${headerBg}; padding: 4px 8px;">
+                        <svg class="task-icon" viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: white;">
+                            <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/>
+                        </svg>
+                        <span style="font-size: 8px; color: white; font-weight: 600;">PASO ${step.numero || ''}</span>
+                    </div>
+                    <div class="task-body" style="padding: 6px 8px;">
+                        <div class="task-name" style="font-size: 9px; margin: 0;">${escapeHtml(step.nombre || 'Paso')}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createMiniEndEvent() {
+            return `
+                <div class="bpmn-event end" style="width: 28px; height: 28px;">
+                    <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: white;">
+                        <path d="M6 6h12v12H6z"/>
+                    </svg>
+                </div>
+            `;
         }
 
         function createStartEvent() {
