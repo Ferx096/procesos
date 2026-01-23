@@ -696,6 +696,81 @@
             text-align: center;
         }
 
+        /* ===== BIFURCACIONES EN GATEWAY ===== */
+        .bpmn-decision-block {
+            position: relative;
+        }
+
+        .bpmn-gateway-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .gateway-branches {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 8px 10px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            min-width: 180px;
+        }
+
+        .branch {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            background: var(--bg-secondary);
+        }
+
+        .branch-yes {
+            border-left: 3px solid var(--bpmn-start);
+        }
+
+        .branch-no {
+            border-left: 3px solid var(--bpmn-end);
+        }
+
+        .branch-label {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        .branch-label.yes {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--bpmn-start);
+        }
+
+        .branch-label.no {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--bpmn-end);
+        }
+
+        .branch-arrow {
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .branch-destination {
+            color: var(--text-secondary);
+            font-size: 9px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
+
         /* Legend */
         .diagram-legend {
             position: relative;
@@ -1286,7 +1361,11 @@
                             if (existingStep.nombre !== newStep.nombre ||
                                 existingStep.responsable !== newStep.responsable ||
                                 existingStep.sistema !== newStep.sistema ||
-                                existingStep.es_decision !== newStep.es_decision) {
+                                existingStep.es_decision !== newStep.es_decision ||
+                                existingStep.etiqueta_si !== newStep.etiqueta_si ||
+                                existingStep.etiqueta_no !== newStep.etiqueta_no ||
+                                existingStep.destino_si !== newStep.destino_si ||
+                                existingStep.destino_no !== newStep.destino_no) {
                                 hasChanges = true;
                                 updatedStepNumbers.push(newStep.numero);
                             }
@@ -1344,7 +1423,7 @@
         }
 
         // =====================================================
-        // BPMN RENDERING - HORIZONTAL
+        // BPMN RENDERING - CON SOPORTE PARA BIFURCACIONES
         // =====================================================
         function addStepToDiagram(step) {
             emptyState.style.display = 'none';
@@ -1380,10 +1459,11 @@
             flowContainer.appendChild(createStartEvent());
             flowContainer.appendChild(createConnector(false));
             
-            // Pasos
+            // Pasos - con soporte para bifurcaciones
             state.steps.forEach((step, index) => {
                 if (step.es_decision) {
-                    flowContainer.appendChild(createGateway(step, index));
+                    // Crear gateway con bifurcaciones visuales
+                    flowContainer.appendChild(createGatewayWithBranches(step, index));
                 } else {
                     flowContainer.appendChild(createTask(step, index));
                 }
@@ -1458,27 +1538,80 @@
             return el;
         }
 
-        function createGateway(step, index) {
+        // =====================================================
+        // GATEWAY CON BIFURCACIONES VISUALES
+        // =====================================================
+        function createGatewayWithBranches(step, index) {
             const el = document.createElement('div');
-            el.className = 'bpmn-element';
+            el.className = 'bpmn-element bpmn-decision-block';
             
-            const etiquetaSi = step.etiqueta_si || 'Si';
+            const etiquetaSi = step.etiqueta_si || 'Sí';
             const etiquetaNo = step.etiqueta_no || 'No';
+            const destinoSi = step.destino_si || 'siguiente';
+            const destinoNo = step.destino_no || 'fin';
+            
+            // Obtener texto descriptivo para los destinos
+            const branchSiText = getBranchDestinationText(destinoSi);
+            const branchNoText = getBranchDestinationText(destinoNo);
             
             el.innerHTML = `
-                <div class="bpmn-gateway-wrapper">
+                <div class="bpmn-gateway-container">
                     <div class="bpmn-gateway" data-index="${index}">
-                        <svg class="bpmn-gateway-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                    </div>
-                    <div class="gateway-labels">
-                        <span class="gateway-label yes">${escapeHtml(etiquetaSi)}</span>
-                        <span class="gateway-label no">${escapeHtml(etiquetaNo)}</span>
+                        <svg class="bpmn-gateway-icon" viewBox="0 0 24 24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
                     </div>
                     ${step.nombre ? `<span class="gateway-name">${escapeHtml(step.nombre)}</span>` : ''}
+                    
+                    <div class="gateway-branches">
+                        <!-- Rama SÍ -->
+                        <div class="branch branch-yes">
+                            <span class="branch-label yes">${escapeHtml(etiquetaSi)}</span>
+                            <span class="branch-arrow">→</span>
+                            <span class="branch-destination">${escapeHtml(branchSiText)}</span>
+                        </div>
+                        
+                        <!-- Rama NO -->
+                        <div class="branch branch-no">
+                            <span class="branch-label no">${escapeHtml(etiquetaNo)}</span>
+                            <span class="branch-arrow">→</span>
+                            <span class="branch-destination">${escapeHtml(branchNoText)}</span>
+                        </div>
+                    </div>
                 </div>
             `;
             
             return el;
+        }
+
+        // =====================================================
+        // OBTENER TEXTO DEL DESTINO DE BIFURCACIÓN
+        // =====================================================
+        function getBranchDestinationText(destino) {
+            if (!destino) return 'Siguiente paso';
+            
+            const destinoStr = String(destino).toLowerCase().trim();
+            
+            // Casos especiales
+            if (destinoStr === 'siguiente' || destinoStr === 'next' || destinoStr === 'continuar') {
+                return 'Siguiente paso';
+            }
+            if (destinoStr === 'fin' || destinoStr === 'end' || destinoStr === 'terminar' || destinoStr === 'finalizar') {
+                return 'Fin del proceso';
+            }
+            
+            // Si es un número, buscar el paso correspondiente
+            const stepNum = parseInt(destino);
+            if (!isNaN(stepNum)) {
+                const targetStep = state.steps.find(s => s.numero === stepNum);
+                if (targetStep && targetStep.nombre) {
+                    return `Paso ${stepNum}: ${targetStep.nombre}`;
+                }
+                return `Paso ${stepNum}`;
+            }
+            
+            // Devolver el texto tal cual (ej: "Redefinir criterios", "Segunda reunión")
+            return destino;
         }
 
         // =====================================================
