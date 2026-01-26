@@ -732,7 +732,7 @@
         /* Tarea pequeña dentro de rama */
         .branch-task-small {
             min-width: 130px;
-            max-width: 160px;
+            max-width: 180px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-task-service);
             border-radius: 8px;
@@ -943,6 +943,27 @@
         }
 
         .debug-console.show { display: block; }
+
+        /* ===== BRANCH DESCRIPTION BOX ===== */
+        .branch-description-box {
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+            max-width: 180px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .branch-description-box.yes {
+            border: 2px dashed rgba(34, 197, 94, 0.5);
+            color: var(--bpmn-start);
+        }
+
+        .branch-description-box.no {
+            border: 2px dashed rgba(239, 68, 68, 0.5);
+            color: var(--bpmn-end);
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -1499,28 +1520,45 @@
         }
 
         // =====================================================
-        // ENCONTRAR PASO POR DESTINO
+        // DETERMINAR SI UN DESTINO ES UN PASO EXISTENTE O UNA DESCRIPCIÓN
         // =====================================================
-        function findStepByDestino(destino, currentIndex) {
-            if (!destino) return null;
-            if (destino === 'siguiente') return state.steps[currentIndex + 1] || null;
-            if (destino === 'fin') return { tipo: 'fin' };
+        function parseDestino(destino, currentIndex) {
+            if (!destino) return { type: 'continue', value: null };
             
-            // Buscar por número
-            const num = parseInt(destino);
-            if (!isNaN(num)) {
-                return state.steps.find(s => s.numero === num) || null;
+            const destinoLower = destino.toLowerCase().trim();
+            
+            // Destinos especiales
+            if (destinoLower === 'siguiente' || destinoLower === 'continua' || destinoLower === 'continúa') {
+                return { type: 'continue', value: 'siguiente' };
+            }
+            if (destinoLower === 'fin' || destinoLower === 'termina' || destinoLower === 'finaliza') {
+                return { type: 'end', value: 'fin' };
             }
             
-            // Buscar por nombre (parcial)
-            const found = state.steps.find(s => 
-                s.nombre && s.nombre.toLowerCase().includes(destino.toLowerCase())
+            // Intentar encontrar número de paso
+            const numMatch = destino.match(/^(?:paso\s*)?(\d+)$/i);
+            if (numMatch) {
+                const num = parseInt(numMatch[1]);
+                const step = state.steps.find(s => s.numero === num);
+                if (step) {
+                    return { type: 'step', value: step };
+                }
+            }
+            
+            // Buscar por nombre parcial en pasos existentes
+            const foundStep = state.steps.find(s => 
+                s.nombre && s.nombre.toLowerCase().includes(destinoLower.substring(0, 20))
             );
-            return found || null;
+            if (foundStep) {
+                return { type: 'step', value: foundStep };
+            }
+            
+            // Es una descripción de actividad (NO un paso existente)
+            return { type: 'description', value: destino };
         }
 
         // =====================================================
-        // RENDER BPMN - CON BIFURCACIONES PARALELAS
+        // RENDER BPMN - MEJORADO PARA BIFURCACIONES
         // =====================================================
         function renderBPMNDiagram() {
             const elements = bpmnCanvas.querySelectorAll('.bpmn-flow');
@@ -1542,16 +1580,33 @@
             flowContainer.appendChild(createStartEvent());
             flowContainer.appendChild(createConnector(false));
             
-            // Identificar pasos que pertenecen a ramas (no mostrar en flujo principal)
+            // Identificar pasos que SON destinos de ramas (no mostrar en flujo principal)
+            // CORREGIDO: Solo excluir si el destino es EXACTAMENTE un número de paso
             const branchStepNumbers = new Set();
             state.steps.forEach((step, idx) => {
-                if (step.es_decision && step.destino_no) {
-                    const branchStep = findStepByDestino(step.destino_no, idx);
-                    if (branchStep && branchStep.numero) {
-                        branchStepNumbers.add(branchStep.numero);
+                if (step.es_decision) {
+                    // Verificar destino_no
+                    if (step.destino_no) {
+                        const parsed = parseDestino(step.destino_no, idx);
+                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
+                            branchStepNumbers.add(parsed.value.numero);
+                        }
+                    }
+                    // Verificar destino_si (raramente sería un paso específico diferente al siguiente)
+                    if (step.destino_si && step.destino_si !== 'siguiente') {
+                        const parsed = parseDestino(step.destino_si, idx);
+                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
+                            // Solo excluir si no es el siguiente paso natural
+                            const nextStep = state.steps[idx + 1];
+                            if (!nextStep || nextStep.numero !== parsed.value.numero) {
+                                branchStepNumbers.add(parsed.value.numero);
+                            }
+                        }
                     }
                 }
             });
+
+            debug('Pasos en ramas (excluidos del flujo principal):', Array.from(branchStepNumbers));
             
             // Procesar pasos
             let i = 0;
@@ -1560,6 +1615,7 @@
                 
                 // Si este paso es exclusivo de una rama, saltarlo del flujo principal
                 if (branchStepNumbers.has(step.numero)) {
+                    debug(`Saltando paso ${step.numero} (es rama de bifurcación)`);
                     i++;
                     continue;
                 }
@@ -1572,9 +1628,16 @@
                 } else {
                     flowContainer.appendChild(createTask(step, i));
                     
-                    const isLast = i === state.steps.length - 1 || 
-                                   (i < state.steps.length - 1 && branchStepNumbers.has(state.steps[i+1]?.numero));
-                    if (!isLast) {
+                    // Verificar si hay más pasos después (que no sean de ramas)
+                    let hasMoreSteps = false;
+                    for (let j = i + 1; j < state.steps.length; j++) {
+                        if (!branchStepNumbers.has(state.steps[j].numero)) {
+                            hasMoreSteps = true;
+                            break;
+                        }
+                    }
+                    
+                    if (hasMoreSteps) {
                         flowContainer.appendChild(createConnector(false));
                     }
                 }
@@ -1590,49 +1653,54 @@
 
         // =====================================================
         // CREAR BIFURCACIÓN PARALELA (DOS RUTAS HORIZONTALES)
+        // CORREGIDO: Maneja descripciones vs pasos existentes
         // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
             container.className = 'bpmn-element bpmn-bifurcation-container';
             
-            const etiquetaSi = step.etiqueta_si || 'Sí';
-            const etiquetaNo = step.etiqueta_no || 'No';
+            const etiquetaSi = step.etiqueta_si || 'Aceptados';
+            const etiquetaNo = step.etiqueta_no || 'No aceptados';
             
-            // Buscar qué hay en cada rama
-            const destinoSiStep = findStepByDestino(step.destino_si, index);
-            const destinoNoStep = findStepByDestino(step.destino_no, index);
+            // Analizar destinos
+            const destinoSi = parseDestino(step.destino_si, index);
+            const destinoNo = parseDestino(step.destino_no, index);
+            
+            debug('Bifurcación:', { 
+                paso: step.numero, 
+                destinoSi, 
+                destinoNo,
+                etiquetaSi,
+                etiquetaNo
+            });
             
             // Determinar contenido de rama SI
             let ramaSiContent = '';
-            if (destinoSiStep && destinoSiStep.tipo === 'fin') {
+            if (destinoSi.type === 'end') {
                 ramaSiContent = createMiniEndEvent();
-            } else if (destinoSiStep && destinoSiStep.nombre) {
-                ramaSiContent = createMiniBranchTask(destinoSiStep, 'yes');
+            } else if (destinoSi.type === 'step' && destinoSi.value) {
+                ramaSiContent = createMiniBranchTask(destinoSi.value, 'yes');
+            } else if (destinoSi.type === 'description') {
+                ramaSiContent = createBranchDescription(destinoSi.value, 'yes');
             } else {
-                ramaSiContent = `<div style="padding: 5px 10px; font-size: 10px; color: var(--bpmn-start);">→ Continúa</div>`;
+                // Continúa al siguiente (default)
+                ramaSiContent = `<div class="branch-description-box yes">→ Continúa</div>`;
             }
             
             // Determinar contenido de rama NO
             let ramaNoContent = '';
-            if (destinoNoStep && destinoNoStep.tipo === 'fin') {
+            if (destinoNo.type === 'end') {
                 ramaNoContent = createMiniEndEvent();
-            } else if (destinoNoStep && destinoNoStep.nombre) {
-                ramaNoContent = createMiniBranchTask(destinoNoStep, 'no');
+            } else if (destinoNo.type === 'step' && destinoNo.value) {
+                ramaNoContent = createMiniBranchTask(destinoNo.value, 'no');
+            } else if (destinoNo.type === 'description') {
+                // ESTE ES EL CASO PRINCIPAL: destino_no es una descripción de actividad
+                ramaNoContent = createBranchDescription(destinoNo.value, 'no');
             } else if (step.destino_no) {
-                // Mostrar el texto del destino
-                ramaNoContent = `
-                    <div style="
-                        padding: 8px 12px;
-                        background: rgba(239, 68, 68, 0.1);
-                        border: 1px dashed rgba(239, 68, 68, 0.4);
-                        border-radius: 6px;
-                        font-size: 10px;
-                        color: var(--bpmn-end);
-                        max-width: 140px;
-                    ">${escapeHtml(step.destino_no)}</div>
-                `;
+                // Fallback: mostrar el texto tal cual
+                ramaNoContent = createBranchDescription(step.destino_no, 'no');
             } else {
-                ramaNoContent = `<div style="padding: 5px 10px; font-size: 10px; color: var(--bpmn-end);">→ Regresa</div>`;
+                ramaNoContent = `<div class="branch-description-box no">← Regresa</div>`;
             }
             
             container.innerHTML = `
@@ -1683,7 +1751,19 @@
         }
 
         // =====================================================
-        // CREAR MINI TAREA PARA RAMA
+        // CREAR CAJA DE DESCRIPCIÓN PARA RAMA
+        // =====================================================
+        function createBranchDescription(text, type) {
+            const colorClass = type === 'yes' ? 'yes' : 'no';
+            return `
+                <div class="branch-description-box ${colorClass}">
+                    ${escapeHtml(text)}
+                </div>
+            `;
+        }
+
+        // =====================================================
+        // CREAR MINI TAREA PARA RAMA (cuando SÍ es un paso existente)
         // =====================================================
         function createMiniBranchTask(step, type) {
             const borderColor = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
