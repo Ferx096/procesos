@@ -28,7 +28,6 @@
             --border: rgba(148, 163, 184, 0.1);
             --border-active: rgba(196, 30, 104, 0.5);
             --grid-color: rgba(148, 163, 184, 0.05);
-            --warning-color: #F59E0B;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -540,8 +539,8 @@
 
         /* Task Nodes */
         .bpmn-task {
-            min-width: 180px;
-            max-width: 240px;
+            min-width: 160px;
+            max-width: 220px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-task-user);
             border-radius: 10px;
@@ -556,12 +555,6 @@
         }
 
         .bpmn-task.service { border-color: var(--bpmn-task-service); }
-        
-        /* Task con campos faltantes */
-        .bpmn-task.incomplete {
-            border-color: var(--warning-color);
-            border-style: dashed;
-        }
 
         .task-header {
             padding: 8px 12px;
@@ -572,7 +565,6 @@
         }
 
         .bpmn-task.service .task-header { background: var(--bpmn-task-service); }
-        .bpmn-task.incomplete .task-header { background: var(--warning-color); }
 
         .task-icon { width: 16px; height: 16px; fill: white; }
 
@@ -592,23 +584,11 @@
             color: var(--text-primary);
             line-height: 1.3;
         }
-        
-        /* NUEVO: Concepto del paso */
-        .task-concepto {
-            font-size: 10px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            line-height: 1.4;
-            padding: 6px 8px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 4px;
-            border-left: 2px solid var(--magenta);
-        }
 
         .task-meta {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .task-meta-item {
@@ -619,59 +599,15 @@
             color: var(--text-secondary);
         }
 
-        .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; flex-shrink: 0; }
-        
-        /* Campo faltante */
-        .task-meta-item.missing {
-            color: var(--warning-color);
-            font-style: italic;
-        }
-        
-        .task-meta-item.missing svg {
-            fill: var(--warning-color);
-        }
+        .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
 
         /* =====================================================
-           BIFURCACION - DISEÑO MEJORADO CON CUADRO COMPLETO
+           BIFURCACION - DISEÑO MEJORADO CON ESPACIADO
            ===================================================== */
         .bpmn-bifurcation-container {
             display: flex;
             align-items: center;
             position: relative;
-        }
-        
-        /* NUEVO: Contenedor vertical para tarea + gateway */
-        .bpmn-decision-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        /* NUEVO: Tarea antes del gateway */
-        .bpmn-task-before-gateway {
-            min-width: 180px;
-            max-width: 220px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--bpmn-gateway);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        }
-        
-        .bpmn-task-before-gateway .task-header {
-            background: var(--bpmn-gateway);
-        }
-        
-        .bpmn-task-before-gateway.incomplete {
-            border-style: dashed;
-        }
-        
-        /* Conector vertical de tarea a gateway */
-        .vertical-connector {
-            width: 2px;
-            height: 20px;
-            background: var(--bpmn-gateway);
         }
 
         .bpmn-gateway-wrapper {
@@ -708,12 +644,12 @@
             max-width: 120px;
         }
 
-        /* Contenedor de las dos ramas paralelas */
+        /* Contenedor de las dos ramas paralelas - MEJORADO */
         .bifurcation-paths {
             display: flex;
             flex-direction: column;
             position: relative;
-            margin-left: 8px;
+            margin-left: 8px; /* AUMENTADO para separar del gateway */
         }
 
         .bifurcation-path {
@@ -723,15 +659,16 @@
         }
 
         .bifurcation-path.yes {
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* AUMENTADO */
         }
 
         .bifurcation-path.no {
-            margin-top: 20px;
+            margin-top: 20px; /* AUMENTADO */
         }
 
+        /* Línea de conexión desde gateway - MEJORADA */
         .path-entry {
-            width: 50px;
+            width: 50px; /* AUMENTADO */
             height: 2px;
             position: relative;
         }
@@ -744,6 +681,7 @@
             background: var(--bpmn-end);
         }
 
+        /* Líneas verticales del gateway a las ramas */
         .bifurcation-paths::before {
             content: '';
             position: absolute;
@@ -755,9 +693,10 @@
             transform: translateY(-50%);
         }
 
+        /* Etiqueta de la rama - MEJORADA POSICIÓN */
         .path-label {
             position: absolute;
-            top: -20px;
+            top: -20px; /* MÁS SEPARACIÓN */
             left: 10px;
             font-size: 9px;
             font-weight: 600;
@@ -779,20 +718,22 @@
             border: 1px solid rgba(239, 68, 68, 0.4);
         }
 
+        /* Contenido de la rama - MEJORADO CON FLEX */
         .path-content {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-left: 8px;
+            gap: 8px; /* Espacio entre múltiples cajas */
+            margin-left: 8px; /* SEPARACIÓN de la línea */
         }
 
+        /* ===== CAJAS DE DESCRIPCIÓN MEJORADAS ===== */
         .branch-description-box {
             padding: 10px 14px;
             background: var(--bg-secondary);
             border-radius: 8px;
             font-size: 11px;
             line-height: 1.4;
-            max-width: 200px;
+            max-width: 160px; /* REDUCIDO para que quepan múltiples */
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
@@ -806,56 +747,8 @@
             border: 2px solid rgba(239, 68, 68, 0.5);
             color: var(--bpmn-end);
         }
-        
-        /* Caja de rama con detalles completos */
-        .branch-detail-box {
-            padding: 8px 12px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            font-size: 10px;
-            line-height: 1.4;
-            min-width: 140px;
-            max-width: 180px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            flex-shrink: 0;
-        }
-        
-        .branch-detail-box.no {
-            border: 2px solid rgba(239, 68, 68, 0.5);
-        }
-        
-        .branch-detail-box .branch-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-            font-size: 11px;
-        }
-        
-        .branch-detail-box .branch-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-        
-        .branch-detail-box .branch-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-secondary);
-        }
-        
-        .branch-detail-box .branch-meta-item svg {
-            width: 9px;
-            height: 9px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-        
-        .branch-detail-box .branch-meta-item.missing {
-            color: var(--warning-color);
-            font-style: italic;
-        }
 
+        /* Conector pequeño entre cajas en la misma rama */
         .branch-connector-small {
             width: 20px;
             height: 2px;
@@ -870,6 +763,7 @@
             background: var(--bpmn-end);
         }
 
+        /* Mini evento de fin en rama */
         .branch-end-event {
             width: 24px;
             height: 24px;
@@ -888,6 +782,7 @@
             fill: white;
         }
 
+        /* Tarea pequeña dentro de rama */
         .branch-task-small {
             min-width: 120px;
             max-width: 150px;
@@ -913,11 +808,12 @@
             margin-bottom: 0;
         }
 
+        /* Línea de salida de la rama hacia merge - MEJORADA */
         .path-exit {
-            width: 50px;
+            width: 50px; /* AUMENTADO */
             height: 2px;
             position: relative;
-            margin-left: 8px;
+            margin-left: 8px; /* SEPARACIÓN */
         }
 
         .path-exit::after {
@@ -945,6 +841,7 @@
             border-left-color: var(--bpmn-end);
         }
 
+        /* Punto de merge */
         .merge-point {
             width: 20px;
             height: 20px;
@@ -987,6 +884,7 @@
             border-left-color: var(--magenta-light);
         }
 
+        /* Labels */
         .bpmn-label {
             margin-top: 8px;
             font-size: 10px;
@@ -1035,12 +933,6 @@
             height: 10px;
         }
         .legend-shape.end { background: var(--bpmn-end); }
-        
-        .legend-shape.incomplete {
-            background: var(--bg-secondary);
-            border: 2px dashed var(--warning-color);
-            border-radius: 3px;
-        }
 
         /* Empty State */
         .empty-state {
@@ -1196,7 +1088,6 @@
                 <div class="legend-item"><div class="legend-shape task"></div>Actividad</div>
                 <div class="legend-item"><div class="legend-shape gateway"></div>Decision</div>
                 <div class="legend-item"><div class="legend-shape end"></div>Fin</div>
-                <div class="legend-item"><div class="legend-shape incomplete"></div>Incompleto</div>
             </div>
         </main>
     </div>
@@ -1576,8 +1467,7 @@
                         if (existingStep) {
                             if (existingStep.nombre !== newStep.nombre ||
                                 existingStep.responsable !== newStep.responsable ||
-                                existingStep.herramienta !== newStep.herramienta ||
-                                existingStep.concepto !== newStep.concepto ||
+                                existingStep.sistema !== newStep.sistema ||
                                 existingStep.es_decision !== newStep.es_decision ||
                                 existingStep.destino_si !== newStep.destino_si ||
                                 existingStep.destino_no !== newStep.destino_no) {
@@ -1618,7 +1508,7 @@
         }
 
         function highlightUpdatedStep(stepNumber) {
-            const taskElements = bpmnCanvas.querySelectorAll('.bpmn-task, .bpmn-gateway, .bpmn-task-before-gateway');
+            const taskElements = bpmnCanvas.querySelectorAll('.bpmn-task, .bpmn-gateway');
             taskElements.forEach(el => {
                 const index = el.dataset.index;
                 if (index !== undefined && state.steps[index]?.numero === stepNumber) {
@@ -1648,14 +1538,7 @@
         }
 
         // =====================================================
-        // VERIFICAR SI UN PASO ESTÁ COMPLETO
-        // =====================================================
-        function isStepComplete(step) {
-            return step.nombre && step.concepto && step.responsable && step.herramienta;
-        }
-
-        // =====================================================
-        // PARSEAR DESTINO
+        // PARSEAR DESTINO Y DETECTAR MÚLTIPLES PASOS
         // =====================================================
         function parseDestino(destino, currentIndex) {
             if (!destino) return { type: 'continue', value: null, parts: [] };
@@ -1669,6 +1552,7 @@
                 return { type: 'end', value: 'fin', parts: [] };
             }
             
+            // Intentar encontrar número de paso
             const numMatch = destino.match(/^(?:paso\s*)?(\d+)$/i);
             if (numMatch) {
                 const num = parseInt(numMatch[1]);
@@ -1678,6 +1562,8 @@
                 }
             }
             
+            // NUEVO: Detectar si hay múltiples pasos/acciones en el destino
+            // Separar por puntos, "si", "entonces", "luego", etc.
             const separators = /[.]\s*(?=[A-Z])|(?:\.\s*[Ss]i\s)|(?:\s+[Ss]i\s+(?:después|luego|no|aún))/;
             const parts = destino.split(separators).map(p => p.trim()).filter(p => p.length > 0);
             
@@ -1685,9 +1571,254 @@
                 return { type: 'multi-description', value: destino, parts: parts };
             }
             
+            // Es una descripción simple
             return { type: 'description', value: destino, parts: [destino] };
         }
-Paso')}</div>
+
+        // =====================================================
+        // RENDER BPMN - MEJORADO
+        // =====================================================
+        function renderBPMNDiagram() {
+            const elements = bpmnCanvas.querySelectorAll('.bpmn-flow');
+            elements.forEach(el => el.remove());
+            
+            if (state.steps.length === 0) {
+                emptyState.style.display = 'flex';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            const flowContainer = document.createElement('div');
+            flowContainer.className = 'bpmn-flow';
+            flowContainer.style.transform = `scale(${state.zoom})`;
+            flowContainer.style.transformOrigin = 'left center';
+            
+            // Inicio
+            flowContainer.appendChild(createStartEvent());
+            flowContainer.appendChild(createConnector(false));
+            
+            // Identificar pasos que son destinos de ramas
+            const branchStepNumbers = new Set();
+            state.steps.forEach((step, idx) => {
+                if (step.es_decision) {
+                    if (step.destino_no) {
+                        const parsed = parseDestino(step.destino_no, idx);
+                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
+                            branchStepNumbers.add(parsed.value.numero);
+                        }
+                    }
+                    if (step.destino_si && step.destino_si !== 'siguiente') {
+                        const parsed = parseDestino(step.destino_si, idx);
+                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
+                            const nextStep = state.steps[idx + 1];
+                            if (!nextStep || nextStep.numero !== parsed.value.numero) {
+                                branchStepNumbers.add(parsed.value.numero);
+                            }
+                        }
+                    }
+                }
+            });
+
+            debug('Pasos en ramas:', Array.from(branchStepNumbers));
+            
+            // Procesar pasos
+            let i = 0;
+            while (i < state.steps.length) {
+                const step = state.steps[i];
+                
+                if (branchStepNumbers.has(step.numero)) {
+                    debug(`Saltando paso ${step.numero}`);
+                    i++;
+                    continue;
+                }
+                
+                if (step.es_decision) {
+                    const bifurcation = createParallelBifurcation(step, i);
+                    flowContainer.appendChild(bifurcation);
+                    flowContainer.appendChild(createConnector(false));
+                } else {
+                    flowContainer.appendChild(createTask(step, i));
+                    
+                    let hasMoreSteps = false;
+                    for (let j = i + 1; j < state.steps.length; j++) {
+                        if (!branchStepNumbers.has(state.steps[j].numero)) {
+                            hasMoreSteps = true;
+                            break;
+                        }
+                    }
+                    
+                    if (hasMoreSteps) {
+                        flowContainer.appendChild(createConnector(false));
+                    }
+                }
+                i++;
+            }
+            
+            // Fin
+            flowContainer.appendChild(createConnector(true));
+            flowContainer.appendChild(createEndEvent());
+            
+            bpmnCanvas.appendChild(flowContainer);
+        }
+
+        // =====================================================
+        // CREAR BIFURCACIÓN PARALELA - MEJORADA
+        // =====================================================
+        function createParallelBifurcation(step, index) {
+            const container = document.createElement('div');
+            container.className = 'bpmn-element bpmn-bifurcation-container';
+            
+            const etiquetaSi = step.etiqueta_si || 'Acepta';
+            const etiquetaNo = step.etiqueta_no || 'No acepta';
+            
+            // Analizar destinos
+            const destinoSi = parseDestino(step.destino_si, index);
+            const destinoNo = parseDestino(step.destino_no, index);
+            
+            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo });
+            
+            // Generar contenido de rama SI
+            const ramaSiContent = generateBranchContent(destinoSi, 'yes');
+            
+            // Generar contenido de rama NO
+            const ramaNoContent = generateBranchContent(destinoNo, 'no');
+            
+            container.innerHTML = `
+                <!-- Gateway -->
+                <div class="bpmn-gateway-wrapper">
+                    <div class="bpmn-gateway" data-index="${index}">
+                        <svg class="bpmn-gateway-icon" viewBox="0 0 24 24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </div>
+                    ${step.nombre ? `<span class="gateway-name">${escapeHtml(step.nombre)}</span>` : ''}
+                </div>
+                
+                <!-- Dos rutas paralelas -->
+                <div class="bifurcation-paths">
+                    <!-- Ruta SI (arriba) -->
+                    <div class="bifurcation-path yes">
+                        <div class="path-entry yes">
+                            <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
+                        </div>
+                        <div class="path-content">
+                            ${ramaSiContent}
+                        </div>
+                        <div class="path-exit yes"></div>
+                    </div>
+                    
+                    <!-- Ruta NO (abajo) -->
+                    <div class="bifurcation-path no">
+                        <div class="path-entry no">
+                            <span class="path-label no">${escapeHtml(etiquetaNo)}</span>
+                        </div>
+                        <div class="path-content">
+                            ${ramaNoContent}
+                        </div>
+                        <div class="path-exit no"></div>
+                    </div>
+                </div>
+                
+                <!-- Punto de merge -->
+                <div class="merge-point">
+                    <svg viewBox="0 0 24 24" style="width: 10px; height: 10px; fill: var(--text-muted);">
+                        <circle cx="12" cy="12" r="4"/>
+                    </svg>
+                </div>
+            `;
+            
+            return container;
+        }
+
+        // =====================================================
+        // GENERAR CONTENIDO DE RAMA - NUEVO
+        // =====================================================
+        function generateBranchContent(destino, type) {
+            const colorClass = type;
+            
+            if (destino.type === 'end') {
+                return `
+                    <div class="branch-end-event">
+                        <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                    </div>
+                `;
+            }
+            
+            if (destino.type === 'step' && destino.value) {
+                return createMiniBranchTaskHTML(destino.value, type);
+            }
+            
+            if (destino.type === 'continue') {
+                return `<div class="branch-description-box ${colorClass}">→ Continúa</div>`;
+            }
+            
+            // NUEVO: Múltiples descripciones
+            if (destino.type === 'multi-description' && destino.parts.length > 1) {
+                let html = '';
+                destino.parts.forEach((part, idx) => {
+                    // Detectar si es "fin" o "cancela"
+                    const partLower = part.toLowerCase();
+                    if (partLower.includes('cancela') || partLower.includes('termina') || partLower.includes('fin')) {
+                        html += `
+                            <div class="branch-description-box ${colorClass}">${escapeHtml(part)}</div>
+                            ${idx < destino.parts.length - 1 ? `<div class="branch-connector-small ${colorClass}"></div>` : ''}
+                        `;
+                        // Agregar mini evento de fin si es el último
+                        if (idx === destino.parts.length - 1 || partLower.includes('cancela')) {
+                            html += `
+                                <div class="branch-connector-small ${colorClass}"></div>
+                                <div class="branch-end-event">
+                                    <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        html += `
+                            <div class="branch-description-box ${colorClass}">${escapeHtml(part)}</div>
+                            ${idx < destino.parts.length - 1 ? `<div class="branch-connector-small ${colorClass}"></div>` : ''}
+                        `;
+                    }
+                });
+                return html;
+            }
+            
+            // Descripción simple
+            if (destino.value) {
+                // Verificar si termina en fin/cancela
+                const valueLower = destino.value.toLowerCase();
+                if (valueLower.includes('cancela') || valueLower.includes('fin del proceso')) {
+                    return `
+                        <div class="branch-description-box ${colorClass}">${escapeHtml(destino.value)}</div>
+                        <div class="branch-connector-small ${colorClass}"></div>
+                        <div class="branch-end-event">
+                            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                        </div>
+                    `;
+                }
+                return `<div class="branch-description-box ${colorClass}">${escapeHtml(destino.value)}</div>`;
+            }
+            
+            return `<div class="branch-description-box ${colorClass}">← Regresa</div>`;
+        }
+
+        // =====================================================
+        // CREAR MINI TAREA HTML
+        // =====================================================
+        function createMiniBranchTaskHTML(step, type) {
+            const borderColor = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
+            const headerBg = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
+            
+            return `
+                <div class="branch-task-small" style="border-color: ${borderColor};">
+                    <div class="task-header" style="background: ${headerBg}; padding: 4px 8px;">
+                        <svg class="task-icon" viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: white;">
+                            <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/>
+                        </svg>
+                        <span style="font-size: 8px; color: white; font-weight: 600;">PASO ${step.numero || ''}</span>
+                    </div>
+                    <div class="task-body" style="padding: 6px 8px;">
+                        <div class="task-name" style="font-size: 9px; margin: 0;">${escapeHtml(step.nombre || 'Paso')}</div>
                     </div>
                 </div>
             `;
@@ -1727,15 +1858,13 @@ Paso')}</div>
             const el = document.createElement('div');
             el.className = 'bpmn-element';
             
-            const taskType = step.herramienta ? 'service' : '';
-            const isComplete = isStepComplete(step);
-            const incompleteClass = isComplete ? '' : 'incomplete';
+            const taskType = step.sistema ? 'service' : '';
             
             el.innerHTML = `
-                <div class="bpmn-task ${taskType} ${incompleteClass}" data-index="${index}">
+                <div class="bpmn-task ${taskType}" data-index="${index}">
                     <div class="task-header">
                         <svg class="task-icon" viewBox="0 0 24 24">
-                            ${step.herramienta 
+                            ${step.sistema 
                                 ? '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
                                 : '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
                             }
@@ -1744,19 +1873,9 @@ Paso')}</div>
                     </div>
                     <div class="task-body">
                         <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
-                        ${step.concepto 
-                            ? `<div class="task-concepto">${escapeHtml(step.concepto)}</div>` 
-                            : `<div class="task-concepto" style="color: var(--warning-color); border-color: var(--warning-color);">⚠ Concepto pendiente</div>`
-                        }
                         <div class="task-meta">
-                            ${step.responsable 
-                                ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` 
-                                : `<div class="task-meta-item missing"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Responsable pendiente</div>`
-                            }
-                            ${step.herramienta 
-                                ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.herramienta)}</div>` 
-                                : `<div class="task-meta-item missing"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>Herramienta pendiente</div>`
-                            }
+                            ${step.responsable ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` : ''}
+                            ${step.sistema ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.sistema)}</div>` : ''}
                         </div>
                     </div>
                 </div>
