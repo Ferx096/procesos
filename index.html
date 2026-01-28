@@ -29,9 +29,7 @@
             --border-active: rgba(196, 30, 104, 0.5);
             --grid-color: rgba(148, 163, 184, 0.05);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--bg-primary);
@@ -39,15 +37,12 @@
             min-height: 100vh;
             overflow: hidden;
         }
-
         .app-layout {
             display: grid;
             grid-template-columns: 420px 1fr;
             grid-template-rows: 60px 1fr;
             height: 100vh;
         }
-
-        /* ===== HEADER ===== */
         .header {
             grid-column: 1 / -1;
             background: var(--bg-secondary);
@@ -57,955 +52,515 @@
             justify-content: space-between;
             padding: 0 24px;
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .logo-icon svg { width: 20px; height: 20px; fill: white; }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
+        .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
         .logo-text span { color: var(--magenta); }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
+        .header-meta { display: flex; align-items: center; gap: 16px; }
         .process-name {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            background: var(--bg-elevated);
-            border-radius: 6px;
+            font-size: 13px; color: var(--text-secondary);
+            padding: 6px 12px; background: var(--bg-elevated); border-radius: 6px;
         }
-
         .status-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex; align-items: center; gap: 8px;
             padding: 6px 14px;
             background: rgba(34, 197, 94, 0.1);
             border: 1px solid rgba(34, 197, 94, 0.3);
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #22C55E;
+            font-size: 12px; font-weight: 500; color: #22C55E;
         }
-
         .status-dot {
-            width: 6px;
-            height: 6px;
-            background: #22C55E;
-            border-radius: 50%;
+            width: 6px; height: 6px;
+            background: #22C55E; border-radius: 50%;
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.2); }
         }
-
-        /* ===== CHAT PANEL ===== */
         .chat-panel {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            display: flex; flex-direction: column; overflow: hidden;
         }
-
         .chat-header {
             padding: 16px 20px;
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
         }
-
         .chat-header h2 {
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 14px; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
         }
-
         .step-counter {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 4px 8px;
-            background: var(--magenta);
-            border-radius: 4px;
+            font-size: 11px; padding: 4px 8px;
+            background: var(--magenta); border-radius: 4px;
         }
-
         .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            flex: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; gap: 16px;
         }
-
         .messages-area::-webkit-scrollbar { width: 6px; }
         .messages-area::-webkit-scrollbar-track { background: transparent; }
         .messages-area::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 3px; }
-
-        .message {
-            max-width: 90%;
-            animation: slideIn 0.3s ease;
-        }
-
+        .message { max-width: 90%; animation: slideIn 0.3s ease; }
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .message.assistant { align-self: flex-start; }
         .message.user { align-self: flex-end; }
-
         .message-content {
-            padding: 14px 18px;
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.6;
+            padding: 14px 18px; border-radius: 16px;
+            font-size: 14px; line-height: 1.6;
         }
-
         .message.assistant .message-content {
             background: var(--bg-elevated);
             border-bottom-left-radius: 4px;
         }
-
         .message.user .message-content {
             background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
             border-bottom-right-radius: 4px;
         }
-
         .message-content strong { font-weight: 700; }
         .message-content em { font-style: italic; }
         .message-content code {
             background: rgba(0,0,0,0.3);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            padding: 2px 6px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
         }
-
         .step-extracted {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            padding: 8px 12px;
+            display: flex; align-items: center; gap: 8px;
+            margin-top: 10px; padding: 8px 12px;
             background: rgba(34, 197, 94, 0.1);
             border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 8px;
-            font-size: 12px;
-            color: #22C55E;
+            border-radius: 8px; font-size: 12px; color: #22C55E;
         }
-
         .step-extracted svg { width: 14px; height: 14px; fill: currentColor; }
-
         .step-updated {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            padding: 8px 12px;
+            display: flex; align-items: center; gap: 8px;
+            margin-top: 10px; padding: 8px 12px;
             background: rgba(59, 130, 246, 0.1);
             border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
-            font-size: 12px;
-            color: #3B82F6;
+            border-radius: 8px; font-size: 12px; color: #3B82F6;
         }
-
         .step-updated svg { width: 14px; height: 14px; fill: currentColor; }
-
         .typing-indicator {
-            display: flex;
-            gap: 6px;
-            padding: 14px 18px;
-            background: var(--bg-elevated);
-            border-radius: 16px;
-            border-bottom-left-radius: 4px;
-            width: fit-content;
+            display: flex; gap: 6px; padding: 14px 18px;
+            background: var(--bg-elevated); border-radius: 16px;
+            border-bottom-left-radius: 4px; width: fit-content;
         }
-
         .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--magenta);
-            border-radius: 50%;
+            width: 8px; height: 8px;
+            background: var(--magenta); border-radius: 50%;
             animation: bounce 1.4s infinite;
         }
-
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
         @keyframes bounce {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-6px); }
         }
-
         .audio-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 3px 8px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 5px;
-            font-size: 10px;
-            margin-bottom: 6px;
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 3px 8px; background: rgba(255,255,255,0.15);
+            border-radius: 5px; font-size: 10px; margin-bottom: 6px;
         }
-
         .audio-badge svg { width: 10px; height: 10px; fill: currentColor; }
-
-        /* ===== INPUT AREA ===== */
-        .input-area {
-            padding: 16px 20px;
-            border-top: 1px solid var(--border);
-        }
-
+        .input-area { padding: 16px 20px; border-top: 1px solid var(--border); }
         .input-wrapper {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
+            display: flex; align-items: flex-end; gap: 10px;
             background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 12px 16px;
-            transition: border-color 0.2s;
+            border: 1px solid var(--border); border-radius: 14px;
+            padding: 12px 16px; transition: border-color 0.2s;
         }
-
         .input-wrapper:focus-within { border-color: var(--magenta); }
-
         .text-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 14px;
-            resize: none;
-            max-height: 100px;
+            flex: 1; background: transparent; border: none; outline: none;
+            color: var(--text-primary); font-family: inherit;
+            font-size: 14px; resize: none; max-height: 100px;
         }
-
         .text-input::placeholder { color: var(--text-muted); }
-
-        .input-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .input-actions { display: flex; align-items: center; gap: 8px; }
         .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+            width: 40px; height: 40px; border-radius: 10px; border: none;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; transition: all 0.2s;
         }
-
         .btn-icon svg { width: 18px; height: 18px; }
-
         .btn-record {
             background: var(--bg-elevated);
             border: 1px solid var(--border);
         }
-
         .btn-record svg { fill: var(--text-secondary); }
-
         .btn-record:hover {
             background: rgba(196, 30, 104, 0.1);
             border-color: var(--magenta);
         }
-
         .btn-record:hover svg { fill: var(--magenta); }
-
         .btn-record.recording {
-            background: #E53E3E;
-            border-color: #E53E3E;
+            background: #E53E3E; border-color: #E53E3E;
             animation: recordPulse 1s infinite;
         }
-
         .btn-record.recording svg { fill: white; }
-
         @keyframes recordPulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.4); }
             50% { box-shadow: 0 0 0 8px rgba(229, 62, 62, 0); }
         }
-
         .btn-send {
             background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
         }
-
         .btn-send svg { fill: white; }
-
         .btn-send:hover { transform: scale(1.05); }
-
-        .btn-send:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* ===== DIAGRAM PANEL ===== */
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .diagram-panel {
             background: var(--bg-canvas);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column;
         }
-
         .diagram-panel::before {
-            content: '';
-            position: absolute;
-            inset: 0;
+            content: ''; position: absolute; inset: 0;
             background-image: 
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 20px 20px;
             pointer-events: none;
         }
-
         .diagram-header {
-            position: relative;
-            z-index: 10;
-            padding: 16px 24px;
-            background: var(--bg-canvas);
+            position: relative; z-index: 10;
+            padding: 16px 24px; background: var(--bg-canvas);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
         }
-
         .diagram-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13px; font-weight: 600; color: var(--text-secondary);
+            display: flex; align-items: center; gap: 8px;
         }
-
         .diagram-title svg { width: 16px; height: 16px; fill: currentColor; }
-
         .diagram-controls { display: flex; gap: 8px; }
-
         .control-btn {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
+            border: 1px solid var(--border); border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
         }
-
         .control-btn:hover {
             background: var(--bg-elevated);
             border-color: var(--magenta);
         }
-
         .control-btn svg { width: 14px; height: 14px; fill: var(--text-secondary); }
-
-        /* Progress Bar */
         .progress-section {
-            position: relative;
-            z-index: 10;
-            padding: 8px 24px;
-            background: var(--bg-canvas);
+            position: relative; z-index: 10;
+            padding: 8px 24px; background: var(--bg-canvas);
         }
-
         .progress-bar {
-            height: 4px;
-            background: var(--bg-elevated);
-            border-radius: 2px;
-            overflow: hidden;
+            height: 4px; background: var(--bg-elevated);
+            border-radius: 2px; overflow: hidden;
         }
-
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--bpmn-start), var(--magenta));
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 2px;
+            width: 0%; transition: width 0.5s ease; border-radius: 2px;
         }
-
-        /* Canvas Container - HORIZONTAL SCROLL */
         .canvas-container {
-            flex: 1;
-            overflow-x: auto;
-            overflow-y: auto;
-            position: relative;
-            z-index: 1;
+            flex: 1; overflow-x: auto; overflow-y: auto;
+            position: relative; z-index: 1;
         }
-
         .canvas-container::-webkit-scrollbar { height: 8px; width: 8px; }
         .canvas-container::-webkit-scrollbar-track { background: var(--bg-secondary); }
         .canvas-container::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 4px; }
-
         .bpmn-canvas {
-            min-width: 100%;
-            min-height: 100%;
-            padding: 40px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
+            min-width: 100%; min-height: 100%; padding: 40px;
+            display: flex; align-items: flex-start; justify-content: flex-start;
         }
-
-        /* BPMN Flow - HORIZONTAL */
         .bpmn-flow {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            padding: 20px;
-            padding-top: 100px;
+            display: flex; align-items: center; gap: 0;
+            padding: 20px; padding-top: 100px;
         }
-
         .bpmn-element {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: nodeAppear 0.4s ease;
+            position: relative; display: flex; flex-direction: column;
+            align-items: center; animation: nodeAppear 0.4s ease;
         }
-
         @keyframes nodeAppear {
             from { opacity: 0; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1); }
         }
-
-        .bpmn-element.updated {
-            animation: highlightUpdate 1s ease;
-        }
-
+        .bpmn-element.updated { animation: highlightUpdate 1s ease; }
         @keyframes highlightUpdate {
             0%, 100% { filter: none; }
             50% { filter: drop-shadow(0 0 12px var(--magenta)); }
         }
-
-        /* Start/End Events */
         .bpmn-event {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
         .bpmn-event svg { width: 18px; height: 18px; fill: white; }
-
-        .bpmn-event.start {
-            background: var(--bpmn-start);
-            border: 2px solid #16A34A;
-        }
-
-        .bpmn-event.end {
-            background: var(--bpmn-end);
-            border: 3px solid #DC2626;
-        }
-
-        /* Task Nodes */
+        .bpmn-event.start { background: var(--bpmn-start); border: 2px solid #16A34A; }
+        .bpmn-event.end { background: var(--bpmn-end); border: 3px solid #DC2626; }
         .bpmn-task {
-            min-width: 160px;
-            max-width: 220px;
+            min-width: 160px; max-width: 220px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-task-user);
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 10px; overflow: hidden;
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .bpmn-task:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
-
         .bpmn-task.service { border-color: var(--bpmn-task-service); }
-
         .task-header {
-            padding: 8px 12px;
-            background: var(--bpmn-task-user);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 8px 12px; background: var(--bpmn-task-user);
+            display: flex; align-items: center; gap: 8px;
         }
-
         .bpmn-task.service .task-header { background: var(--bpmn-task-service); }
-
         .task-icon { width: 16px; height: 16px; fill: white; }
-
         .task-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            color: white;
+            font-size: 10px; font-weight: 700; color: white;
         }
-
         .task-body { padding: 10px 12px; }
-
         .task-name {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text-primary);
-            line-height: 1.3;
+            font-size: 12px; font-weight: 600; margin-bottom: 6px;
+            color: var(--text-primary); line-height: 1.3;
         }
-
-        .task-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
+        .task-meta { display: flex; flex-direction: column; gap: 3px; }
         .task-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 10px;
-            color: var(--text-secondary);
+            display: flex; align-items: center; gap: 5px;
+            font-size: 10px; color: var(--text-secondary);
         }
-
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
-
-        /* =====================================================
-           BIFURCACION - DISEÑO LIMPIO Y PROFESIONAL
-           ===================================================== */
+        /* BIFURCACION MEJORADA */
         .bpmn-bifurcation-container {
-            display: flex;
-            align-items: center;
-            position: relative;
+            display: flex; align-items: center; position: relative;
         }
-
-        /* Contenedor del Gateway con tarjeta de info arriba */
         .bpmn-gateway-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 2;
-            position: relative;
+            display: flex; flex-direction: column;
+            align-items: center; z-index: 2; position: relative;
         }
-
-        /* Tarjeta de información del paso - ARRIBA del rombo */
         .gateway-info-card {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-bottom: 12px;
-            min-width: 140px;
-            max-width: 180px;
+            position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%); margin-bottom: 12px;
+            min-width: 140px; max-width: 180px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
-            border-radius: 8px;
-            overflow: hidden;
+            border-radius: 8px; overflow: hidden;
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
-
         .gateway-info-card .card-header {
-            padding: 6px 10px;
-            background: var(--bpmn-gateway);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            padding: 6px 10px; background: var(--bpmn-gateway);
+            display: flex; align-items: center; gap: 6px;
         }
-
-        .gateway-info-card .card-header svg {
-            width: 12px;
-            height: 12px;
-            fill: white;
-        }
-
+        .gateway-info-card .card-header svg { width: 12px; height: 12px; fill: white; }
         .gateway-info-card .card-header span {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
-            font-weight: 700;
-            color: white;
+            font-size: 9px; font-weight: 700; color: white;
         }
-
-        .gateway-info-card .card-body {
-            padding: 8px 10px;
-        }
-
+        .gateway-info-card .card-body { padding: 8px 10px; }
         .gateway-info-card .card-title {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.3;
-            margin-bottom: 4px;
+            font-size: 11px; font-weight: 600;
+            color: var(--text-primary); line-height: 1.3; margin-bottom: 4px;
         }
-
-        .gateway-info-card .card-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
+        .gateway-info-card .card-meta { display: flex; flex-direction: column; gap: 2px; }
         .gateway-info-card .card-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 9px;
-            color: var(--text-secondary);
+            display: flex; align-items: center; gap: 4px;
+            font-size: 9px; color: var(--text-secondary);
         }
-
-        .gateway-info-card .card-meta-item svg {
-            width: 9px;
-            height: 9px;
-            fill: currentColor;
-        }
-
-        /* Línea conectora de la tarjeta al rombo */
+        .gateway-info-card .card-meta-item svg { width: 9px; height: 9px; fill: currentColor; }
         .gateway-connector-line {
-            width: 2px;
-            height: 12px;
-            background: var(--bpmn-gateway);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
+            width: 2px; height: 12px; background: var(--bpmn-gateway);
+            position: absolute; bottom: 100%; left: 50%;
             transform: translateX(-50%);
         }
-
         .bpmn-gateway {
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
             transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
         .bpmn-gateway-icon {
             transform: rotate(-45deg);
-            width: 18px;
-            height: 18px;
-            fill: var(--bpmn-gateway);
+            width: 18px; height: 18px; fill: var(--bpmn-gateway);
         }
-
-        /* Contenedor de las dos ramas paralelas */
         .bifurcation-paths {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            margin-left: 16px;
-            gap: 32px;
+            display: flex; flex-direction: column;
+            position: relative; margin-left: 16px;
+            gap: 60px; /* Más espacio entre ramas */
         }
-
-        /* Línea vertical que conecta las dos ramas */
         .bifurcation-paths::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 2px;
-            height: calc(100% - 20px);
+            content: ''; position: absolute; left: 0; top: 50%;
+            width: 2px; height: calc(100% - 20px);
             background: var(--text-muted);
             transform: translateY(-50%);
         }
-
         .bifurcation-path {
-            display: flex;
-            align-items: center;
-            position: relative;
+            display: flex; align-items: center; position: relative;
         }
-
-        /* Línea horizontal de entrada a cada rama - SIN FONDO EN LA ETIQUETA */
-        .path-entry {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Línea horizontal antes de la etiqueta */
-        .path-line {
-            width: 24px;
-            height: 2px;
-            flex-shrink: 0;
-        }
-
-        .path-line.yes {
-            background: var(--bpmn-start);
-        }
-
-        .path-line.no {
-            background: var(--bpmn-end);
-        }
-
-        /* Etiqueta de rama - LIMPIA SIN LÍNEA DETRÁS */
+        .path-entry { display: flex; align-items: center; position: relative; }
+        .path-line { width: 24px; height: 2px; flex-shrink: 0; }
+        .path-line.yes { background: var(--bpmn-start); }
+        .path-line.no { background: var(--bpmn-end); }
         .path-label {
-            display: inline-flex;
-            align-items: center;
-            font-size: 9px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 4px;
-            white-space: nowrap;
-            flex-shrink: 0;
-            margin: 0 8px;
+            display: inline-flex; align-items: center;
+            font-size: 9px; font-weight: 600;
+            padding: 4px 10px; border-radius: 4px;
+            white-space: nowrap; flex-shrink: 0; margin: 0 8px;
         }
-
         .path-label.yes {
             background: rgba(34, 197, 94, 0.15);
             color: var(--bpmn-start);
             border: 1px solid rgba(34, 197, 94, 0.4);
         }
-
         .path-label.no {
             background: rgba(239, 68, 68, 0.15);
             color: var(--bpmn-end);
             border: 1px solid rgba(239, 68, 68, 0.4);
         }
-
-        /* Línea después de la etiqueta hacia el contenido */
-        .path-line-after {
-            width: 16px;
-            height: 2px;
-            flex-shrink: 0;
-        }
-
-        .path-line-after.yes {
-            background: var(--bpmn-start);
-        }
-
-        .path-line-after.no {
-            background: var(--bpmn-end);
-        }
-
-        /* Contenido de la rama */
-        .path-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ===== CAJAS DE DESCRIPCIÓN ===== */
+        .path-line-after { width: 16px; height: 2px; flex-shrink: 0; }
+        .path-line-after.yes { background: var(--bpmn-start); }
+        .path-line-after.no { background: var(--bpmn-end); }
+        .path-content { display: flex; align-items: center; gap: 8px; }
         .branch-description-box {
-            padding: 10px 14px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            font-size: 11px;
-            line-height: 1.4;
-            max-width: 180px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            padding: 10px 14px; background: var(--bg-secondary);
+            border-radius: 8px; font-size: 11px; line-height: 1.4;
+            max-width: 180px; box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
-
         .branch-description-box.yes {
             border: 2px solid rgba(34, 197, 94, 0.5);
             color: var(--bpmn-start);
         }
-
         .branch-description-box.no {
             border: 2px solid rgba(239, 68, 68, 0.5);
             color: var(--bpmn-end);
         }
-
-        /* Conector pequeño entre cajas en la misma rama */
-        .branch-connector-small {
-            width: 20px;
-            height: 2px;
-            flex-shrink: 0;
-        }
-
-        .branch-connector-small.yes {
-            background: var(--bpmn-start);
-        }
-
-        .branch-connector-small.no {
-            background: var(--bpmn-end);
-        }
-
-        /* Mini evento de fin en rama */
+        .branch-connector-small { width: 20px; height: 2px; flex-shrink: 0; }
+        .branch-connector-small.yes { background: var(--bpmn-start); }
+        .branch-connector-small.no { background: var(--bpmn-end); }
         .branch-end-event {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--bpmn-end);
-            border: 2px solid #DC2626;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--bpmn-end); border: 2px solid #DC2626;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-
-        .branch-end-event svg {
-            width: 10px;
-            height: 10px;
-            fill: white;
+        .branch-end-event svg { width: 10px; height: 10px; fill: white; }
+        /* TARJETA DE SUB-PASO */
+        .branch-substep-card {
+            min-width: 140px; max-width: 160px;
+            background: var(--bg-secondary);
+            border-radius: 8px; overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+            flex-shrink: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        /* Tarea pequeña dentro de rama */
+        .branch-substep-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 16px rgba(0,0,0,0.45);
+        }
+        .branch-substep-card.no { border: 2px solid var(--bpmn-end); }
+        .branch-substep-card.yes { border: 2px solid var(--bpmn-start); }
+        .branch-substep-card .substep-header {
+            padding: 6px 10px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .branch-substep-card.no .substep-header { background: var(--bpmn-end); }
+        .branch-substep-card.yes .substep-header { background: var(--bpmn-start); }
+        .branch-substep-card .substep-header svg { width: 12px; height: 12px; fill: white; }
+        .branch-substep-card .substep-header .substep-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; font-weight: 700; color: white;
+        }
+        .branch-substep-card .substep-body { padding: 8px 10px; }
+        .branch-substep-card .substep-name {
+            font-size: 10px; font-weight: 600;
+            color: var(--text-primary); line-height: 1.3; margin-bottom: 6px;
+        }
+        .branch-substep-card .substep-meta { display: flex; flex-direction: column; gap: 3px; }
+        .branch-substep-card .substep-meta-item {
+            display: flex; align-items: center; gap: 4px;
+            font-size: 9px; color: var(--text-secondary);
+        }
+        .branch-substep-card .substep-meta-item svg { width: 9px; height: 9px; fill: currentColor; }
+        .branch-substep-card .substep-meta-item.empty {
+            color: var(--text-muted); font-style: italic;
+        }
         .branch-task-small {
-            min-width: 120px;
-            max-width: 150px;
+            min-width: 120px; max-width: 150px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-task-service);
-            border-radius: 8px;
-            overflow: hidden;
+            border-radius: 8px; overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
-
-        .branch-task-small .task-header {
-            padding: 4px 8px;
-            background: var(--bpmn-task-service);
-        }
-
-        .branch-task-small .task-body {
-            padding: 6px 8px;
-        }
-
-        .branch-task-small .task-name {
-            font-size: 9px;
-            margin-bottom: 0;
-        }
-
-        /* Línea de salida de la rama hacia merge */
+        .branch-task-small .task-header { padding: 4px 8px; background: var(--bpmn-task-service); }
+        .branch-task-small .task-body { padding: 6px 8px; }
+        .branch-task-small .task-name { font-size: 9px; margin-bottom: 0; }
         .path-exit {
-            width: 40px;
-            height: 2px;
-            position: relative;
-            margin-left: 8px;
+            width: 40px; height: 2px;
+            position: relative; margin-left: 8px;
         }
-
         .path-exit::after {
-            content: '';
-            position: absolute;
-            right: -1px;
-            top: 50%;
+            content: ''; position: absolute; right: -1px; top: 50%;
             transform: translateY(-50%);
             border-top: 4px solid transparent;
             border-bottom: 4px solid transparent;
             border-left: 6px solid;
         }
-
-        .path-exit.yes {
-            background: var(--bpmn-start);
-        }
-        .path-exit.yes::after {
-            border-left-color: var(--bpmn-start);
-        }
-
-        .path-exit.no {
-            background: var(--bpmn-end);
-        }
-        .path-exit.no::after {
-            border-left-color: var(--bpmn-end);
-        }
-
-        /* Punto de merge */
+        .path-exit.yes { background: var(--bpmn-start); }
+        .path-exit.yes::after { border-left-color: var(--bpmn-start); }
+        .path-exit.no { background: var(--bpmn-end); }
+        .path-exit.no::after { border-left-color: var(--bpmn-end); }
         .merge-point {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             background: var(--bg-elevated);
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4px;
-            z-index: 3;
+            border: 2px solid var(--text-muted); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-left: 4px; z-index: 3;
         }
-
-        /* Connectors - HORIZONTAL */
         .bpmn-connector {
-            width: 50px;
-            height: 2px;
+            width: 50px; height: 2px;
             background: var(--text-muted);
-            position: relative;
-            flex-shrink: 0;
-            align-self: center;
+            position: relative; flex-shrink: 0; align-self: center;
         }
-
         .bpmn-connector::after {
-            content: '';
-            position: absolute;
-            right: -1px;
-            top: 50%;
+            content: ''; position: absolute; right: -1px; top: 50%;
             transform: translateY(-50%);
             border-top: 5px solid transparent;
             border-bottom: 5px solid transparent;
             border-left: 8px solid var(--text-muted);
         }
-
         .bpmn-connector.animated {
             background: linear-gradient(90deg, var(--magenta), var(--magenta-light));
         }
-
-        .bpmn-connector.animated::after {
-            border-left-color: var(--magenta-light);
-        }
-
-        /* Labels */
+        .bpmn-connector.animated::after { border-left-color: var(--magenta-light); }
         .bpmn-label {
-            margin-top: 8px;
-            font-size: 10px;
-            color: var(--text-muted);
-            text-align: center;
+            margin-top: 8px; font-size: 10px;
+            color: var(--text-muted); text-align: center;
         }
-
-        /* Legend */
         .diagram-legend {
-            position: relative;
-            z-index: 10;
-            padding: 12px 24px;
-            background: var(--bg-canvas);
+            position: relative; z-index: 10;
+            padding: 12px 24px; background: var(--bg-canvas);
             border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: center;
-            gap: 24px;
+            display: flex; justify-content: center; gap: 24px;
         }
-
         .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: var(--text-secondary);
+            display: flex; align-items: center; gap: 8px;
+            font-size: 11px; color: var(--text-secondary);
         }
-
-        .legend-shape {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-        }
-
+        .legend-shape { width: 14px; height: 14px; border-radius: 50%; }
         .legend-shape.start { background: var(--bpmn-start); }
         .legend-shape.task { 
             background: var(--bg-secondary);
@@ -1016,63 +571,32 @@
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
             transform: rotate(45deg);
-            border-radius: 2px;
-            width: 10px;
-            height: 10px;
+            border-radius: 2px; width: 10px; height: 10px;
         }
         .legend-shape.end { background: var(--bpmn-end); }
-
-        /* Empty State */
         .empty-state {
-            text-align: center;
-            color: var(--text-muted);
+            text-align: center; color: var(--text-muted);
             padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
         }
-
         .empty-state svg {
-            width: 56px;
-            height: 56px;
-            fill: var(--text-muted);
-            margin-bottom: 16px;
-            opacity: 0.5;
+            width: 56px; height: 56px; fill: var(--text-muted);
+            margin-bottom: 16px; opacity: 0.5;
         }
-
         .empty-state h3 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
+            font-size: 15px; font-weight: 600; margin-bottom: 6px;
             color: var(--text-secondary);
         }
-
-        .empty-state p {
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        /* Debug Console */
+        .empty-state p { font-size: 12px; line-height: 1.5; }
         .debug-console {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.95);
-            color: #0f0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            max-width: 380px;
-            max-height: 220px;
-            overflow: auto;
-            z-index: 9999;
-            display: none;
+            position: fixed; bottom: 10px; right: 10px;
+            background: rgba(0,0,0,0.95); color: #0f0;
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            padding: 10px; border-radius: 8px;
+            max-width: 380px; max-height: 220px;
+            overflow: auto; z-index: 9999; display: none;
         }
-
         .debug-console.show { display: block; }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .app-layout {
                 grid-template-columns: 1fr;
@@ -1081,7 +605,6 @@
             .diagram-panel { border-top: 1px solid var(--border); }
             .chat-panel { border-right: none; }
         }
-
         @media (min-width: 769px) and (max-width: 1024px) {
             .app-layout { grid-template-columns: 350px 1fr; }
         }
@@ -1104,7 +627,6 @@
                 </div>
             </div>
         </header>
-
         <aside class="chat-panel">
             <div class="chat-header">
                 <h2>
@@ -1113,17 +635,10 @@
                 </h2>
                 <span class="step-counter" id="stepCounter">0 pasos</span>
             </div>
-            
             <div class="messages-area" id="messagesArea"></div>
-
             <div class="input-area">
                 <div class="input-wrapper">
-                    <textarea 
-                        class="text-input" 
-                        id="textInput" 
-                        placeholder="Describe tu proceso..." 
-                        rows="1"
-                    ></textarea>
+                    <textarea class="text-input" id="textInput" placeholder="Describe tu proceso..." rows="1"></textarea>
                     <div class="input-actions">
                         <button class="btn-icon btn-record" id="recordBtn" title="Grabar audio">
                             <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
@@ -1135,7 +650,6 @@
                 </div>
             </div>
         </aside>
-
         <main class="diagram-panel">
             <div class="diagram-header">
                 <span class="diagram-title">
@@ -1154,13 +668,11 @@
                     </button>
                 </div>
             </div>
-
             <div class="progress-section">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
             </div>
-
             <div class="canvas-container" id="canvasContainer">
                 <div class="bpmn-canvas" id="bpmnCanvas">
                     <div class="empty-state" id="emptyState">
@@ -1170,7 +682,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="diagram-legend">
                 <div class="legend-item"><div class="legend-shape start"></div>Inicio</div>
                 <div class="legend-item"><div class="legend-shape task"></div>Actividad</div>
@@ -1179,18 +690,10 @@
             </div>
         </main>
     </div>
-
     <div class="debug-console" id="debugConsole"></div>
-
     <script>
-        // =====================================================
-        // CONFIGURACION
-        // =====================================================
         const WEBHOOK_URL = 'https://inadvance.app.n8n.cloud/webhook/registrador_procesos';
         
-        // =====================================================
-        // ESTADO
-        // =====================================================
         let state = {
             sessionId: `session_${Date.now()}`,
             processName: '',
@@ -1203,9 +706,6 @@
         let audioChunks = [];
         let isRecording = false;
 
-        // =====================================================
-        // ELEMENTOS DOM
-        // =====================================================
         const messagesArea = document.getElementById('messagesArea');
         const textInput = document.getElementById('textInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -1221,29 +721,19 @@
         const zoomInBtn = document.getElementById('zoomInBtn');
         const zoomOutBtn = document.getElementById('zoomOutBtn');
 
-        // =====================================================
-        // DEBUG
-        // =====================================================
         function debug(msg, data = null) {
             const time = new Date().toLocaleTimeString();
             let logMsg = `[${time}] ${msg}`;
             console.log(logMsg, data || '');
-            
             if (state.debugMode && debugConsole) {
                 debugConsole.innerHTML += `<div>${escapeHtml(logMsg)}</div>`;
-                if (data) {
-                    debugConsole.innerHTML += `<pre>${escapeHtml(typeof data === 'string' ? data : JSON.stringify(data, null, 2))}</pre>`;
-                }
+                if (data) debugConsole.innerHTML += `<pre>${escapeHtml(typeof data === 'string' ? data : JSON.stringify(data, null, 2))}</pre>`;
                 debugConsole.scrollTop = debugConsole.scrollHeight;
             }
         }
 
-        // =====================================================
-        // MARKDOWN PARSER
-        // =====================================================
         function parseMarkdown(text) {
             if (typeof text !== 'string') return String(text);
-            
             return text
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/__(.+?)__/g, '<strong>$1</strong>')
@@ -1253,35 +743,21 @@
                 .replace(/\n/g, '<br>');
         }
 
-        // =====================================================
-        // INICIALIZACION
-        // =====================================================
         function init() {
             debug('Inicializando InAdvance BPMN');
-            
             setTimeout(() => {
                 addMessage('Hola! Soy tu asistente para documentar procesos. Que proceso te gustaria documentar hoy?', 'assistant');
             }, 500);
-
             textInput.addEventListener('input', handleInput);
             textInput.addEventListener('keydown', handleKeydown);
             sendBtn.addEventListener('click', sendMessage);
             recordBtn.addEventListener('click', toggleRecording);
-            
             debugBtn.addEventListener('click', () => {
                 state.debugMode = !state.debugMode;
                 debugConsole.classList.toggle('show', state.debugMode);
             });
-
-            zoomInBtn.addEventListener('click', () => {
-                state.zoom = Math.min(state.zoom + 0.1, 2);
-                applyZoom();
-            });
-
-            zoomOutBtn.addEventListener('click', () => {
-                state.zoom = Math.max(state.zoom - 0.1, 0.5);
-                applyZoom();
-            });
+            zoomInBtn.addEventListener('click', () => { state.zoom = Math.min(state.zoom + 0.1, 2); applyZoom(); });
+            zoomOutBtn.addEventListener('click', () => { state.zoom = Math.max(state.zoom - 0.1, 0.5); applyZoom(); });
         }
 
         function applyZoom() {
@@ -1305,15 +781,9 @@
             }
         }
 
-        // =====================================================
-        // AUDIO RECORDING
-        // =====================================================
         async function toggleRecording() {
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording();
-            }
+            if (isRecording) stopRecording();
+            else startRecording();
         }
 
         async function startRecording() {
@@ -1321,17 +791,12 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
                 audioChunks = [];
-
-                mediaRecorder.ondataavailable = (e) => {
-                    if (e.data.size > 0) audioChunks.push(e.data);
-                };
-
+                mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
                 mediaRecorder.onstop = async () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     stream.getTracks().forEach(track => track.stop());
                     await sendAudioMessage(audioBlob);
                 };
-
                 mediaRecorder.start();
                 isRecording = true;
                 recordBtn.classList.add('recording');
@@ -1354,13 +819,11 @@
         async function sendAudioMessage(audioBlob) {
             addMessage('Mensaje de voz enviado', 'user', null, null, true);
             showTyping();
-
             try {
                 const reader = new FileReader();
                 reader.readAsDataURL(audioBlob);
                 reader.onloadend = async () => {
                     const base64Audio = reader.result.split(',')[1];
-                    
                     const response = await fetch(WEBHOOK_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1371,17 +834,10 @@
                             userName: 'Usuario'
                         })
                     });
-
                     const responseText = await response.text();
                     hideTyping();
-                    
                     let data;
-                    try {
-                        data = JSON.parse(responseText);
-                    } catch (e) {
-                        data = { output: responseText };
-                    }
-                    
+                    try { data = JSON.parse(responseText); } catch (e) { data = { output: responseText }; }
                     processResponse(data);
                 };
             } catch (error) {
@@ -1390,40 +846,21 @@
             }
         }
 
-        // =====================================================
-        // MENSAJES
-        // =====================================================
         function addMessage(content, type, stepExtracted = null, stepUpdated = null, isAudio = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${type}`;
-            
             let html = '';
-            
             if (isAudio && type === 'user') {
                 html += `<div class="audio-badge"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>Audio</div>`;
             }
-            
             const parsedContent = type === 'assistant' ? parseMarkdown(content) : escapeHtml(content);
             html += `<div class="message-content">${parsedContent}</div>`;
-            
             if (stepExtracted && stepExtracted.nombre) {
-                html += `
-                    <div class="step-extracted">
-                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        Paso ${stepExtracted.numero} agregado: ${escapeHtml(stepExtracted.nombre)}
-                    </div>
-                `;
+                html += `<div class="step-extracted"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Paso ${stepExtracted.numero} agregado: ${escapeHtml(stepExtracted.nombre)}</div>`;
             }
-            
             if (stepUpdated && stepUpdated.nombre) {
-                html += `
-                    <div class="step-updated">
-                        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                        Paso ${stepUpdated.numero} actualizado: ${escapeHtml(stepUpdated.nombre)}
-                    </div>
-                `;
+                html += `<div class="step-updated"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>Paso ${stepUpdated.numero} actualizado: ${escapeHtml(stepUpdated.nombre)}</div>`;
             }
-            
             msgDiv.innerHTML = html;
             messagesArea.appendChild(msgDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
@@ -1433,13 +870,7 @@
             const typing = document.createElement('div');
             typing.className = 'message assistant';
             typing.id = 'typingIndicator';
-            typing.innerHTML = `
-                <div class="typing-indicator">
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                </div>
-            `;
+            typing.innerHTML = `<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
             messagesArea.appendChild(typing);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
@@ -1449,48 +880,27 @@
             if (typing) typing.remove();
         }
 
-        // =====================================================
-        // ENVIO DE MENSAJES
-        // =====================================================
         async function sendMessage() {
             const message = textInput.value.trim();
             if (!message) return;
-
             debug('Enviando:', message);
-            
             addMessage(message, 'user');
             textInput.value = '';
             textInput.style.height = 'auto';
             sendBtn.disabled = true;
-
             showTyping();
-
             try {
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: message,
-                        sessionId: state.sessionId,
-                        userName: 'Usuario'
-                    })
+                    body: JSON.stringify({ message: message, sessionId: state.sessionId, userName: 'Usuario' })
                 });
-
                 const responseText = await response.text();
                 debug('Respuesta raw:', responseText.substring(0, 300));
-                
                 let data;
-                try {
-                    data = JSON.parse(responseText);
-                    debug('JSON parseado');
-                } catch (e) {
-                    debug('Texto plano');
-                    data = { output: responseText };
-                }
-
+                try { data = JSON.parse(responseText); debug('JSON parseado'); } catch (e) { debug('Texto plano'); data = { output: responseText }; }
                 hideTyping();
                 processResponse(data);
-                
             } catch (error) {
                 debug('Error:', error.message);
                 hideTyping();
@@ -1498,35 +908,22 @@
             }
         }
 
-        // =====================================================
-        // PROCESAR RESPUESTA
-        // =====================================================
         function processResponse(data) {
             debug('Procesando respuesta:', data);
-            
             let userMessage = data.output || data.message || data.respuesta || '';
-            if (typeof userMessage === 'object') {
-                userMessage = JSON.stringify(userMessage);
-            }
-            
+            if (typeof userMessage === 'object') userMessage = JSON.stringify(userMessage);
             let extractedStep = null;
             let updatedStep = null;
             
             if (data.nuevoPasoExtraido) {
                 let paso = data.nuevoPasoExtraido;
-                if (typeof paso === 'string') {
-                    try { paso = JSON.parse(paso); } catch (e) { paso = null; }
-                }
-                
+                if (typeof paso === 'string') { try { paso = JSON.parse(paso); } catch (e) { paso = null; } }
                 if (paso && typeof paso === 'object') {
                     if (!paso.nombre && paso.actividad) paso.nombre = paso.actividad;
                     if (!paso.nombre) paso.nombre = `Paso ${(state.steps.length + 1)}`;
-                    
                     const existingIndex = state.steps.findIndex(s => s.numero === paso.numero);
-                    
                     if (existingIndex >= 0) {
-                        const oldStep = state.steps[existingIndex];
-                        state.steps[existingIndex] = { ...oldStep, ...paso };
+                        state.steps[existingIndex] = { ...state.steps[existingIndex], ...paso };
                         updatedStep = state.steps[existingIndex];
                         debug('Paso actualizado via LLM:', updatedStep);
                         highlightUpdatedStep(paso.numero);
@@ -1540,17 +937,12 @@
             
             if (data.todosLosPasos) {
                 let allSteps = data.todosLosPasos;
-                if (typeof allSteps === 'string') {
-                    try { allSteps = JSON.parse(allSteps); } catch (e) { allSteps = []; }
-                }
-                
+                if (typeof allSteps === 'string') { try { allSteps = JSON.parse(allSteps); } catch (e) { allSteps = []; } }
                 if (Array.isArray(allSteps) && allSteps.length > 0) {
                     let hasChanges = false;
                     const updatedStepNumbers = [];
-                    
                     allSteps.forEach(newStep => {
                         if (!newStep.nombre && newStep.actividad) newStep.nombre = newStep.actividad;
-                        
                         const existingStep = state.steps.find(s => s.numero === newStep.numero);
                         if (existingStep) {
                             if (existingStep.nombre !== newStep.nombre ||
@@ -1558,22 +950,19 @@
                                 existingStep.herramienta !== newStep.herramienta ||
                                 existingStep.es_decision !== newStep.es_decision ||
                                 existingStep.destino_si !== newStep.destino_si ||
-                                existingStep.destino_no !== newStep.destino_no) {
+                                existingStep.destino_no !== newStep.destino_no ||
+                                JSON.stringify(existingStep.rama_no_pasos) !== JSON.stringify(newStep.rama_no_pasos) ||
+                                JSON.stringify(existingStep.rama_si_pasos) !== JSON.stringify(newStep.rama_si_pasos)) {
                                 hasChanges = true;
                                 updatedStepNumbers.push(newStep.numero);
                             }
                         }
                     });
-                    
                     if (hasChanges || allSteps.length !== state.steps.length) {
                         debug('Sincronizando pasos - detectados cambios');
                         state.steps = allSteps;
                         renderBPMNDiagram();
-                        
-                        updatedStepNumbers.forEach(num => {
-                            setTimeout(() => highlightUpdatedStep(num), 100);
-                        });
-                        
+                        updatedStepNumbers.forEach(num => { setTimeout(() => highlightUpdatedStep(num), 100); });
                         if (updatedStepNumbers.length > 0 && !extractedStep) {
                             const lastUpdated = state.steps.find(s => s.numero === updatedStepNumbers[0]);
                             if (lastUpdated) updatedStep = lastUpdated;
@@ -1601,177 +990,109 @@
                 const index = el.dataset.index;
                 if (index !== undefined && state.steps[index]?.numero === stepNumber) {
                     el.closest('.bpmn-element')?.classList.add('updated');
-                    setTimeout(() => {
-                        el.closest('.bpmn-element')?.classList.remove('updated');
-                    }, 1000);
+                    setTimeout(() => { el.closest('.bpmn-element')?.classList.remove('updated'); }, 1000);
                 }
             });
         }
 
-        // =====================================================
-        // BPMN RENDERING
-        // =====================================================
         function addStepToDiagram(step) {
             emptyState.style.display = 'none';
-            
             const existingIndex = state.steps.findIndex(s => s.numero === step.numero);
-            if (existingIndex >= 0) {
-                state.steps[existingIndex] = { ...state.steps[existingIndex], ...step };
-            } else {
-                state.steps.push(step);
-            }
-            
+            if (existingIndex >= 0) state.steps[existingIndex] = { ...state.steps[existingIndex], ...step };
+            else state.steps.push(step);
             state.steps.sort((a, b) => (a.numero || 0) - (b.numero || 0));
             renderBPMNDiagram();
         }
 
-        // =====================================================
-        // PARSEAR DESTINO Y DETECTAR MÚLTIPLES PASOS
-        // =====================================================
         function parseDestino(destino, currentIndex) {
             if (!destino) return { type: 'continue', value: null, parts: [] };
-            
             const destinoLower = destino.toLowerCase().trim();
-            
             if (destinoLower === 'siguiente' || destinoLower === 'continua' || destinoLower === 'continúa') {
                 return { type: 'continue', value: 'siguiente', parts: [] };
             }
             if (destinoLower === 'fin' || destinoLower === 'termina' || destinoLower === 'finaliza') {
                 return { type: 'end', value: 'fin', parts: [] };
             }
-            
-            // Intentar encontrar número de paso
             const numMatch = destino.match(/^(?:paso\s*)?(\d+)$/i);
             if (numMatch) {
                 const num = parseInt(numMatch[1]);
                 const step = state.steps.find(s => s.numero === num);
-                if (step) {
-                    return { type: 'step', value: step, parts: [] };
-                }
+                if (step) return { type: 'step', value: step, parts: [] };
             }
-            
-            // Detectar si hay múltiples pasos/acciones en el destino
             const separators = /[.]\s*(?=[A-Z])|(?:\.\s*[Ss]i\s)|(?:\s+[Ss]i\s+(?:después|luego|no|aún))/;
             const parts = destino.split(separators).map(p => p.trim()).filter(p => p.length > 0);
-            
-            if (parts.length > 1) {
-                return { type: 'multi-description', value: destino, parts: parts };
-            }
-            
-            // Es una descripción simple
+            if (parts.length > 1) return { type: 'multi-description', value: destino, parts: parts };
             return { type: 'description', value: destino, parts: [destino] };
         }
 
-        // =====================================================
-        // RENDER BPMN - MEJORADO
-        // =====================================================
         function renderBPMNDiagram() {
             const elements = bpmnCanvas.querySelectorAll('.bpmn-flow');
             elements.forEach(el => el.remove());
-            
-            if (state.steps.length === 0) {
-                emptyState.style.display = 'flex';
-                return;
-            }
-            
+            if (state.steps.length === 0) { emptyState.style.display = 'flex'; return; }
             emptyState.style.display = 'none';
-            
             const flowContainer = document.createElement('div');
             flowContainer.className = 'bpmn-flow';
             flowContainer.style.transform = `scale(${state.zoom})`;
             flowContainer.style.transformOrigin = 'left center';
             
-            // Inicio
             flowContainer.appendChild(createStartEvent());
             flowContainer.appendChild(createConnector(false));
             
-            // Identificar pasos que son destinos de ramas
             const branchStepNumbers = new Set();
             state.steps.forEach((step, idx) => {
                 if (step.es_decision) {
                     if (step.destino_no) {
                         const parsed = parseDestino(step.destino_no, idx);
-                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
-                            branchStepNumbers.add(parsed.value.numero);
-                        }
+                        if (parsed.type === 'step' && parsed.value && parsed.value.numero) branchStepNumbers.add(parsed.value.numero);
                     }
                     if (step.destino_si && step.destino_si !== 'siguiente') {
                         const parsed = parseDestino(step.destino_si, idx);
                         if (parsed.type === 'step' && parsed.value && parsed.value.numero) {
                             const nextStep = state.steps[idx + 1];
-                            if (!nextStep || nextStep.numero !== parsed.value.numero) {
-                                branchStepNumbers.add(parsed.value.numero);
-                            }
+                            if (!nextStep || nextStep.numero !== parsed.value.numero) branchStepNumbers.add(parsed.value.numero);
                         }
                     }
                 }
             });
-
             debug('Pasos en ramas:', Array.from(branchStepNumbers));
             
-            // Procesar pasos
             let i = 0;
             while (i < state.steps.length) {
                 const step = state.steps[i];
-                
-                if (branchStepNumbers.has(step.numero)) {
-                    debug(`Saltando paso ${step.numero}`);
-                    i++;
-                    continue;
-                }
-                
+                if (branchStepNumbers.has(step.numero)) { debug(`Saltando paso ${step.numero}`); i++; continue; }
                 if (step.es_decision) {
                     const bifurcation = createParallelBifurcation(step, i);
                     flowContainer.appendChild(bifurcation);
                     flowContainer.appendChild(createConnector(false));
                 } else {
                     flowContainer.appendChild(createTask(step, i));
-                    
                     let hasMoreSteps = false;
                     for (let j = i + 1; j < state.steps.length; j++) {
-                        if (!branchStepNumbers.has(state.steps[j].numero)) {
-                            hasMoreSteps = true;
-                            break;
-                        }
+                        if (!branchStepNumbers.has(state.steps[j].numero)) { hasMoreSteps = true; break; }
                     }
-                    
-                    if (hasMoreSteps) {
-                        flowContainer.appendChild(createConnector(false));
-                    }
+                    if (hasMoreSteps) flowContainer.appendChild(createConnector(false));
                 }
                 i++;
             }
             
-            // Fin
             flowContainer.appendChild(createConnector(true));
             flowContainer.appendChild(createEndEvent());
-            
             bpmnCanvas.appendChild(flowContainer);
         }
 
-        // =====================================================
-        // CREAR BIFURCACIÓN PARALELA - REDISEÑADA
-        // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
             container.className = 'bpmn-element bpmn-bifurcation-container';
-            
             const etiquetaSi = step.etiqueta_si || 'Sí';
             const etiquetaNo = step.etiqueta_no || 'No';
-            
-            // Analizar destinos
             const destinoSi = parseDestino(step.destino_si, index);
             const destinoNo = parseDestino(step.destino_no, index);
             
-            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo });
+            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo, rama_no_pasos: step.rama_no_pasos, rama_si_pasos: step.rama_si_pasos });
             
-            // Generar contenido de rama SI
-            const ramaSiContent = generateBranchContent(destinoSi, 'yes');
+            const ramaSiContent = generateBranchContentWithSubsteps(destinoSi, 'yes', step.rama_si_pasos);
+            const ramaNoContent = generateBranchContentWithSubsteps(destinoNo, 'no', step.rama_no_pasos);
             
-            // Generar contenido de rama NO
-            const ramaNoContent = generateBranchContent(destinoNo, 'no');
-            
-            // Generar tarjeta de información del paso
             const infoCardHTML = `
                 <div class="gateway-info-card">
                     <div class="card-header">
@@ -1781,26 +1102,14 @@
                     <div class="card-body">
                         <div class="card-title">${escapeHtml(step.nombre || 'Decisión')}</div>
                         <div class="card-meta">
-                            ${step.responsable ? `
-                                <div class="card-meta-item">
-                                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                                    ${escapeHtml(step.responsable)}
-                                </div>
-                            ` : ''}
-                            ${step.herramienta ? `
-                                <div class="card-meta-item">
-                                    <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
-                                    ${escapeHtml(step.herramienta)}
-                                </div>
-                            ` : ''}
+                            ${step.responsable ? `<div class="card-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` : ''}
+                            ${step.herramienta ? `<div class="card-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.herramienta)}</div>` : ''}
                         </div>
                     </div>
                 </div>
-                <div class="gateway-connector-line"></div>
-            `;
+                <div class="gateway-connector-line"></div>`;
             
             container.innerHTML = `
-                <!-- Gateway con tarjeta de info -->
                 <div class="bpmn-gateway-wrapper">
                     ${infoCardHTML}
                     <div class="bpmn-gateway" data-index="${index}">
@@ -1809,200 +1118,94 @@
                         </svg>
                     </div>
                 </div>
-                
-                <!-- Dos rutas paralelas -->
                 <div class="bifurcation-paths">
-                    <!-- Ruta SI (arriba) -->
                     <div class="bifurcation-path yes">
                         <div class="path-entry">
                             <div class="path-line yes"></div>
                             <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
                             <div class="path-line-after yes"></div>
                         </div>
-                        <div class="path-content">
-                            ${ramaSiContent}
-                        </div>
+                        <div class="path-content">${ramaSiContent}</div>
                         <div class="path-exit yes"></div>
                     </div>
-                    
-                    <!-- Ruta NO (abajo) -->
                     <div class="bifurcation-path no">
                         <div class="path-entry">
                             <div class="path-line no"></div>
                             <span class="path-label no">${escapeHtml(etiquetaNo)}</span>
                             <div class="path-line-after no"></div>
                         </div>
-                        <div class="path-content">
-                            ${ramaNoContent}
-                        </div>
+                        <div class="path-content">${ramaNoContent}</div>
                         <div class="path-exit no"></div>
                     </div>
                 </div>
-                
-                <!-- Punto de merge -->
                 <div class="merge-point">
-                    <svg viewBox="0 0 24 24" style="width: 10px; height: 10px; fill: var(--text-muted);">
-                        <circle cx="12" cy="12" r="4"/>
-                    </svg>
-                </div>
-            `;
+                    <svg viewBox="0 0 24 24" style="width: 10px; height: 10px; fill: var(--text-muted);"><circle cx="12" cy="12" r="4"/></svg>
+                </div>`;
             
             return container;
         }
 
-        // =====================================================
-        // GENERAR CONTENIDO DE RAMA
-        // =====================================================
-        function generateBranchContent(destino, type) {
-            const colorClass = type;
-            
-            if (destino.type === 'end') {
-                return `
-                    <div class="branch-end-event">
-                        <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                    </div>
-                `;
+        function generateBranchContentWithSubsteps(destino, type, subpasos) {
+            if (subpasos && Array.isArray(subpasos) && subpasos.length > 0) {
+                debug(`Renderizando ${subpasos.length} sub-pasos para rama ${type}:`, subpasos);
+                return generateSubstepsHTML(subpasos, type);
             }
-            
-            if (destino.type === 'step' && destino.value) {
-                return createMiniBranchTaskHTML(destino.value, type);
-            }
-            
-            if (destino.type === 'continue') {
-                return `<div class="branch-description-box ${colorClass}">→ Continúa</div>`;
-            }
-            
-            // Múltiples descripciones
-            if (destino.type === 'multi-description' && destino.parts.length > 1) {
-                let html = '';
-                destino.parts.forEach((part, idx) => {
-                    const partLower = part.toLowerCase();
-                    if (partLower.includes('cancela') || partLower.includes('termina') || partLower.includes('fin')) {
-                        html += `
-                            <div class="branch-description-box ${colorClass}">${escapeHtml(part)}</div>
-                            ${idx < destino.parts.length - 1 ? `<div class="branch-connector-small ${colorClass}"></div>` : ''}
-                        `;
-                        if (idx === destino.parts.length - 1 || partLower.includes('cancela')) {
-                            html += `
-                                <div class="branch-connector-small ${colorClass}"></div>
-                                <div class="branch-end-event">
-                                    <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                                </div>
-                            `;
-                        }
-                    } else {
-                        html += `
-                            <div class="branch-description-box ${colorClass}">${escapeHtml(part)}</div>
-                            ${idx < destino.parts.length - 1 ? `<div class="branch-connector-small ${colorClass}"></div>` : ''}
-                        `;
-                    }
-                });
-                return html;
-            }
-            
-            // Descripción simple
-            if (destino.value) {
-                const valueLower = destino.value.toLowerCase();
-                if (valueLower.includes('cancela') || valueLower.includes('fin del proceso')) {
-                    return `
-                        <div class="branch-description-box ${colorClass}">${escapeHtml(destino.value)}</div>
-                        <div class="branch-connector-small ${colorClass}"></div>
-                        <div class="branch-end-event">
-                            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                        </div>
-                    `;
-                }
-                return `<div class="branch-description-box ${colorClass}">${escapeHtml(destino.value)}</div>`;
-            }
-            
-            return `<div class="branch-description-box ${colorClass}">← Regresa</div>`;
+            return generateBranchContent(destino, type);
         }
 
-        // =====================================================
-        // CREAR MINI TAREA HTML
-        // =====================================================
-        function createMiniBranchTaskHTML(step, type) {
-            const borderColor = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
-            const headerBg = type === 'yes' ? 'var(--bpmn-start)' : 'var(--bpmn-end)';
+        function generateSubstepsHTML(subpasos, type) {
+            const colorClass = type;
+            let html = '';
+            subpasos.forEach((subpaso, idx) => {
+                html += createSubstepCardHTML(subpaso, type);
+                if (idx < subpasos.length - 1) html += `<div class="branch-connector-small ${colorClass}"></div>`;
+            });
+            const lastSubpaso = subpasos[subpasos.length - 1];
+            const lastNombre = (lastSubpaso.nombre || '').toLowerCase();
+            if (lastNombre.includes('termina') || lastNombre.includes('fin') || lastNombre.includes('cancela') || lastNombre.includes('finaliza')) {
+                html += `<div class="branch-connector-small ${colorClass}"></div><div class="branch-end-event"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg></div>`;
+            }
+            return html;
+        }
+
+        function createSubstepCardHTML(subpaso, type) {
+            const colorClass = type;
+            const subNumero = subpaso.sub_numero || subpaso.subNumero || '?';
+            const nombre = subpaso.nombre || 'Sin nombre';
+            const responsable = subpaso.responsable;
+            const herramienta = subpaso.herramienta;
+            
+            const iconPath = herramienta 
+                ? 'M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z'
+                : 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z';
             
             return `
-                <div class="branch-task-small" style="border-color: ${borderColor};">
-                    <div class="task-header" style="background: ${headerBg}; padding: 4px 8px;">
-                        <svg class="task-icon" viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: white;">
-                            <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/>
-                        </svg>
-                        <span style="font-size: 8px; color: white; font-weight: 600;">PASO ${step.numero || ''}</span>
+                <div class="branch-substep-card ${colorClass}">
+                    <div class="substep-header">
+                        <svg viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
+                        <span class="substep-number">SUB ${subNumero}</span>
                     </div>
-                    <div class="task-body" style="padding: 6px 8px;">
-                        <div class="task-name" style="font-size: 9px; margin: 0;">${escapeHtml(step.nombre || 'Paso')}</div>
+                    <div class="substep-body">
+                        <div class="substep-name">${escapeHtml(nombre)}</div>
+                        <div class="substep-meta">
+                            ${responsable 
+                                ? `<div class="substep-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(responsable)}</div>` 
+                                : `<div class="substep-meta-item empty"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Sin asignar</div>`}
+                            ${herramienta 
+                                ? `<div class="substep-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(herramienta)}</div>` 
+                                : `<div class="substep-meta-item empty"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>Sin definir</div>`}
+                        </div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
-
-        function createStartEvent() {
-            const el = document.createElement('div');
-            el.className = 'bpmn-element';
-            el.innerHTML = `
-                <div class="bpmn-event start">
-                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <span class="bpmn-label">Inicio</span>
-            `;
-            return el;
-        }
-
-        function createEndEvent() {
-            const el = document.createElement('div');
-            el.className = 'bpmn-element';
-            el.innerHTML = `
-                <div class="bpmn-event end">
-                    <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                </div>
-                <span class="bpmn-label">Fin</span>
-            `;
-            return el;
-        }
-
-        function createConnector(isAnimated) {
-            const el = document.createElement('div');
-            el.className = `bpmn-connector ${isAnimated ? 'animated' : ''}`;
-            return el;
-        }
-
-        function createTask(step, index) {
-            const el = document.createElement('div');
-            el.className = 'bpmn-element';
-            
-            const taskType = step.herramienta ? 'service' : '';
-            
-            el.innerHTML = `
-                <div class="bpmn-task ${taskType}" data-index="${index}">
-                    <div class="task-header">
-                        <svg class="task-icon" viewBox="0 0 24 24">
-                            ${step.herramienta 
-                                ? '<path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>'
-                                : '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
-                            }
-                        </svg>
-                        <span class="task-number">PASO ${step.numero || (index + 1)}</span>
-                    </div>
-                    <div class="task-body">
-                        <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
-                        <div class="task-meta">
-                            ${step.responsable ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` : ''}
+>${escapeHtml(step.responsable)}</div>` : ''}
                             ${step.herramienta ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.herramienta)}</div>` : ''}
                         </div>
                     </div>
-                </div>
-            `;
-            
+                </div>`;
             return el;
         }
 
-        // =====================================================
-        // UTILITIES
-        // =====================================================
         function escapeHtml(text) {
             if (typeof text !== 'string') return String(text || '');
             const div = document.createElement('div');
@@ -2020,7 +1223,6 @@
             progressFill.style.width = `${estimated}%`;
         }
 
-        // Initialize
         init();
     </script>
 </body>
