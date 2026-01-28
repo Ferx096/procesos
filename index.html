@@ -602,7 +602,7 @@
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
 
         /* =====================================================
-           BIFURCACION - DISEÑO MEJORADO CON ESPACIADO
+           BIFURCACION - DISEÑO MEJORADO SIN SOBREPOSICIÓN
            ===================================================== */
         .bpmn-bifurcation-container {
             display: flex;
@@ -649,7 +649,8 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            margin-left: 8px; /* AUMENTADO para separar del gateway */
+            margin-left: 8px;
+            gap: 24px;
         }
 
         .bifurcation-path {
@@ -658,19 +659,13 @@
             position: relative;
         }
 
-        .bifurcation-path.yes {
-            margin-bottom: 20px; /* AUMENTADO */
-        }
-
-        .bifurcation-path.no {
-            margin-top: 20px; /* AUMENTADO */
-        }
-
         /* Línea de conexión desde gateway - MEJORADA */
         .path-entry {
-            width: 50px; /* AUMENTADO */
+            width: 50px;
             height: 2px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .path-entry.yes {
@@ -688,22 +683,25 @@
             left: 0;
             top: 50%;
             width: 2px;
-            height: calc(100% - 40px);
+            height: calc(100% - 24px);
             background: var(--text-muted);
             transform: translateY(-50%);
         }
 
-        /* Etiqueta de la rama - MEJORADA POSICIÓN */
+        /* =====================================================
+           ETIQUETA DE RAMA - REDISEÑADA SIN OVERLAP
+           ===================================================== */
         .path-label {
-            position: absolute;
-            top: -20px; /* MÁS SEPARACIÓN */
-            left: 10px;
+            position: static;
+            display: inline-flex;
+            align-items: center;
             font-size: 9px;
             font-weight: 600;
             padding: 3px 8px;
             border-radius: 4px;
             white-space: nowrap;
-            z-index: 5;
+            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         .path-label.yes {
@@ -722,8 +720,7 @@
         .path-content {
             display: flex;
             align-items: center;
-            gap: 8px; /* Espacio entre múltiples cajas */
-            margin-left: 8px; /* SEPARACIÓN de la línea */
+            gap: 8px;
         }
 
         /* ===== CAJAS DE DESCRIPCIÓN MEJORADAS ===== */
@@ -733,7 +730,7 @@
             border-radius: 8px;
             font-size: 11px;
             line-height: 1.4;
-            max-width: 160px; /* REDUCIDO para que quepan múltiples */
+            max-width: 180px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
@@ -810,10 +807,10 @@
 
         /* Línea de salida de la rama hacia merge - MEJORADA */
         .path-exit {
-            width: 50px; /* AUMENTADO */
+            width: 50px;
             height: 2px;
             position: relative;
-            margin-left: 8px; /* SEPARACIÓN */
+            margin-left: 8px;
         }
 
         .path-exit::after {
@@ -1663,7 +1660,7 @@
         }
 
         // =====================================================
-        // CREAR BIFURCACIÓN PARALELA - MEJORADA
+        // CREAR BIFURCACIÓN PARALELA - MEJORADA SIN OVERLAP
         // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
