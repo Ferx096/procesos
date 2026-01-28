@@ -489,7 +489,7 @@
             align-items: center;
             gap: 0;
             padding: 20px;
-            padding-top: 80px;
+            padding-top: 100px;
         }
 
         .bpmn-element {
@@ -602,7 +602,7 @@
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
 
         /* =====================================================
-           BIFURCACION - DISEÑO MEJORADO SIN SOBREPOSICIÓN
+           BIFURCACION - DISEÑO LIMPIO Y PROFESIONAL
            ===================================================== */
         .bpmn-bifurcation-container {
             display: flex;
@@ -610,11 +610,93 @@
             position: relative;
         }
 
+        /* Contenedor del Gateway con tarjeta de info arriba */
         .bpmn-gateway-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             z-index: 2;
+            position: relative;
+        }
+
+        /* Tarjeta de información del paso - ARRIBA del rombo */
+        .gateway-info-card {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 12px;
+            min-width: 140px;
+            max-width: 180px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-gateway);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .gateway-info-card .card-header {
+            padding: 6px 10px;
+            background: var(--bpmn-gateway);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .gateway-info-card .card-header svg {
+            width: 12px;
+            height: 12px;
+            fill: white;
+        }
+
+        .gateway-info-card .card-header span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .gateway-info-card .card-body {
+            padding: 8px 10px;
+        }
+
+        .gateway-info-card .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .gateway-info-card .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .gateway-info-card .card-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 9px;
+            color: var(--text-secondary);
+        }
+
+        .gateway-info-card .card-meta-item svg {
+            width: 9px;
+            height: 9px;
+            fill: currentColor;
+        }
+
+        /* Línea conectora de la tarjeta al rombo */
+        .gateway-connector-line {
+            width: 2px;
+            height: 12px;
+            background: var(--bpmn-gateway);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .bpmn-gateway {
@@ -636,21 +718,25 @@
             fill: var(--bpmn-gateway);
         }
 
-        .gateway-name {
-            margin-top: 8px;
-            font-size: 10px;
-            color: var(--text-muted);
-            text-align: center;
-            max-width: 120px;
-        }
-
-        /* Contenedor de las dos ramas paralelas - MEJORADO */
+        /* Contenedor de las dos ramas paralelas */
         .bifurcation-paths {
             display: flex;
             flex-direction: column;
             position: relative;
-            margin-left: 8px;
-            gap: 24px;
+            margin-left: 16px;
+            gap: 32px;
+        }
+
+        /* Línea vertical que conecta las dos ramas */
+        .bifurcation-paths::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: var(--text-muted);
+            transform: translateY(-50%);
         }
 
         .bifurcation-path {
@@ -659,71 +745,76 @@
             position: relative;
         }
 
-        /* Línea de conexión desde gateway - MEJORADA */
+        /* Línea horizontal de entrada a cada rama - SIN FONDO EN LA ETIQUETA */
         .path-entry {
-            width: 50px;
-            height: 2px;
-            position: relative;
             display: flex;
             align-items: center;
+            position: relative;
         }
 
-        .path-entry.yes {
+        /* Línea horizontal antes de la etiqueta */
+        .path-line {
+            width: 24px;
+            height: 2px;
+            flex-shrink: 0;
+        }
+
+        .path-line.yes {
             background: var(--bpmn-start);
         }
 
-        .path-entry.no {
+        .path-line.no {
             background: var(--bpmn-end);
         }
 
-        /* Líneas verticales del gateway a las ramas */
-        .bifurcation-paths::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 2px;
-            height: calc(100% - 24px);
-            background: var(--text-muted);
-            transform: translateY(-50%);
-        }
-
-        /* =====================================================
-           ETIQUETA DE RAMA - REDISEÑADA SIN OVERLAP
-           ===================================================== */
+        /* Etiqueta de rama - LIMPIA SIN LÍNEA DETRÁS */
         .path-label {
-            position: static;
             display: inline-flex;
             align-items: center;
             font-size: 9px;
             font-weight: 600;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 4px;
             white-space: nowrap;
-            margin-right: 8px;
             flex-shrink: 0;
+            margin: 0 8px;
         }
 
         .path-label.yes {
-            background: rgba(34, 197, 94, 0.2);
+            background: rgba(34, 197, 94, 0.15);
             color: var(--bpmn-start);
             border: 1px solid rgba(34, 197, 94, 0.4);
         }
 
         .path-label.no {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.15);
             color: var(--bpmn-end);
             border: 1px solid rgba(239, 68, 68, 0.4);
         }
 
-        /* Contenido de la rama - MEJORADO CON FLEX */
+        /* Línea después de la etiqueta hacia el contenido */
+        .path-line-after {
+            width: 16px;
+            height: 2px;
+            flex-shrink: 0;
+        }
+
+        .path-line-after.yes {
+            background: var(--bpmn-start);
+        }
+
+        .path-line-after.no {
+            background: var(--bpmn-end);
+        }
+
+        /* Contenido de la rama */
         .path-content {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        /* ===== CAJAS DE DESCRIPCIÓN MEJORADAS ===== */
+        /* ===== CAJAS DE DESCRIPCIÓN ===== */
         .branch-description-box {
             padding: 10px 14px;
             background: var(--bg-secondary);
@@ -805,9 +896,9 @@
             margin-bottom: 0;
         }
 
-        /* Línea de salida de la rama hacia merge - MEJORADA */
+        /* Línea de salida de la rama hacia merge */
         .path-exit {
-            width: 50px;
+            width: 40px;
             height: 2px;
             position: relative;
             margin-left: 8px;
@@ -1559,8 +1650,7 @@
                 }
             }
             
-            // NUEVO: Detectar si hay múltiples pasos/acciones en el destino
-            // Separar por puntos, "si", "entonces", "luego", etc.
+            // Detectar si hay múltiples pasos/acciones en el destino
             const separators = /[.]\s*(?=[A-Z])|(?:\.\s*[Ss]i\s)|(?:\s+[Ss]i\s+(?:después|luego|no|aún))/;
             const parts = destino.split(separators).map(p => p.trim()).filter(p => p.length > 0);
             
@@ -1660,14 +1750,14 @@
         }
 
         // =====================================================
-        // CREAR BIFURCACIÓN PARALELA - MEJORADA SIN OVERLAP
+        // CREAR BIFURCACIÓN PARALELA - REDISEÑADA
         // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
             container.className = 'bpmn-element bpmn-bifurcation-container';
             
-            const etiquetaSi = step.etiqueta_si || 'Acepta';
-            const etiquetaNo = step.etiqueta_no || 'No acepta';
+            const etiquetaSi = step.etiqueta_si || 'Sí';
+            const etiquetaNo = step.etiqueta_no || 'No';
             
             // Analizar destinos
             const destinoSi = parseDestino(step.destino_si, index);
@@ -1681,23 +1771,53 @@
             // Generar contenido de rama NO
             const ramaNoContent = generateBranchContent(destinoNo, 'no');
             
+            // Generar tarjeta de información del paso
+            const infoCardHTML = `
+                <div class="gateway-info-card">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                        <span>PASO ${step.numero || (index + 1)}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">${escapeHtml(step.nombre || 'Decisión')}</div>
+                        <div class="card-meta">
+                            ${step.responsable ? `
+                                <div class="card-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                    ${escapeHtml(step.responsable)}
+                                </div>
+                            ` : ''}
+                            ${step.herramienta ? `
+                                <div class="card-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                                    ${escapeHtml(step.herramienta)}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="gateway-connector-line"></div>
+            `;
+            
             container.innerHTML = `
-                <!-- Gateway -->
+                <!-- Gateway con tarjeta de info -->
                 <div class="bpmn-gateway-wrapper">
+                    ${infoCardHTML}
                     <div class="bpmn-gateway" data-index="${index}">
                         <svg class="bpmn-gateway-icon" viewBox="0 0 24 24">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                         </svg>
                     </div>
-                    ${step.nombre ? `<span class="gateway-name">${escapeHtml(step.nombre)}</span>` : ''}
                 </div>
                 
                 <!-- Dos rutas paralelas -->
                 <div class="bifurcation-paths">
                     <!-- Ruta SI (arriba) -->
                     <div class="bifurcation-path yes">
-                        <div class="path-entry yes">
+                        <div class="path-entry">
+                            <div class="path-line yes"></div>
                             <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
+                            <div class="path-line-after yes"></div>
                         </div>
                         <div class="path-content">
                             ${ramaSiContent}
@@ -1707,8 +1827,10 @@
                     
                     <!-- Ruta NO (abajo) -->
                     <div class="bifurcation-path no">
-                        <div class="path-entry no">
+                        <div class="path-entry">
+                            <div class="path-line no"></div>
                             <span class="path-label no">${escapeHtml(etiquetaNo)}</span>
+                            <div class="path-line-after no"></div>
                         </div>
                         <div class="path-content">
                             ${ramaNoContent}
@@ -1729,7 +1851,7 @@
         }
 
         // =====================================================
-        // GENERAR CONTENIDO DE RAMA - NUEVO
+        // GENERAR CONTENIDO DE RAMA
         // =====================================================
         function generateBranchContent(destino, type) {
             const colorClass = type;
@@ -1750,18 +1872,16 @@
                 return `<div class="branch-description-box ${colorClass}">→ Continúa</div>`;
             }
             
-            // NUEVO: Múltiples descripciones
+            // Múltiples descripciones
             if (destino.type === 'multi-description' && destino.parts.length > 1) {
                 let html = '';
                 destino.parts.forEach((part, idx) => {
-                    // Detectar si es "fin" o "cancela"
                     const partLower = part.toLowerCase();
                     if (partLower.includes('cancela') || partLower.includes('termina') || partLower.includes('fin')) {
                         html += `
                             <div class="branch-description-box ${colorClass}">${escapeHtml(part)}</div>
                             ${idx < destino.parts.length - 1 ? `<div class="branch-connector-small ${colorClass}"></div>` : ''}
                         `;
-                        // Agregar mini evento de fin si es el último
                         if (idx === destino.parts.length - 1 || partLower.includes('cancela')) {
                             html += `
                                 <div class="branch-connector-small ${colorClass}"></div>
@@ -1782,7 +1902,6 @@
             
             // Descripción simple
             if (destino.value) {
-                // Verificar si termina en fin/cancela
                 const valueLower = destino.value.toLowerCase();
                 if (valueLower.includes('cancela') || valueLower.includes('fin del proceso')) {
                     return `
