@@ -489,7 +489,7 @@
             align-items: center;
             gap: 0;
             padding: 20px;
-            padding-top: 100px;
+            padding-top: 140px;
         }
 
         .bpmn-element {
@@ -602,11 +602,11 @@
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
 
         /* =====================================================
-           BIFURCACION - DISEÑO LIMPIO Y PROFESIONAL
+           BIFURCACION - DISEÑO CON RAMA NO ABAJO
            ===================================================== */
         .bpmn-bifurcation-container {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             position: relative;
         }
 
@@ -617,8 +617,6 @@
             align-items: center;
             z-index: 2;
             position: relative;
-            align-self: flex-start;
-            margin-top: 0;
         }
 
         /* Tarjeta de información del paso - ARRIBA del rombo */
@@ -720,43 +718,67 @@
             fill: var(--bpmn-gateway);
         }
 
-        /* Contenedor de las dos ramas paralelas */
-        .bifurcation-paths {
+        /* ===== NUEVO DISEÑO: RAMA SI HORIZONTAL, RAMA NO VERTICAL ABAJO ===== */
+        .bifurcation-layout {
             display: flex;
             flex-direction: column;
             position: relative;
-            margin-left: 16px;
-            gap: 20px;
+            margin-left: 0;
         }
 
-        /* Línea vertical que conecta las dos ramas */
-        .bifurcation-paths::before {
-            content: '';
+        /* Rama SI - Horizontal en línea con el flujo */
+        .branch-si-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Rama NO - Vertical hacia abajo */
+        .branch-no-container {
             position: absolute;
-            left: 0;
             top: 22px;
-            width: 2px;
-            height: calc(100% - 44px);
-            background: var(--text-muted);
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .bifurcation-path {
+        /* Línea vertical desde el gateway hacia abajo */
+        .branch-no-vertical-line {
+            width: 2px;
+            height: 30px;
+            background: var(--bpmn-end);
+            margin-left: 22px;
+        }
+
+        /* Contenedor horizontal para la etiqueta y contenido de rama NO */
+        .branch-no-horizontal {
             display: flex;
             align-items: flex-start;
-            position: relative;
+            margin-left: 0;
         }
 
-        .bifurcation-path.yes {
-            align-items: center;
+        /* Línea horizontal que sale de la vertical */
+        .branch-no-h-line {
+            width: 24px;
+            height: 2px;
+            background: var(--bpmn-end);
+            margin-top: 20px;
         }
 
-        /* Línea horizontal de entrada a cada rama - SIN FONDO EN LA ETIQUETA */
-        .path-entry {
+        /* Contenedor de sub-pasos en rama NO */
+        .branch-no-steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .branch-no-step-wrapper {
             display: flex;
             align-items: center;
-            position: relative;
-            flex-shrink: 0;
+            gap: 8px;
         }
+
+        /* ===== ESTILOS ORIGINALES MANTENIDOS ===== */
 
         /* Línea horizontal antes de la etiqueta */
         .path-line {
@@ -773,7 +795,7 @@
             background: var(--bpmn-end);
         }
 
-        /* Etiqueta de rama - LIMPIA SIN LÍNEA DETRÁS */
+        /* Etiqueta de rama */
         .path-label {
             display: inline-flex;
             align-items: center;
@@ -783,7 +805,6 @@
             border-radius: 4px;
             white-space: nowrap;
             flex-shrink: 0;
-            margin: 0 8px;
         }
 
         .path-label.yes {
@@ -815,20 +836,6 @@
 
         /* Contenido de la rama */
         .path-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ===== RAMA NO - CONTENEDOR VERTICAL PARA MÚLTIPLES PASOS ===== */
-        .path-content-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .rama-no-step-row {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -874,13 +881,9 @@
         /* Conector vertical pequeño */
         .branch-connector-vertical {
             width: 2px;
-            height: 12px;
-            margin-left: 70px;
-            flex-shrink: 0;
-        }
-
-        .branch-connector-vertical.no {
+            height: 10px;
             background: var(--bpmn-end);
+            margin-left: 70px;
         }
 
         /* Mini evento de fin en rama */
@@ -993,7 +996,7 @@
             margin-bottom: 0;
         }
 
-        /* Línea de salida de la rama hacia merge */
+        /* Línea de salida de la rama hacia el siguiente paso */
         .path-exit {
             width: 40px;
             height: 2px;
@@ -1024,22 +1027,6 @@
         }
         .path-exit.no::after {
             border-left-color: var(--bpmn-end);
-        }
-
-        /* Punto de merge */
-        .merge-point {
-            width: 20px;
-            height: 20px;
-            background: var(--bg-elevated);
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 4px;
-            z-index: 3;
-            align-self: flex-start;
-            margin-top: 11px;
         }
 
         /* Connectors - HORIZONTAL */
@@ -1850,7 +1837,7 @@
         }
 
         // =====================================================
-        // CREAR BIFURCACIÓN PARALELA - REDISEÑADA CON SOPORTE rama_no_pasos
+        // CREAR BIFURCACIÓN - RAMA SI HORIZONTAL, RAMA NO VERTICAL ABAJO
         // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
@@ -1868,7 +1855,7 @@
             // Generar contenido de rama SI
             const ramaSiContent = generateBranchContent(destinoSi, 'yes');
             
-            // Generar contenido de rama NO - AHORA CON SOPORTE PARA rama_no_pasos
+            // Generar contenido de rama NO
             let ramaNoContent;
             if (step.rama_no_pasos && Array.isArray(step.rama_no_pasos) && step.rama_no_pasos.length > 0) {
                 ramaNoContent = generateRamaNoPasosContent(step.rama_no_pasos, step.rama_no_finalizada);
@@ -1915,40 +1902,30 @@
                     </div>
                 </div>
                 
-                <!-- Dos rutas paralelas -->
-                <div class="bifurcation-paths">
-                    <!-- Ruta SI (arriba) - Siempre en la misma línea -->
-                    <div class="bifurcation-path yes">
-                        <div class="path-entry">
-                            <div class="path-line yes"></div>
-                            <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
-                            <div class="path-line-after yes"></div>
-                        </div>
+                <!-- Layout: Rama SI horizontal, Rama NO vertical abajo -->
+                <div class="bifurcation-layout">
+                    <!-- Rama SI - En línea horizontal con el flujo principal -->
+                    <div class="branch-si-container">
+                        <div class="path-line yes"></div>
+                        <span class="path-label yes">${escapeHtml(etiquetaSi)}</span>
+                        <div class="path-line-after yes"></div>
                         <div class="path-content">
                             ${ramaSiContent}
                         </div>
                         <div class="path-exit yes"></div>
                     </div>
                     
-                    <!-- Ruta NO (abajo) - Puede tener múltiples sub-pasos -->
-                    <div class="bifurcation-path no">
-                        <div class="path-entry">
-                            <div class="path-line no"></div>
+                    <!-- Rama NO - Vertical hacia abajo -->
+                    <div class="branch-no-container">
+                        <div class="branch-no-vertical-line"></div>
+                        <div class="branch-no-horizontal">
                             <span class="path-label no">${escapeHtml(etiquetaNo)}</span>
                             <div class="path-line-after no"></div>
+                            <div class="path-content">
+                                ${ramaNoContent}
+                            </div>
                         </div>
-                        <div class="path-content">
-                            ${ramaNoContent}
-                        </div>
-                        <div class="path-exit no"></div>
                     </div>
-                </div>
-                
-                <!-- Punto de merge -->
-                <div class="merge-point">
-                    <svg viewBox="0 0 24 24" style="width: 10px; height: 10px; fill: var(--text-muted);">
-                        <circle cx="12" cy="12" r="4"/>
-                    </svg>
                 </div>
             `;
             
@@ -1959,12 +1936,11 @@
         // GENERAR CONTENIDO DE RAMA NO CON MÚLTIPLES PASOS
         // =====================================================
         function generateRamaNoPasosContent(ramaNoPasos, ramaNoFinalizada) {
-            let html = '<div class="path-content-vertical">';
+            let html = '<div class="branch-no-steps-container">';
             
             ramaNoPasos.forEach((subPaso, idx) => {
                 html += `
-                    <div class="rama-no-step-row">
-                        ${idx > 0 ? '' : ''}
+                    <div class="branch-no-step-wrapper">
                         <div class="rama-no-task">
                             <div class="task-header">
                                 <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg>
@@ -1996,7 +1972,7 @@
             // Si la rama está finalizada (termina el proceso), agregar evento de fin
             if (ramaNoFinalizada) {
                 html += `
-                    <div class="rama-no-step-row">
+                    <div class="branch-no-step-wrapper">
                         <div class="branch-connector-small no"></div>
                         <div class="branch-end-event">
                             <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
