@@ -284,7 +284,7 @@
         }
         .bpmn-flow {
             display: flex; align-items: center; gap: 0;
-            padding: 20px; padding-top: 100px;
+            padding: 20px; padding-top: 120px; /* Más espacio arriba para la tarjeta del gateway */
         }
         .bpmn-element {
             position: relative; display: flex; flex-direction: column;
@@ -341,225 +341,441 @@
             font-size: 10px; color: var(--text-secondary);
         }
         .task-meta-item svg { width: 10px; height: 10px; fill: currentColor; }
-        /* BIFURCACION MEJORADA */
+
+        /* ============================================
+           BIFURCACION MEJORADA - LAYOUT VERTICAL
+           ============================================ */
         .bpmn-bifurcation-container {
-            display: flex; align-items: center; position: relative;
+            display: flex; 
+            align-items: center; 
+            position: relative;
         }
+        
         .bpmn-gateway-wrapper {
-            display: flex; flex-direction: column;
-            align-items: center; z-index: 2; position: relative;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            z-index: 2; 
+            position: relative;
         }
+        
         .gateway-info-card {
-            position: absolute; bottom: 100%; left: 50%;
-            transform: translateX(-50%); margin-bottom: 12px;
-            min-width: 140px; max-width: 180px;
+            position: absolute; 
+            bottom: 100%; 
+            left: 50%;
+            transform: translateX(-50%); 
+            margin-bottom: 12px;
+            min-width: 140px; 
+            max-width: 180px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
-            border-radius: 8px; overflow: hidden;
+            border-radius: 8px; 
+            overflow: hidden;
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
+        
         .gateway-info-card .card-header {
-            padding: 6px 10px; background: var(--bpmn-gateway);
-            display: flex; align-items: center; gap: 6px;
+            padding: 6px 10px; 
+            background: var(--bpmn-gateway);
+            display: flex; 
+            align-items: center; 
+            gap: 6px;
         }
+        
         .gateway-info-card .card-header svg { width: 12px; height: 12px; fill: white; }
+        
         .gateway-info-card .card-header span {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px; font-weight: 700; color: white;
+            font-size: 9px; 
+            font-weight: 700; 
+            color: white;
         }
+        
         .gateway-info-card .card-body { padding: 8px 10px; }
+        
         .gateway-info-card .card-title {
-            font-size: 11px; font-weight: 600;
-            color: var(--text-primary); line-height: 1.3; margin-bottom: 4px;
+            font-size: 11px; 
+            font-weight: 600;
+            color: var(--text-primary); 
+            line-height: 1.3; 
+            margin-bottom: 4px;
         }
+        
         .gateway-info-card .card-meta { display: flex; flex-direction: column; gap: 2px; }
+        
         .gateway-info-card .card-meta-item {
-            display: flex; align-items: center; gap: 4px;
-            font-size: 9px; color: var(--text-secondary);
+            display: flex; 
+            align-items: center; 
+            gap: 4px;
+            font-size: 9px; 
+            color: var(--text-secondary);
         }
+        
         .gateway-info-card .card-meta-item svg { width: 9px; height: 9px; fill: currentColor; }
+        
         .gateway-connector-line {
-            width: 2px; height: 12px; background: var(--bpmn-gateway);
-            position: absolute; bottom: 100%; left: 50%;
+            width: 2px; 
+            height: 12px; 
+            background: var(--bpmn-gateway);
+            position: absolute; 
+            bottom: 100%; 
+            left: 50%;
             transform: translateX(-50%);
         }
+        
         .bpmn-gateway {
-            width: 44px; height: 44px;
+            width: 44px; 
+            height: 44px;
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
             transform: rotate(45deg);
-            display: flex; align-items: center; justify-content: center;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
+        
         .bpmn-gateway-icon {
             transform: rotate(-45deg);
-            width: 18px; height: 18px; fill: var(--bpmn-gateway);
+            width: 18px; 
+            height: 18px; 
+            fill: var(--bpmn-gateway);
         }
+
+        /* Ramas de bifurcación - Layout vertical mejorado */
         .bifurcation-paths {
-            display: flex; flex-direction: column;
-            position: relative; margin-left: 16px;
-            gap: 60px; /* Más espacio entre ramas */
+            display: flex; 
+            flex-direction: column;
+            position: relative; 
+            margin-left: 16px;
+            gap: 30px; /* Espacio entre ramas */
         }
+        
         .bifurcation-paths::before {
-            content: ''; position: absolute; left: 0; top: 50%;
-            width: 2px; height: calc(100% - 20px);
+            content: ''; 
+            position: absolute; 
+            left: 0; 
+            top: 50%;
+            width: 2px; 
+            height: calc(100% - 20px);
             background: var(--text-muted);
             transform: translateY(-50%);
         }
+        
         .bifurcation-path {
-            display: flex; align-items: center; position: relative;
+            display: flex; 
+            align-items: flex-start; /* Cambiado a flex-start para alineación superior */
+            position: relative;
         }
-        .path-entry { display: flex; align-items: center; position: relative; }
+        
+        .path-entry { 
+            display: flex; 
+            align-items: center; 
+            position: relative;
+            flex-shrink: 0;
+        }
+        
         .path-line { width: 24px; height: 2px; flex-shrink: 0; }
         .path-line.yes { background: var(--bpmn-start); }
         .path-line.no { background: var(--bpmn-end); }
+        
         .path-label {
-            display: inline-flex; align-items: center;
-            font-size: 9px; font-weight: 600;
-            padding: 4px 10px; border-radius: 4px;
-            white-space: nowrap; flex-shrink: 0; margin: 0 8px;
+            display: inline-flex; 
+            align-items: center;
+            font-size: 9px; 
+            font-weight: 600;
+            padding: 4px 10px; 
+            border-radius: 4px;
+            white-space: nowrap; 
+            flex-shrink: 0; 
+            margin: 0 8px;
         }
+        
         .path-label.yes {
             background: rgba(34, 197, 94, 0.15);
             color: var(--bpmn-start);
             border: 1px solid rgba(34, 197, 94, 0.4);
         }
+        
         .path-label.no {
             background: rgba(239, 68, 68, 0.15);
             color: var(--bpmn-end);
             border: 1px solid rgba(239, 68, 68, 0.4);
         }
+        
         .path-line-after { width: 16px; height: 2px; flex-shrink: 0; }
         .path-line-after.yes { background: var(--bpmn-start); }
         .path-line-after.no { background: var(--bpmn-end); }
-        .path-content { display: flex; align-items: center; gap: 8px; }
-        .branch-description-box {
-            padding: 10px 14px; background: var(--bg-secondary);
-            border-radius: 8px; font-size: 11px; line-height: 1.4;
-            max-width: 180px; box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+
+        /* ============================================
+           CONTENEDOR DE SUB-PASOS - LAYOUT VERTICAL
+           ============================================ */
+        .path-content { 
+            display: flex; 
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        /* Contenedor vertical para múltiples sub-pasos */
+        .substeps-vertical-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            padding-left: 8px;
+        }
+        
+        /* Línea conectora vertical entre sub-pasos */
+        .substeps-vertical-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--bpmn-end);
+        }
+        
+        .substeps-vertical-container.yes::before {
+            background: var(--bpmn-start);
+        }
+        
+        /* Cada fila de sub-paso */
+        .substep-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        
+        /* Línea horizontal que conecta a cada sub-paso */
+        .substep-connector {
+            width: 16px;
+            height: 2px;
             flex-shrink: 0;
         }
-        .branch-description-box.yes {
-            border: 2px solid rgba(34, 197, 94, 0.5);
-            color: var(--bpmn-start);
-        }
-        .branch-description-box.no {
-            border: 2px solid rgba(239, 68, 68, 0.5);
-            color: var(--bpmn-end);
-        }
-        .branch-connector-small { width: 20px; height: 2px; flex-shrink: 0; }
-        .branch-connector-small.yes { background: var(--bpmn-start); }
-        .branch-connector-small.no { background: var(--bpmn-end); }
-        .branch-end-event {
-            width: 24px; height: 24px; border-radius: 50%;
-            background: var(--bpmn-end); border: 2px solid #DC2626;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .branch-end-event svg { width: 10px; height: 10px; fill: white; }
-        /* TARJETA DE SUB-PASO */
+        
+        .substep-connector.yes { background: var(--bpmn-start); }
+        .substep-connector.no { background: var(--bpmn-end); }
+
+        /* ============================================
+           TARJETA DE SUB-PASO MEJORADA
+           ============================================ */
         .branch-substep-card {
-            min-width: 140px; max-width: 160px;
+            min-width: 160px; 
+            max-width: 200px;
             background: var(--bg-secondary);
-            border-radius: 8px; overflow: hidden;
+            border-radius: 8px; 
+            overflow: hidden;
             box-shadow: 0 3px 12px rgba(0,0,0,0.35);
             flex-shrink: 0;
             transition: transform 0.2s, box-shadow 0.2s;
         }
+        
         .branch-substep-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 16px rgba(0,0,0,0.45);
         }
+        
         .branch-substep-card.no { border: 2px solid var(--bpmn-end); }
         .branch-substep-card.yes { border: 2px solid var(--bpmn-start); }
+        
         .branch-substep-card .substep-header {
             padding: 6px 10px;
-            display: flex; align-items: center; gap: 6px;
+            display: flex; 
+            align-items: center; 
+            gap: 6px;
         }
+        
         .branch-substep-card.no .substep-header { background: var(--bpmn-end); }
         .branch-substep-card.yes .substep-header { background: var(--bpmn-start); }
+        
         .branch-substep-card .substep-header svg { width: 12px; height: 12px; fill: white; }
+        
         .branch-substep-card .substep-header .substep-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px; font-weight: 700; color: white;
+            font-size: 9px; 
+            font-weight: 700; 
+            color: white;
         }
+        
         .branch-substep-card .substep-body { padding: 8px 10px; }
+        
         .branch-substep-card .substep-name {
-            font-size: 10px; font-weight: 600;
-            color: var(--text-primary); line-height: 1.3; margin-bottom: 6px;
+            font-size: 11px; 
+            font-weight: 600;
+            color: var(--text-primary); 
+            line-height: 1.3; 
+            margin-bottom: 6px;
         }
-        .branch-substep-card .substep-meta { display: flex; flex-direction: column; gap: 3px; }
+        
+        .branch-substep-card .substep-meta { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 3px; 
+        }
+        
         .branch-substep-card .substep-meta-item {
-            display: flex; align-items: center; gap: 4px;
-            font-size: 9px; color: var(--text-secondary);
+            display: flex; 
+            align-items: center; 
+            gap: 4px;
+            font-size: 9px; 
+            color: var(--text-secondary);
         }
+        
         .branch-substep-card .substep-meta-item svg { width: 9px; height: 9px; fill: currentColor; }
+        
         .branch-substep-card .substep-meta-item.empty {
-            color: var(--text-muted); font-style: italic;
+            color: var(--text-muted); 
+            font-style: italic;
         }
-        .branch-task-small {
-            min-width: 120px; max-width: 150px;
+
+        /* Caja de descripción simple */
+        .branch-description-box {
+            padding: 10px 14px; 
             background: var(--bg-secondary);
-            border: 2px solid var(--bpmn-task-service);
-            border-radius: 8px; overflow: hidden;
+            border-radius: 8px; 
+            font-size: 11px; 
+            line-height: 1.4;
+            max-width: 180px; 
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
+        
+        .branch-description-box.yes {
+            border: 2px solid rgba(34, 197, 94, 0.5);
+            color: var(--bpmn-start);
+        }
+        
+        .branch-description-box.no {
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            color: var(--bpmn-end);
+        }
+        
+        .branch-connector-small { width: 20px; height: 2px; flex-shrink: 0; }
+        .branch-connector-small.yes { background: var(--bpmn-start); }
+        .branch-connector-small.no { background: var(--bpmn-end); }
+        
+        /* Evento de fin en rama */
+        .branch-end-event {
+            width: 28px; 
+            height: 28px; 
+            border-radius: 50%;
+            background: var(--bpmn-end); 
+            border: 2px solid #DC2626;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        
+        .branch-end-event svg { width: 12px; height: 12px; fill: white; }
+        
+        .branch-task-small {
+            min-width: 120px; 
+            max-width: 150px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-task-service);
+            border-radius: 8px; 
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        
         .branch-task-small .task-header { padding: 4px 8px; background: var(--bpmn-task-service); }
         .branch-task-small .task-body { padding: 6px 8px; }
         .branch-task-small .task-name { font-size: 9px; margin-bottom: 0; }
+        
         .path-exit {
-            width: 40px; height: 2px;
-            position: relative; margin-left: 8px;
+            width: 40px; 
+            height: 2px;
+            position: relative; 
+            margin-left: 8px;
+            align-self: center; /* Centrar verticalmente */
         }
+        
         .path-exit::after {
-            content: ''; position: absolute; right: -1px; top: 50%;
+            content: ''; 
+            position: absolute; 
+            right: -1px; 
+            top: 50%;
             transform: translateY(-50%);
             border-top: 4px solid transparent;
             border-bottom: 4px solid transparent;
             border-left: 6px solid;
         }
+        
         .path-exit.yes { background: var(--bpmn-start); }
         .path-exit.yes::after { border-left-color: var(--bpmn-start); }
         .path-exit.no { background: var(--bpmn-end); }
         .path-exit.no::after { border-left-color: var(--bpmn-end); }
+        
         .merge-point {
-            width: 20px; height: 20px;
+            width: 20px; 
+            height: 20px;
             background: var(--bg-elevated);
-            border: 2px solid var(--text-muted); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin-left: 4px; z-index: 3;
+            border: 2px solid var(--text-muted); 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin-left: 4px; 
+            z-index: 3;
         }
+        
         .bpmn-connector {
-            width: 50px; height: 2px;
+            width: 50px; 
+            height: 2px;
             background: var(--text-muted);
-            position: relative; flex-shrink: 0; align-self: center;
+            position: relative; 
+            flex-shrink: 0; 
+            align-self: center;
         }
+        
         .bpmn-connector::after {
-            content: ''; position: absolute; right: -1px; top: 50%;
+            content: ''; 
+            position: absolute; 
+            right: -1px; 
+            top: 50%;
             transform: translateY(-50%);
             border-top: 5px solid transparent;
             border-bottom: 5px solid transparent;
             border-left: 8px solid var(--text-muted);
         }
+        
         .bpmn-connector.animated {
             background: linear-gradient(90deg, var(--magenta), var(--magenta-light));
         }
+        
         .bpmn-connector.animated::after { border-left-color: var(--magenta-light); }
+        
         .bpmn-label {
-            margin-top: 8px; font-size: 10px;
-            color: var(--text-muted); text-align: center;
+            margin-top: 8px; 
+            font-size: 10px;
+            color: var(--text-muted); 
+            text-align: center;
         }
+        
         .diagram-legend {
-            position: relative; z-index: 10;
-            padding: 12px 24px; background: var(--bg-canvas);
+            position: relative; 
+            z-index: 10;
+            padding: 12px 24px; 
+            background: var(--bg-canvas);
             border-top: 1px solid var(--border);
-            display: flex; justify-content: center; gap: 24px;
+            display: flex; 
+            justify-content: center; 
+            gap: 24px;
         }
+        
         .legend-item {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 11px; color: var(--text-secondary);
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            font-size: 11px; 
+            color: var(--text-secondary);
         }
+        
         .legend-shape { width: 14px; height: 14px; border-radius: 50%; }
         .legend-shape.start { background: var(--bpmn-start); }
         .legend-shape.task { 
@@ -571,32 +787,57 @@
             background: var(--bg-secondary);
             border: 2px solid var(--bpmn-gateway);
             transform: rotate(45deg);
-            border-radius: 2px; width: 10px; height: 10px;
+            border-radius: 2px; 
+            width: 10px; 
+            height: 10px;
         }
         .legend-shape.end { background: var(--bpmn-end); }
+        
         .empty-state {
-            text-align: center; color: var(--text-muted);
+            text-align: center; 
+            color: var(--text-muted);
             padding: 60px 40px;
-            display: flex; flex-direction: column; align-items: center;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
         }
+        
         .empty-state svg {
-            width: 56px; height: 56px; fill: var(--text-muted);
-            margin-bottom: 16px; opacity: 0.5;
+            width: 56px; 
+            height: 56px; 
+            fill: var(--text-muted);
+            margin-bottom: 16px; 
+            opacity: 0.5;
         }
+        
         .empty-state h3 {
-            font-size: 15px; font-weight: 600; margin-bottom: 6px;
+            font-size: 15px; 
+            font-weight: 600; 
+            margin-bottom: 6px;
             color: var(--text-secondary);
         }
+        
         .empty-state p { font-size: 12px; line-height: 1.5; }
+        
         .debug-console {
-            position: fixed; bottom: 10px; right: 10px;
-            background: rgba(0,0,0,0.95); color: #0f0;
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            padding: 10px; border-radius: 8px;
-            max-width: 380px; max-height: 220px;
-            overflow: auto; z-index: 9999; display: none;
+            position: fixed; 
+            bottom: 10px; 
+            right: 10px;
+            background: rgba(0,0,0,0.95); 
+            color: #0f0;
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 10px;
+            padding: 10px; 
+            border-radius: 8px;
+            max-width: 380px; 
+            max-height: 220px;
+            overflow: auto; 
+            z-index: 9999; 
+            display: none;
         }
+        
         .debug-console.show { display: block; }
+        
         @media (max-width: 768px) {
             .app-layout {
                 grid-template-columns: 1fr;
@@ -605,6 +846,7 @@
             .diagram-panel { border-top: 1px solid var(--border); }
             .chat-panel { border-right: none; }
         }
+        
         @media (min-width: 769px) and (max-width: 1024px) {
             .app-layout { grid-template-columns: 350px 1fr; }
         }
@@ -678,14 +920,14 @@
                     <div class="empty-state" id="emptyState">
                         <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"/></svg>
                         <h3>Comienza a documentar</h3>
-                        <p>El diagrama BPMN se construira automaticamente<br>mientras describes tu proceso</p>
+                        <p>El diagrama BPMN se construirá automáticamente<br>mientras describes tu proceso</p>
                     </div>
                 </div>
             </div>
             <div class="diagram-legend">
                 <div class="legend-item"><div class="legend-shape start"></div>Inicio</div>
                 <div class="legend-item"><div class="legend-shape task"></div>Actividad</div>
-                <div class="legend-item"><div class="legend-shape gateway"></div>Decision</div>
+                <div class="legend-item"><div class="legend-shape gateway"></div>Decisión</div>
                 <div class="legend-item"><div class="legend-shape end"></div>Fin</div>
             </div>
         </main>
@@ -745,8 +987,12 @@
 
         function init() {
             debug('Inicializando InAdvance BPMN');
+            
+            // DEMO: Cargar datos de ejemplo para visualizar
+            loadDemoData();
+            
             setTimeout(() => {
-                addMessage('Hola! Soy tu asistente para documentar procesos. Que proceso te gustaria documentar hoy?', 'assistant');
+                addMessage('Hola! Soy tu asistente para documentar procesos. ¿Qué proceso te gustaría documentar hoy?', 'assistant');
             }, 500);
             textInput.addEventListener('input', handleInput);
             textInput.addEventListener('keydown', handleKeydown);
@@ -758,6 +1004,65 @@
             });
             zoomInBtn.addEventListener('click', () => { state.zoom = Math.min(state.zoom + 0.1, 2); applyZoom(); });
             zoomOutBtn.addEventListener('click', () => { state.zoom = Math.max(state.zoom - 0.1, 0.5); applyZoom(); });
+        }
+        
+        // Función para cargar datos de demostración
+        function loadDemoData() {
+            const demoData = {
+                "nombreProceso": "Desarrollo de Prueba de Concepto",
+                "todosLosPasos": [
+                    {
+                        "numero": 1,
+                        "nombre": "Decidir viabilidad del proyecto",
+                        "concepto": "Evaluar y decidir si el proyecto es viable para la empresa o no",
+                        "responsable": "Gerente de TI",
+                        "herramienta": "Copilot Studio",
+                        "es_decision": true,
+                        "etiqueta_si": "Viable",
+                        "etiqueta_no": "No viable",
+                        "destino_si": "siguiente",
+                        "destino_no": "Reunión para redefinir criterios de éxito",
+                        "rama_no_pasos": [
+                            {
+                                "sub_numero": 1,
+                                "nombre": "Reunión para redefinir criterios de éxito",
+                                "concepto": "Reunión para redefinir los criterios de éxito del proyecto",
+                                "responsable": "AI Engineer",
+                                "herramienta": "Microsoft Loop"
+                            },
+                            {
+                                "sub_numero": 2,
+                                "nombre": "Evaluar nuevas alternativas",
+                                "concepto": "Evaluar nuevas alternativas en base a los requerimientos nuevos",
+                                "responsable": "Gerente de Área",
+                                "herramienta": "Azure Platform"
+                            },
+                            {
+                                "sub_numero": 3,
+                                "nombre": "Terminar proyecto",
+                                "concepto": "Finalización del proyecto cuando no se encuentran alternativas viables",
+                                "responsable": null,
+                                "herramienta": null
+                            }
+                        ],
+                        "rama_no_finalizada": true
+                    },
+                    {
+                        "numero": 2,
+                        "nombre": "Construir el proyecto",
+                        "concepto": "Desarrollo del proyecto una vez aprobada la viabilidad",
+                        "responsable": "Equipo de Desarrollo",
+                        "herramienta": "Azure DevOps"
+                    }
+                ]
+            };
+            
+            state.processName = demoData.nombreProceso;
+            processNameEl.textContent = `// ${state.processName}`;
+            state.steps = demoData.todosLosPasos;
+            renderBPMNDiagram();
+            updateStepCounter();
+            updateProgress();
         }
 
         function applyZoom() {
@@ -800,10 +1105,10 @@
                 mediaRecorder.start();
                 isRecording = true;
                 recordBtn.classList.add('recording');
-                debug('Grabacion iniciada');
+                debug('Grabación iniciada');
             } catch (error) {
-                debug('Error microfono:', error.message);
-                alert('No se pudo acceder al microfono.');
+                debug('Error micrófono:', error.message);
+                alert('No se pudo acceder al micrófono.');
             }
         }
 
@@ -812,7 +1117,7 @@
                 mediaRecorder.stop();
                 isRecording = false;
                 recordBtn.classList.remove('recording');
-                debug('Grabacion detenida');
+                debug('Grabación detenida');
             }
         }
 
@@ -904,7 +1209,7 @@
             } catch (error) {
                 debug('Error:', error.message);
                 hideTyping();
-                addMessage('Error de conexion. Intenta de nuevo.', 'assistant');
+                addMessage('Error de conexión. Intenta de nuevo.', 'assistant');
             }
         }
 
@@ -1080,18 +1385,83 @@
             bpmnCanvas.appendChild(flowContainer);
         }
 
+        function createStartEvent() {
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            el.innerHTML = `
+                <div class="bpmn-event start">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span class="bpmn-label">Inicio</span>`;
+            return el;
+        }
+
+        function createEndEvent() {
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            el.innerHTML = `
+                <div class="bpmn-event end">
+                    <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                </div>
+                <span class="bpmn-label">Fin</span>`;
+            return el;
+        }
+
+        function createConnector(animated = false) {
+            const el = document.createElement('div');
+            el.className = `bpmn-connector ${animated ? 'animated' : ''}`;
+            return el;
+        }
+
+        function createTask(step, index) {
+            const el = document.createElement('div');
+            el.className = 'bpmn-element';
+            const isService = step.herramienta && !step.responsable;
+            el.innerHTML = `
+                <div class="bpmn-task ${isService ? 'service' : ''}" data-index="${index}">
+                    <div class="task-header">
+                        <svg class="task-icon" viewBox="0 0 24 24">
+                            <path d="${isService ? 
+                                'M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z' : 
+                                'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'}"/>
+                        </svg>
+                        <span class="task-number">PASO ${step.numero || (index + 1)}</span>
+                    </div>
+                    <div class="task-body">
+                        <div class="task-name">${escapeHtml(step.nombre || 'Sin nombre')}</div>
+                        <div class="task-meta">
+                            ${step.responsable ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${escapeHtml(step.responsable)}</div>` : ''}
+                            ${step.herramienta ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.herramienta)}</div>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            return el;
+        }
+
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
             container.className = 'bpmn-element bpmn-bifurcation-container';
+            
             const etiquetaSi = step.etiqueta_si || 'Sí';
             const etiquetaNo = step.etiqueta_no || 'No';
             const destinoSi = parseDestino(step.destino_si, index);
             const destinoNo = parseDestino(step.destino_no, index);
             
-            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo, rama_no_pasos: step.rama_no_pasos, rama_si_pasos: step.rama_si_pasos });
+            // IMPORTANTE: Pasar los sub-pasos directamente del step
+            const ramaSiPasos = step.rama_si_pasos || [];
+            const ramaNoPasos = step.rama_no_pasos || [];
             
-            const ramaSiContent = generateBranchContentWithSubsteps(destinoSi, 'yes', step.rama_si_pasos);
-            const ramaNoContent = generateBranchContentWithSubsteps(destinoNo, 'no', step.rama_no_pasos);
+            debug('Bifurcación:', { 
+                paso: step.numero, 
+                destinoSi, 
+                destinoNo, 
+                rama_no_pasos: ramaNoPasos,
+                rama_si_pasos: ramaSiPasos 
+            });
+            
+            // Generar contenido de las ramas usando los sub-pasos
+            const ramaSiContent = generateBranchContentWithSubsteps(destinoSi, 'yes', ramaSiPasos);
+            const ramaNoContent = generateBranchContentWithSubsteps(destinoNo, 'no', ramaNoPasos);
             
             const infoCardHTML = `
                 <div class="gateway-info-card">
@@ -1145,29 +1515,55 @@
             return container;
         }
 
+        /**
+         * FUNCIÓN CORREGIDA: Genera el contenido de una rama con sub-pasos
+         */
         function generateBranchContentWithSubsteps(destino, type, subpasos) {
+            // PRIORIDAD: Si hay sub-pasos, mostrarlos
             if (subpasos && Array.isArray(subpasos) && subpasos.length > 0) {
                 debug(`Renderizando ${subpasos.length} sub-pasos para rama ${type}:`, subpasos);
-                return generateSubstepsHTML(subpasos, type);
+                return generateSubstepsVerticalHTML(subpasos, type);
             }
+            // Si no hay sub-pasos, usar la lógica del destino
             return generateBranchContent(destino, type);
         }
 
-        function generateSubstepsHTML(subpasos, type) {
+        /**
+         * NUEVA FUNCIÓN: Genera HTML vertical para múltiples sub-pasos
+         */
+        function generateSubstepsVerticalHTML(subpasos, type) {
             const colorClass = type;
-            let html = '';
+            let html = `<div class="substeps-vertical-container ${colorClass}">`;
+            
             subpasos.forEach((subpaso, idx) => {
+                html += `<div class="substep-row">`;
+                html += `<div class="substep-connector ${colorClass}"></div>`;
                 html += createSubstepCardHTML(subpaso, type);
-                if (idx < subpasos.length - 1) html += `<div class="branch-connector-small ${colorClass}"></div>`;
+                html += `</div>`;
             });
+            
+            // Verificar si el último sub-paso indica fin
             const lastSubpaso = subpasos[subpasos.length - 1];
             const lastNombre = (lastSubpaso.nombre || '').toLowerCase();
-            if (lastNombre.includes('termina') || lastNombre.includes('fin') || lastNombre.includes('cancela') || lastNombre.includes('finaliza')) {
-                html += `<div class="branch-connector-small ${colorClass}"></div><div class="branch-end-event"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg></div>`;
+            if (lastNombre.includes('termina') || 
+                lastNombre.includes('fin') || 
+                lastNombre.includes('cancela') || 
+                lastNombre.includes('finaliza')) {
+                html += `
+                    <div class="substep-row" style="justify-content: flex-start; padding-left: 24px;">
+                        <div class="branch-end-event">
+                            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                        </div>
+                    </div>`;
             }
+            
+            html += `</div>`;
             return html;
         }
 
+        /**
+         * Crea el HTML de una tarjeta de sub-paso individual
+         */
         function createSubstepCardHTML(subpaso, type) {
             const colorClass = type;
             const subNumero = subpaso.sub_numero || subpaso.subNumero || '?';
@@ -1198,12 +1594,49 @@
                     </div>
                 </div>`;
         }
->${escapeHtml(step.responsable)}</div>` : ''}
-                            ${step.herramienta ? `<div class="task-meta-item"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>${escapeHtml(step.herramienta)}</div>` : ''}
-                        </div>
-                    </div>
-                </div>`;
-            return el;
+
+        /**
+         * Genera contenido de rama basado en el destino (para casos sin sub-pasos)
+         */
+        function generateBranchContent(destino, type) {
+            const colorClass = type;
+            
+            switch (destino.type) {
+                case 'continue':
+                    return `<div class="branch-description-box ${colorClass}">→ Continúa al siguiente paso</div>`;
+                
+                case 'end':
+                    return `
+                        <div class="branch-description-box ${colorClass}">Termina el proceso</div>
+                        <div class="branch-connector-small ${colorClass}"></div>
+                        <div class="branch-end-event">
+                            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                        </div>`;
+                
+                case 'step':
+                    if (destino.value) {
+                        return `
+                            <div class="branch-task-small">
+                                <div class="task-header">
+                                    <svg class="task-icon" viewBox="0 0 24 24" style="width:12px;height:12px;fill:white">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
+                                    <span class="task-number" style="font-size:8px">PASO ${destino.value.numero}</span>
+                                </div>
+                                <div class="task-body">
+                                    <div class="task-name">${escapeHtml(destino.value.nombre || 'Sin nombre')}</div>
+                                </div>
+                            </div>`;
+                    }
+                    return `<div class="branch-description-box ${colorClass}">${escapeHtml(destino.value || 'Paso siguiente')}</div>`;
+                
+                case 'description':
+                case 'multi-description':
+                    return `<div class="branch-description-box ${colorClass}">${escapeHtml(destino.value || 'Acción')}</div>`;
+                
+                default:
+                    return `<div class="branch-description-box ${colorClass}">→ Continúa</div>`;
+            }
         }
 
         function escapeHtml(text) {
