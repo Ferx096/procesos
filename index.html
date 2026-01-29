@@ -606,7 +606,7 @@
            ===================================================== */
         .bpmn-bifurcation-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
         }
 
@@ -617,6 +617,8 @@
             align-items: center;
             z-index: 2;
             position: relative;
+            align-self: flex-start;
+            margin-top: 0;
         }
 
         /* Tarjeta de información del paso - ARRIBA del rombo */
@@ -724,7 +726,7 @@
             flex-direction: column;
             position: relative;
             margin-left: 16px;
-            gap: 32px;
+            gap: 20px;
         }
 
         /* Línea vertical que conecta las dos ramas */
@@ -732,17 +734,20 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 50%;
+            top: 22px;
             width: 2px;
-            height: calc(100% - 20px);
+            height: calc(100% - 44px);
             background: var(--text-muted);
-            transform: translateY(-50%);
         }
 
         .bifurcation-path {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
+        }
+
+        .bifurcation-path.yes {
+            align-items: center;
         }
 
         /* Línea horizontal de entrada a cada rama - SIN FONDO EN LA ETIQUETA */
@@ -750,6 +755,7 @@
             display: flex;
             align-items: center;
             position: relative;
+            flex-shrink: 0;
         }
 
         /* Línea horizontal antes de la etiqueta */
@@ -814,6 +820,20 @@
             gap: 8px;
         }
 
+        /* ===== RAMA NO - CONTENEDOR VERTICAL PARA MÚLTIPLES PASOS ===== */
+        .path-content-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .rama-no-step-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         /* ===== CAJAS DE DESCRIPCIÓN ===== */
         .branch-description-box {
             padding: 10px 14px;
@@ -851,6 +871,18 @@
             background: var(--bpmn-end);
         }
 
+        /* Conector vertical pequeño */
+        .branch-connector-vertical {
+            width: 2px;
+            height: 12px;
+            margin-left: 70px;
+            flex-shrink: 0;
+        }
+
+        .branch-connector-vertical.no {
+            background: var(--bpmn-end);
+        }
+
         /* Mini evento de fin en rama */
         .branch-end-event {
             width: 24px;
@@ -868,6 +900,71 @@
             width: 10px;
             height: 10px;
             fill: white;
+        }
+
+        /* ===== TARJETA DE SUB-PASO EN RAMA NO ===== */
+        .rama-no-task {
+            min-width: 140px;
+            max-width: 180px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--bpmn-end);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .rama-no-task .task-header {
+            padding: 5px 10px;
+            background: var(--bpmn-end);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rama-no-task .task-header svg {
+            width: 12px;
+            height: 12px;
+            fill: white;
+        }
+
+        .rama-no-task .task-header span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rama-no-task .task-body {
+            padding: 8px 10px;
+        }
+
+        .rama-no-task .task-name {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .rama-no-task .task-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .rama-no-task .task-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 8px;
+            color: var(--text-secondary);
+        }
+
+        .rama-no-task .task-meta-item svg {
+            width: 8px;
+            height: 8px;
+            fill: currentColor;
         }
 
         /* Tarea pequeña dentro de rama */
@@ -941,6 +1038,8 @@
             justify-content: center;
             margin-left: 4px;
             z-index: 3;
+            align-self: flex-start;
+            margin-top: 11px;
         }
 
         /* Connectors - HORIZONTAL */
@@ -1558,7 +1657,8 @@
                                 existingStep.herramienta !== newStep.herramienta ||
                                 existingStep.es_decision !== newStep.es_decision ||
                                 existingStep.destino_si !== newStep.destino_si ||
-                                existingStep.destino_no !== newStep.destino_no) {
+                                existingStep.destino_no !== newStep.destino_no ||
+                                JSON.stringify(existingStep.rama_no_pasos) !== JSON.stringify(newStep.rama_no_pasos)) {
                                 hasChanges = true;
                                 updatedStepNumbers.push(newStep.numero);
                             }
@@ -1750,7 +1850,7 @@
         }
 
         // =====================================================
-        // CREAR BIFURCACIÓN PARALELA - REDISEÑADA
+        // CREAR BIFURCACIÓN PARALELA - REDISEÑADA CON SOPORTE rama_no_pasos
         // =====================================================
         function createParallelBifurcation(step, index) {
             const container = document.createElement('div');
@@ -1763,13 +1863,18 @@
             const destinoSi = parseDestino(step.destino_si, index);
             const destinoNo = parseDestino(step.destino_no, index);
             
-            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo });
+            debug('Bifurcación:', { paso: step.numero, destinoSi, destinoNo, rama_no_pasos: step.rama_no_pasos });
             
             // Generar contenido de rama SI
             const ramaSiContent = generateBranchContent(destinoSi, 'yes');
             
-            // Generar contenido de rama NO
-            const ramaNoContent = generateBranchContent(destinoNo, 'no');
+            // Generar contenido de rama NO - AHORA CON SOPORTE PARA rama_no_pasos
+            let ramaNoContent;
+            if (step.rama_no_pasos && Array.isArray(step.rama_no_pasos) && step.rama_no_pasos.length > 0) {
+                ramaNoContent = generateRamaNoPasosContent(step.rama_no_pasos, step.rama_no_finalizada);
+            } else {
+                ramaNoContent = generateBranchContent(destinoNo, 'no');
+            }
             
             // Generar tarjeta de información del paso
             const infoCardHTML = `
@@ -1812,7 +1917,7 @@
                 
                 <!-- Dos rutas paralelas -->
                 <div class="bifurcation-paths">
-                    <!-- Ruta SI (arriba) -->
+                    <!-- Ruta SI (arriba) - Siempre en la misma línea -->
                     <div class="bifurcation-path yes">
                         <div class="path-entry">
                             <div class="path-line yes"></div>
@@ -1825,7 +1930,7 @@
                         <div class="path-exit yes"></div>
                     </div>
                     
-                    <!-- Ruta NO (abajo) -->
+                    <!-- Ruta NO (abajo) - Puede tener múltiples sub-pasos -->
                     <div class="bifurcation-path no">
                         <div class="path-entry">
                             <div class="path-line no"></div>
@@ -1848,6 +1953,60 @@
             `;
             
             return container;
+        }
+
+        // =====================================================
+        // GENERAR CONTENIDO DE RAMA NO CON MÚLTIPLES PASOS
+        // =====================================================
+        function generateRamaNoPasosContent(ramaNoPasos, ramaNoFinalizada) {
+            let html = '<div class="path-content-vertical">';
+            
+            ramaNoPasos.forEach((subPaso, idx) => {
+                html += `
+                    <div class="rama-no-step-row">
+                        ${idx > 0 ? '' : ''}
+                        <div class="rama-no-task">
+                            <div class="task-header">
+                                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg>
+                                <span>SUB ${subPaso.sub_numero || (idx + 1)}</span>
+                            </div>
+                            <div class="task-body">
+                                <div class="task-name">${escapeHtml(subPaso.nombre || 'Sub-paso')}</div>
+                                <div class="task-meta">
+                                    ${subPaso.responsable ? `
+                                        <div class="task-meta-item">
+                                            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                            ${escapeHtml(subPaso.responsable)}
+                                        </div>
+                                    ` : ''}
+                                    ${subPaso.herramienta ? `
+                                        <div class="task-meta-item">
+                                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                                            ${escapeHtml(subPaso.herramienta)}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        ${idx < ramaNoPasos.length - 1 ? '<div class="branch-connector-small no"></div>' : ''}
+                    </div>
+                `;
+            });
+            
+            // Si la rama está finalizada (termina el proceso), agregar evento de fin
+            if (ramaNoFinalizada) {
+                html += `
+                    <div class="rama-no-step-row">
+                        <div class="branch-connector-small no"></div>
+                        <div class="branch-end-event">
+                            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            return html;
         }
 
         // =====================================================
